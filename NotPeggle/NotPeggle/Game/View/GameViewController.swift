@@ -13,7 +13,7 @@ class GameViewController: UIViewController, GameEngineDelegate {
     var gameArea: UIView!
     var engine: GameEngine!
 
-    var navController: UINavigationController?
+    weak var navController: UINavigationController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
