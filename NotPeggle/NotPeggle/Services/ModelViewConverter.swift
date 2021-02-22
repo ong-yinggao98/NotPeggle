@@ -24,13 +24,15 @@ struct ModelViewConverter {
     static func viewFromPeg(_ peg: Peg) -> PegView {
         let pegCenter = peg.center
         let viewCenter = CGPoint(x: pegCenter.xCoord, y: pegCenter.yCoord)
-        return PegView(center: viewCenter, color: peg.color)
+        let radius = CGFloat(peg.radius)
+        return PegView(center: viewCenter, color: peg.color, radius: radius)
     }
 
     /// Creates a model representation `Peg` from its corresponding `PegView`.
     static func pegFromView(_ view: PegView) -> Peg {
         let center = pointFromCGPoint(point: view.center)
-        return Peg(center: center, color: view.color)
+        let radius = view.radius.native
+        return Peg(center: center, color: view.color, radius: radius)
     }
 
     /// Converts a `CGPoint` to `Point`.

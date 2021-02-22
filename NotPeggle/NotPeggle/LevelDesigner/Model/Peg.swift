@@ -17,17 +17,34 @@
 struct Peg: Hashable, Codable {
     let center: Point
     let color: Color
+    let radius: Double
 
     /// Constructs a `Peg` with a given center and color.
     init(center: Point, color: Color) {
         self.center = center
         self.color = color
+        self.radius = Constants.pegRadius
+    }
+
+    /// Constructs a `Peg` with a given center and color.
+    init(center: Point, color: Color, radius: Double) {
+        self.center = center
+        self.color = color
+        self.radius = radius
     }
 
     /// Constructs a `Peg` from raw coordinates.
     init(centerX: Double, centerY: Double, color: Color) {
         let center = Point(xCoord: centerX, yCoord: centerY)
         self.init(center: center, color: color)
+    }
+
+    /// Constructs a `Peg` from raw coordinates.
+    init(centerX: Double, centerY: Double, color: Color, radius: Double) {
+        let center = Point(xCoord: centerX, yCoord: centerY)
+        self.center = center
+        self.color = color
+        self.radius = radius
     }
 
     /// Checks if the  `Peg` has intersection area with a given `Peg`.

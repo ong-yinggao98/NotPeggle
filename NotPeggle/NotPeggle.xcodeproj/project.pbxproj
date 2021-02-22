@@ -52,6 +52,7 @@
 		84A2332F25C19EED000FF729 /* ModelViewConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2332E25C19EED000FF729 /* ModelViewConverterTests.swift */; };
 		84A2333725C1AE60000FF729 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2333625C1AE60000FF729 /* Storage.swift */; };
 		84A2333F25C28233000FF729 /* PegViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2333E25C28233000FF729 /* PegViewDelegate.swift */; };
+		84B4C02425E3AFCD00AD097D /* CannonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4C02325E3AFCD00AD097D /* CannonView.swift */; };
 		84BD0C4D25D1055E0090B0E8 /* PhysicsBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BD0C4C25D1055E0090B0E8 /* PhysicsBody.swift */; };
 		84BD0C5525D2C6D40090B0E8 /* PointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BD0C5425D2C6D40090B0E8 /* PointExtension.swift */; };
 		84BD0C5E25D2C8670090B0E8 /* PointExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BD0C5D25D2C8670090B0E8 /* PointExtensionTests.swift */; };
@@ -128,6 +129,7 @@
 		84A2332E25C19EED000FF729 /* ModelViewConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelViewConverterTests.swift; sourceTree = "<group>"; };
 		84A2333625C1AE60000FF729 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		84A2333E25C28233000FF729 /* PegViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegViewDelegate.swift; sourceTree = "<group>"; };
+		84B4C02325E3AFCD00AD097D /* CannonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonView.swift; sourceTree = "<group>"; };
 		84BD0C4C25D1055E0090B0E8 /* PhysicsBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsBody.swift; sourceTree = "<group>"; };
 		84BD0C5425D2C6D40090B0E8 /* PointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointExtension.swift; sourceTree = "<group>"; };
 		84BD0C5D25D2C8670090B0E8 /* PointExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointExtensionTests.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			children = (
 				8484524B25D64750004157B7 /* GameViewController.swift */,
 				8484529325D788A3004157B7 /* GamePegView.swift */,
+				84B4C02325E3AFCD00AD097D /* CannonView.swift */,
 				8484529B25D78F88004157B7 /* CannonBallView.swift */,
 			);
 			path = View;
@@ -551,6 +554,7 @@
 				8486160F25B712C800BB6178 /* SceneDelegate.swift in Sources */,
 				848452A425D79171004157B7 /* CGFrameFactory.swift in Sources */,
 				8472D09625D39E9A0092E3B8 /* GameEngine.swift in Sources */,
+				84B4C02425E3AFCD00AD097D /* CannonView.swift in Sources */,
 				847B418825D50D9E004790B0 /* StationaryObject.swift in Sources */,
 				8472D0A025D3BAA60092E3B8 /* VectorExtension.swift in Sources */,
 				8484529C25D78F88004157B7 /* CannonBallView.swift in Sources */,

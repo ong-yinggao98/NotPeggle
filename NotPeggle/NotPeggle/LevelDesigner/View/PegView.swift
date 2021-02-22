@@ -14,9 +14,6 @@ import UIKit
  */
 class PegView: UIView {
 
-    // MARK: Static variables
-    static let radius = CGFloat(Constants.pegRadius)
-
     static var bluePeg: UIImageView! {
         let image = UIImage(named: "blue-bubble")
         return UIImageView(image: image)
@@ -26,18 +23,17 @@ class PegView: UIView {
         return UIImageView(image: image)
     }
 
-    static var frameSize: CGSize {
-        let diameter = 2 * radius
-        return CGSize(width: diameter, height: diameter)
-    }
-
     // MARK: Instance variables
     let color: Color
     weak var delegate: PegViewDelegate!
 
+    var radius: CGFloat {
+        return frame.height / 2
+    }
+
     // MARK: Initialisers
-    init(center: CGPoint, color: Color) {
-        let frame = PegView.createFrameFrom(center)
+    init(center: CGPoint, color: Color, radius: CGFloat) {
+        let frame = PegView.createFrameFrom(center, radius: radius)
         self.color = color
         super.init(frame: frame)
 
@@ -52,12 +48,14 @@ class PegView: UIView {
     }
 
     // MARK: Methods
-    private static func createFrameFrom(_ center: CGPoint) -> CGRect {
-        let origin = createOriginFrom(center)
-        return CGRect(origin: origin, size: frameSize)
+    private static func createFrameFrom(_ center: CGPoint, radius: CGFloat) -> CGRect {
+        let origin = createOriginFrom(center, radius: radius)
+        let length = 2 * radius
+        let size = CGSize(width: length, height: length)
+        return CGRect(origin: origin, size: size)
     }
 
-    private static func createOriginFrom(_ center: CGPoint) -> CGPoint {
+    private static func createOriginFrom(_ center: CGPoint, radius: CGFloat) -> CGPoint {
         let xOrigin = center.x - radius
         let yOrigin = center.y - radius
         return CGPoint(x: xOrigin, y: yOrigin)
