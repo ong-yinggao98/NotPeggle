@@ -10,7 +10,7 @@ import UIKit
 class GameViewController: UIViewController, GameEngineDelegate {
 
     // MARK: Properties
-    var gameArea: UIView!
+    var gameArea: UIImageView!
     var engine: GameEngine!
 
     weak var navController: UINavigationController?
@@ -35,8 +35,6 @@ class GameViewController: UIViewController, GameEngineDelegate {
     }
 
     func setGameArea(board: UIView) {
-        let frame = board.frame
-        gameArea = UIView(frame: frame)
         for child in board.subviews {
             guard let image = child as? UIImageView else {
                 continue
@@ -51,7 +49,7 @@ class GameViewController: UIViewController, GameEngineDelegate {
         let background = UIImageView(image: imageView.image)
         background.frame = imageView.frame
         background.contentMode = .scaleAspectFill
-        gameArea?.addSubview(background)
+        gameArea = background
     }
 
     func setUpGestureRecognizer() {
