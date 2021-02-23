@@ -96,7 +96,7 @@ class GameEngine: PhysicsWorldDelegate {
         ballLaunched = true
     }
 
-    private func calculateAngleOfFire(coordinates: CGPoint) -> CGFloat {
+    func calculateAngleOfFire(coordinates: CGPoint) -> CGFloat {
         let xDist = coordinates.x - launchPoint.x
         let yDist = coordinates.y - launchPoint.y
         var angle = CGVector(dx: xDist, dy: yDist).angleInRads

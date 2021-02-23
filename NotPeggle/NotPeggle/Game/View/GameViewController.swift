@@ -12,6 +12,7 @@ class GameViewController: UIViewController, GameEngineDelegate {
     // MARK: Properties
     var gameArea: UIImageView!
     var engine: GameEngine!
+    var cannon: CannonView!
 
     weak var navController: UINavigationController?
 
@@ -62,14 +63,21 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     @objc func willLaunchCannon(_ gestureRecognizer: UITapGestureRecognizer) {
         let location = gestureRecognizer.location(in: gameArea)
+        cannon.rotate(facing: location)
         engine.launch(towards: location)
     }
 
     func initializeEngineAndLoadView(model: Model) {
         engine = ModelGameConverter.gameRepresentation(model: model)
         engine.observer = self
+        showCannon()
         updateSprites()
-        viewDidLoad()
+        viewDidAppear(false)
+    }
+
+    func showCannon() {
+        cannon = CannonView(launchPosition: engine.launchPoint)
+        gameArea.addSubview(cannon)
     }
 
     func createDisplayLink() {
@@ -101,21 +109,25 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     // MARK: Sprite Updates
 
+    func rotateCannon(towards position: CGPoint) {
+        cannon.rotate(facing: position)
+    }
+
     /// Updates the location and status of all cannon and pegs in the game.
     func updateSprites() {
-        updateCannonPosition()
+        updateCannonBallPosition()
         updatePegSprites()
     }
 
-    func updateCannonPosition() {
+    func updateCannonBallPosition() {
         for child in gameArea.subviews where child is CannonBallView {
             child.removeFromSuperview()
         }
         guard let cannonBall = engine.cannon else {
             return
         }
-        let cannonView = CannonBallView(center: cannonBall.center)
-        gameArea.addSubview(cannonView)
+        let cannonBallView = CannonBallView(center: cannonBall.center)
+        gameArea.insertSubview(cannonBallView, belowSubview: cannon)
     }
 
     func updatePegSprites() {
