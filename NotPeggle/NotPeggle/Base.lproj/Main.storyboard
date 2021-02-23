@@ -192,7 +192,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzC-oM-sLK">
                                 <rect key="frame" x="724" y="1094" width="70" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="AJT-Nc-EB3"/>
                                     <constraint firstAttribute="height" constant="30" id="Cka-fN-wJf"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="sNs-ZT-BWY"/>
                                 </constraints>
@@ -201,20 +200,33 @@
                                     <action selector="returnToNotPeggle:" destination="LcY-Ai-F1Q" eventType="touchUpInside" id="FKk-5a-T4A"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L55-qV-zal">
+                                <rect key="frame" x="40" y="1094" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="lja-cF-FiT"/>
+                                </constraints>
+                                <state key="normal" title="LAUNCH"/>
+                                <connections>
+                                    <action selector="didLaunchCannon:" destination="LcY-Ai-F1Q" eventType="touchUpInside" id="Dgu-yZ-cPG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="nAq-xX-wra"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="nAq-xX-wra" firstAttribute="bottom" secondItem="mzC-oM-sLK" secondAttribute="bottom" constant="50" id="aZF-Y2-GOY"/>
+                            <constraint firstItem="mzC-oM-sLK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="L55-qV-zal" secondAttribute="trailing" constant="8" symbolic="YES" id="efR-Lc-QkV"/>
+                            <constraint firstItem="L55-qV-zal" firstAttribute="leading" secondItem="nAq-xX-wra" secondAttribute="leading" constant="40" id="hbc-dK-YXc"/>
                             <constraint firstItem="mzC-oM-sLK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nAq-xX-wra" secondAttribute="leading" symbolic="YES" id="kFL-1S-ESU"/>
                             <constraint firstItem="nAq-xX-wra" firstAttribute="trailing" secondItem="mzC-oM-sLK" secondAttribute="trailing" constant="40" id="qiD-4W-voB"/>
+                            <constraint firstItem="nAq-xX-wra" firstAttribute="bottom" secondItem="L55-qV-zal" secondAttribute="bottom" constant="50" id="sUT-oD-zI4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="h86-GR-Sh9"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jhb-4U-2iS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3090.234375" y="-390.04392386530014"/>
+            <point key="canvasLocation" x="3089.9280575539569" y="-390.45226130653265"/>
         </scene>
         <!--Save Files-->
         <scene sceneID="7PT-Cf-Xbe">

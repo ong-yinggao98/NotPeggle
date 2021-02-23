@@ -14,7 +14,9 @@ class GameEngine: PhysicsWorldDelegate {
 
     private(set) var ballLaunched = false
     private(set) var world: PhysicsWorld
+
     private(set) var launchPoint: CGPoint
+    private(set) var launchAngle: CGFloat
 
     private(set) var cannon: CannonBall?
     private(set) var gamePegs: [GamePeg] = []
@@ -26,6 +28,7 @@ class GameEngine: PhysicsWorldDelegate {
         let xCoord = frame.width/2
         let yCoord = CGFloat(Constants.pegRadius)
         launchPoint = CGPoint(x: xCoord, y: yCoord)
+        launchAngle = CGFloat.pi/2
         world.delegate = self
     }
 
@@ -78,17 +81,20 @@ class GameEngine: PhysicsWorldDelegate {
 
     // MARK: Cannon Handling
 
+    func aim(at coordinates: CGPoint) {
+        launchAngle = calculateAngleOfFire(coordinates: coordinates)
+    }
+
     /// Fires a cannon ball towards the given `coordinates` if there is no cannon active in the engine.
-    func launch(towards coordinates: CGPoint) {
+    func launch() {
         guard !ballLaunched else {
             return
         }
-        startCannonSimulation(target: coordinates)
+        startCannonSimulation()
     }
 
-    private func startCannonSimulation(target: CGPoint) {
-        let angle = calculateAngleOfFire(coordinates: target)
-        cannon = CannonBall(angle: angle, coord: launchPoint)
+    private func startCannonSimulation() {
+        cannon = CannonBall(angle: launchAngle, coord: launchPoint)
         guard let cannon = cannon else {
             fatalError("Cannon should be initialised by now")
         }
@@ -101,9 +107,7 @@ class GameEngine: PhysicsWorldDelegate {
         let yDist = coordinates.y - launchPoint.y
         var angle = CGVector(dx: xDist, dy: yDist).angleInRads
 
-        let towardsBottomLeft = xDist < 0 && yDist > 0
-        let towardsTopLeft = xDist < 0 && yDist < 0
-        if towardsBottomLeft || towardsTopLeft {
+        if xDist < 0 {
             angle += CGFloat.pi
         }
         return angle

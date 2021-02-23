@@ -61,23 +61,12 @@ class GameViewController: UIViewController, GameEngineDelegate {
         gameArea.addGestureRecognizer(tapGestureRecognizer)
     }
 
-    @objc func willLaunchCannon(_ gestureRecognizer: UITapGestureRecognizer) {
-        let location = gestureRecognizer.location(in: gameArea)
-        cannon.rotate(facing: location)
-        engine.launch(towards: location)
-    }
-
     func initializeEngineAndLoadView(model: Model) {
         engine = ModelGameConverter.gameRepresentation(model: model)
         engine.observer = self
         showCannon()
         updateSprites()
         viewDidAppear(false)
-    }
-
-    func showCannon() {
-        cannon = CannonView(launchPosition: engine.launchPoint)
-        gameArea.addSubview(cannon)
     }
 
     func createDisplayLink() {
@@ -88,6 +77,27 @@ class GameViewController: UIViewController, GameEngineDelegate {
     @objc func refreshView(displayLink: CADisplayLink) {
         let elapsed = displayLink.targetTimestamp - displayLink.timestamp
         engine?.refresh(elapsed: elapsed)
+    }
+
+    // MARK: Cannon Functionality
+
+    @objc func willLaunchCannon(_ gestureRecognizer: UITapGestureRecognizer) {
+        let location = gestureRecognizer.location(in: gameArea)
+        cannon.rotate(facing: location)
+        engine.aim(at: location)
+    }
+
+    func showCannon() {
+        cannon = CannonView(launchPosition: engine.launchPoint)
+        gameArea.addSubview(cannon)
+    }
+
+    func rotateCannon(towards position: CGPoint) {
+        cannon.rotate(facing: position)
+    }
+
+    @IBAction func didLaunchCannon(_ sender: UIButton) {
+        engine.launch()
     }
 
     // MARK: Quit
@@ -108,10 +118,6 @@ class GameViewController: UIViewController, GameEngineDelegate {
     }
 
     // MARK: Sprite Updates
-
-    func rotateCannon(towards position: CGPoint) {
-        cannon.rotate(facing: position)
-    }
 
     /// Updates the location and status of all cannon and pegs in the game.
     func updateSprites() {

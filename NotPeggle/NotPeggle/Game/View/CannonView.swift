@@ -39,7 +39,7 @@ class CannonView: UIImageView {
         if vector.dx > 0 {
             angle += CGFloat.pi
         }
-        transform = CGAffineTransform(rotationAngle: angle)
+        UIView.animate(withDuration: 0.2, animations: { self.transform = CGAffineTransform(rotationAngle: angle); })
     }
 
 }

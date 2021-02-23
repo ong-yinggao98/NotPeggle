@@ -51,10 +51,36 @@ class GameEngineTests: XCTestCase {
         XCTAssertEqual(engine.gamePegs.count, 2)
     }
 
+    func testAim() {
+        let engine = testCase
+        XCTAssertEqual(engine.launchAngle, CGFloat.pi/2)
+
+        var target = CGPoint(x: 0, y: 0)
+        engine.aim(at: target)
+        var expectedAngle: CGFloat = atan(25 / 150) + CGFloat.pi
+        XCTAssertEqual(engine.launchAngle, expectedAngle)
+
+        target = CGPoint(x: 300, y: 0)
+        engine.aim(at: target)
+        expectedAngle = atan(25 / -150)
+        XCTAssertEqual(engine.launchAngle, expectedAngle)
+
+        target = CGPoint(x: 0, y: 300)
+        engine.aim(at: target)
+        expectedAngle = atan(275 / -150) + CGFloat.pi
+        XCTAssertEqual(engine.launchAngle, expectedAngle)
+
+        target = CGPoint(x: 300, y: 300)
+        engine.aim(at: target)
+        expectedAngle = atan(275 / 150)
+        XCTAssertEqual(engine.launchAngle, expectedAngle)
+    }
+
     func testLaunch_topLeft() {
         var target = CGPoint(x: 0, y: 0)
         let engine = testCase
-        engine.launch(towards: target)
+        engine.aim(at: target)
+        engine.launch()
         guard let cannon = engine.cannon else {
             XCTFail("Cannon should be fired")
             return
@@ -64,14 +90,16 @@ class GameEngineTests: XCTestCase {
         TestUtils.compareVectors(expected: expectedVelocity, actual: velocity)
 
         target = CGPoint(x: 150, y: 150)
-        engine.launch(towards: target)
+        engine.aim(at: target)
+        engine.launch()
         XCTAssertEqual(engine.cannon, cannon, "New cannon should not be created")
     }
 
     func testLaunch_topRight() {
         let target = CGPoint(x: 300, y: 0)
         let engine = testCase
-        engine.launch(towards: target)
+        engine.aim(at: target)
+        engine.launch()
         guard let velocity = engine.cannon?.velocity else {
             XCTFail("Cannon should be fired")
             return
@@ -83,7 +111,8 @@ class GameEngineTests: XCTestCase {
     func testLaunch_bottomLeft() {
         let target = CGPoint(x: 0, y: 300)
         let engine = testCase
-        engine.launch(towards: target)
+        engine.aim(at: target)
+        engine.launch()
         guard let velocity = engine.cannon?.velocity else {
             XCTFail("Cannon should be fired")
             return
@@ -95,7 +124,8 @@ class GameEngineTests: XCTestCase {
     func testLaunch_bottomRight() {
         var target = CGPoint(x: 300, y: 300)
         let engine = testCase
-        engine.launch(towards: target)
+        engine.aim(at: target)
+        engine.launch()
         guard let velocity = engine.cannon?.velocity else {
             XCTFail("Cannon should be fired")
             return
@@ -108,7 +138,7 @@ class GameEngineTests: XCTestCase {
 
         // testing relaunch
         target = CGPoint(x: 0, y: 300)
-        engine.launch(towards: target)
+        engine.launch()
         guard let newVelocity = engine.cannon?.velocity else {
             XCTFail("Cannon should be fired")
             return
