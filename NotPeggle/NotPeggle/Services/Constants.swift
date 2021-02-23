@@ -7,7 +7,8 @@
 
 /// Constants used by both Model and View components.
 struct Constants {
-    static let pegRadius = 32.0
+    static let pegRadius = 25.0
+    static let cannonWidth = 100.0
 }
 
 /// Inherits String for ease of encoding and decoding

@@ -49,16 +49,16 @@ struct Peg: Hashable, Codable {
 
     /// Checks if the  `Peg` has intersection area with a given `Peg`.
     func overlapsWith(peg: Peg) -> Bool {
-        let diameter = 2 * Constants.pegRadius
+        let safeDist = radius + peg.radius
         let dist = distanceFrom(peg.center)
 
-        return dist < diameter
+        return dist < safeDist
     }
 
     /// Checks if the `Peg`contains a point within its area.
     func contains(point: Point) -> Bool {
         let dist = distanceFrom(point)
-        return dist < Constants.pegRadius
+        return dist < radius
     }
 
     /// Measures the distance from the center of a `Peg` to a given `Point`.
@@ -73,7 +73,6 @@ struct Peg: Hashable, Codable {
     /// a given `width` and `height`.
     /// A `Peg` is considered too close if the borders are less than one radius from the center.
     func isTooCloseToEdges(width: Double, height: Double) -> Bool {
-        let radius = Constants.pegRadius
         let tooCloseToLeft = (center.xCoord - 0) < radius
         let tooCloseToTop = (center.yCoord - 0) < radius
         let tooCloseToRight = (width - center.xCoord) < radius

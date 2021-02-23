@@ -13,18 +13,18 @@ class ModelTests: XCTestCase {
     let height = 400.0
     let width = 300.0
 
-    let peg = Peg(centerX: 32, centerY: 32, color: .blue)
-    let pegCompatible = Peg(centerX: 103, centerY: 70, color: .orange)
+    let peg = Peg(centerX: 32, centerY: 32, color: .blue, radius: 32.0)
+    let pegCompatible = Peg(centerX: 103, centerY: 70, color: .orange, radius: 32.0)
     // Peg that only overlaps with peg
-    let pegOverlap = Peg(centerX: 40, centerY: 35, color: .orange)
+    let pegOverlap = Peg(centerX: 40, centerY: 35, color: .orange, radius: 32.0)
     // Peg that does not overlap with peg and pegCompatible
-    let pegCompatible2 = Peg(centerX: 200, centerY: 80, color: .orange)
+    let pegCompatible2 = Peg(centerX: 200, centerY: 80, color: .orange, radius: 32.0)
 
     // Out-of-bounds
-    let pegOutOfBoundsA = Peg(centerX: 270, centerY: 300, color: .blue)
-    let pegOutOfBoundsB = Peg(centerX: 160, centerY: 370, color: .blue)
-    let pegOutOfBoundsC = Peg(centerX: 30, centerY: 200, color: .orange)
-    let pegOutOfBoundsD = Peg(centerX: 200, centerY: 30, color: .orange)
+    let pegOutOfBoundsA = Peg(centerX: 270, centerY: 300, color: .blue, radius: 32.0)
+    let pegOutOfBoundsB = Peg(centerX: 160, centerY: 370, color: .blue, radius: 32.0)
+    let pegOutOfBoundsC = Peg(centerX: 30, centerY: 200, color: .orange, radius: 32.0)
+    let pegOutOfBoundsD = Peg(centerX: 200, centerY: 30, color: .orange, radius: 32.0)
 
     let modelName = "Test"
 

@@ -69,8 +69,8 @@ class PegTests: XCTestCase {
     }
 
     func testContainsPoint() {
-        let radius = Constants.pegRadius
         let peg = Peg(centerX: 0.0, centerY: 0.0, color: .orange)
+        let radius = peg.radius
 
         var test = Point(xCoord: radius, yCoord: 0.0)
         XCTAssertFalse(peg.contains(point: test))
@@ -88,7 +88,7 @@ class PegTests: XCTestCase {
 
         test = Point(xCoord: 23.0, yCoord: 23.0)
         XCTAssertFalse(peg.contains(point: test))
-        test = Point(xCoord: 22.0, yCoord: 22.0)
+        test = Point(xCoord: 15.0, yCoord: 15.0)
         XCTAssertTrue(peg.contains(point: test))
     }
 

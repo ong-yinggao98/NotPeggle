@@ -14,11 +14,9 @@ class GamePeg: StationaryObject {
     var hit = false
     let color: Color
 
-    init(pegColor: Color, pos: CGPoint) {
+    init?(pegColor: Color, pos: CGPoint, radius: CGFloat) {
         color = pegColor
-        let radius = CGFloat(Constants.pegRadius)
-        // Since the radius is definitely positive it should not fail
-        super.init(center: pos, radius: radius)!
+        super.init(center: pos, radius: radius)
     }
 
     override func handleCollision(object: PhysicsBody) {

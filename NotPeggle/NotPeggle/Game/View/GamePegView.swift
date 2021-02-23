@@ -16,6 +16,10 @@ class GamePegView: UIView {
     var color: Color
     var image: UIImageView!
 
+    var radius: CGFloat {
+        return frame.width / 2
+    }
+
     static var orangeImage: UIImageView {
         let orange = UIImage(named: "orange-bubble")
         let orangeHighlight = UIImage(named: "orange-glow")

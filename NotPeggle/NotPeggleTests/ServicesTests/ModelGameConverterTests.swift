@@ -13,17 +13,17 @@ class ModelGameConverterTests: XCTestCase {
     typealias MGC = ModelGameConverter
 
     var pegA: Peg {
-        return Peg(centerX: 32, centerY: 32, color: .blue)
+        return Peg(centerX: 32, centerY: 32, color: .blue, radius: 32.0)
     }
     var pegAGame: GamePeg? {
-        return GamePeg(pegColor: .blue, pos: CGPoint(x: 32, y: 32))
+        return GamePeg(pegColor: .blue, pos: CGPoint(x: 32, y: 32), radius: 32.0)
     }
 
     var pegB: Peg {
-        return Peg(centerX: 90, centerY: 80, color: .orange)
+        return Peg(centerX: 90, centerY: 80, color: .orange, radius: 32.0)
     }
     var pegBGame: GamePeg? {
-        return GamePeg(pegColor: .orange, pos: CGPoint(x: 90, y: 80))
+        return GamePeg(pegColor: .orange, pos: CGPoint(x: 90, y: 80), radius: 32.0)
     }
 
     func testPegGameRepresentation() {

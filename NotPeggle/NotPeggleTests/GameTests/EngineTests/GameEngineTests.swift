@@ -21,16 +21,20 @@ class GameEngineTests: XCTestCase {
         XCTAssertTrue(engine.gamePegs.isEmpty)
     }
 
+    var radius: CGFloat {
+        return CGFloat(Constants.pegRadius)
+    }
+
     var pegA: GamePeg {
-        return GamePeg(pegColor: .blue, pos: CGPoint(x: 40, y: 40))
+        return GamePeg(pegColor: .blue, pos: CGPoint(x: 40, y: 40), radius: radius)!
     }
 
     var pegB: GamePeg {
-        return GamePeg(pegColor: .orange, pos: CGPoint(x: 100, y: 100))
+        return GamePeg(pegColor: .orange, pos: CGPoint(x: 100, y: 100), radius: radius)!
     }
 
     var pegC: GamePeg {
-        return GamePeg(pegColor: .blue, pos: CGPoint(x: 210, y: 80))
+        return GamePeg(pegColor: .blue, pos: CGPoint(x: 210, y: 80), radius: radius)!
     }
 
     func testLoadPegs_pegsAdded() {
@@ -56,7 +60,7 @@ class GameEngineTests: XCTestCase {
             return
         }
         let velocity = cannon.velocity
-        let expectedVelocity = CGVector(dx: -977.99284, dy: -208.63847)
+        let expectedVelocity = CGVector(dx: -986.39392, dy: -164.39899)
         TestUtils.compareVectors(expected: expectedVelocity, actual: velocity)
 
         target = CGPoint(x: 150, y: 150)
@@ -72,7 +76,7 @@ class GameEngineTests: XCTestCase {
             XCTFail("Cannon should be fired")
             return
         }
-        let expectedVelocity = CGVector(dx: 977.99284, dy: -208.63847)
+        let expectedVelocity = CGVector(dx: 986.39392, dy: -164.39899)
         TestUtils.compareVectors(expected: expectedVelocity, actual: velocity)
     }
 
@@ -84,7 +88,7 @@ class GameEngineTests: XCTestCase {
             XCTFail("Cannon should be fired")
             return
         }
-        let expectedVelocity = CGVector(dx: -488.40506, dy: 872.61704)
+        let expectedVelocity = CGVector(dx: -478.85213, dy: 877.89557)
         TestUtils.compareVectors(expected: expectedVelocity, actual: velocity)
     }
 
@@ -96,7 +100,7 @@ class GameEngineTests: XCTestCase {
             XCTFail("Cannon should be fired")
             return
         }
-        var expectedVelocity = CGVector(dx: 488.40506, dy: 872.61704)
+        var expectedVelocity = CGVector(dx: 478.85213, dy: 877.89557)
         TestUtils.compareVectors(expected: expectedVelocity, actual: velocity)
 
         engine.removeCannonBall()
@@ -109,7 +113,7 @@ class GameEngineTests: XCTestCase {
             XCTFail("Cannon should be fired")
             return
         }
-        expectedVelocity = CGVector(dx: -488.40506, dy: 872.61704)
+        expectedVelocity = CGVector(dx: -478.85213, dy: 877.89557)
         TestUtils.compareVectors(expected: expectedVelocity, actual: newVelocity)
     }
 

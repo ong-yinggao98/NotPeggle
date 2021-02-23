@@ -140,9 +140,14 @@ class GameViewController: UIViewController, GameEngineDelegate {
     func deleteExtraPegs() {
         let pegsToRemove = gameArea.subviews
             .compactMap { $0 as? GamePegView }
-            .filter { !engine.gamePegs.contains(GamePeg(pegColor: $0.color, pos: $0.center)) }
+            .filter { peg in
+                guard let gamePeg = GamePeg(pegColor: peg.color, pos: peg.center, radius: peg.radius) else {
+                    fatalError("Game Peg should not have been created with failed init")
+                }
+                return !engine.gamePegs.contains(gamePeg)
+            }
         UIView.animate(
-            withDuration: 1,
+            withDuration: 0.2,
             animations: { pegsToRemove.forEach { $0.makeTransparent() } }
         )
     }

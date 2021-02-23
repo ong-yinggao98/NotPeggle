@@ -71,7 +71,6 @@ class PhysicsWorld: NSObject {
             body.updateProperties(time: time)
             bodies.forEach { body.handleCollision(object: $0) }
             body.handleCollisionWithBorders(frame: dimensions, borders: borders)
-            body.refreshCollidees()
         }
     }
 

@@ -15,14 +15,14 @@ extension CGPoint {
     func unitNormalTo(point: CGPoint) -> CGVector {
         let distX = point.x - x
         let distY = point.y - y
-        let magnitude = sqrt(distX * distX + distY * distY)
+        var vector = CGVector(dx: distX, dy: distY)
+        let magnitude = vector.magnitude
         guard magnitude > 0 else {
             return CGVector.zero
         }
 
-        let unitX = distX / magnitude
-        let unitY = distY / magnitude
-        return CGVector(dx: unitX, dy: unitY)
+        vector.scale(factor: 1/magnitude)
+        return vector
     }
 
     func unitTangentTo(point: CGPoint) -> CGVector {
@@ -30,5 +30,11 @@ extension CGPoint {
         let newX = -unitNormal.dy
         let newY = unitNormal.dx
         return CGVector(dx: newX, dy: newY)
+    }
+
+    func distanceTo(point: CGPoint) -> CGFloat {
+        let distX = point.x - x
+        let distY = point.y - y
+        return sqrt(distX * distX + distY * distY)
     }
 }

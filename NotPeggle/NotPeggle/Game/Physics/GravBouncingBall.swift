@@ -33,4 +33,20 @@ class GravBouncingBall: PhysicsBody {
         return super.isEqual(other)
     }
 
+    override func handleCollision(object: PhysicsBody) {
+        guard collides(with: object) else {
+            return
+        }
+        super.handleCollision(object: object)
+        moveTillNotColliding(with: object)
+    }
+
+    private func moveTillNotColliding(with object: PhysicsBody) {
+        var normal = center.unitNormalTo(point: object.center)
+        let idealDist = radius + object.radius
+        let distNeeded = idealDist - center.distanceTo(point: object.center)
+        normal.scale(factor: distNeeded * 0.99)
+        recenterBy(xDist: normal.dx, yDist: normal.dy)
+    }
+
 }

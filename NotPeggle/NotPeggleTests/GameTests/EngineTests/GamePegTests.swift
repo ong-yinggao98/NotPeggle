@@ -11,11 +11,11 @@ import XCTest
 class GamePegTests: XCTestCase {
 
     var peg: GamePeg? {
-        return GamePeg(pegColor: .blue, pos: CGPoint(x: 50, y: 80))
+        return GamePeg(pegColor: .blue, pos: CGPoint(x: 50, y: 80), radius: 25.0)
     }
 
     func testCollision() {
-        let cannonBall = CannonBall(angle: 0, coord: CGPoint(x: 114, y: 80))
+        let cannonBall = CannonBall(angle: 0, coord: CGPoint(x: 100, y: 80))
         let distCannon = CannonBall(angle: 0, coord: CGPoint(x: 50, y: 200))
         guard let peg = peg else {
             XCTFail("Init should not fail")

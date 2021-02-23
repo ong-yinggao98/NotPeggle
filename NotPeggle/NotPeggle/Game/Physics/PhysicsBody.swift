@@ -24,8 +24,6 @@ class PhysicsBody: NSObject {
     var velocity: CGVector
     var acceleration: CGVector
 
-    private var collidees = Set<PhysicsBody>()
-
     init?(pos: CGPoint, radius: CGFloat, restitution: CGFloat, velo: CGVector, accel: CGVector) {
         center = pos
         guard radius > 0 else {
@@ -85,21 +83,13 @@ class PhysicsBody: NSObject {
     /// If the object has already collided and has not fully left the intersecting area,
     /// this method also does not change anything.
     func handleCollision(object: PhysicsBody) {
-        guard collides(with: object), !collidees.contains(object) else {
+        guard collides(with: object) else {
             return
         }
 
         let tangent = center.unitTangentTo(point: object.center)
         let angleOffSet = tangent.angleInRads
         reflect(at: angleOffSet)
-        collidees.insert(object)
-    }
-
-    /// Checks if any collidees still collide with the object.
-    func refreshCollidees() {
-        for object in collidees where !collides(with: object) {
-            collidees.remove(object)
-        }
     }
 
     private func reflect(at angleOffSet: CGFloat) {
@@ -183,6 +173,11 @@ class PhysicsBody: NSObject {
             && restitution == other.restitution
             && velocity == other.velocity
             && acceleration == other.acceleration
+    }
+
+    func recenterBy(xDist: CGFloat, yDist: CGFloat) {
+        center.x -= xDist
+        center.y -= yDist
     }
 
 }
