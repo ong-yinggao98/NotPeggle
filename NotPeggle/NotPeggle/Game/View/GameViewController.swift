@@ -54,11 +54,11 @@ class GameViewController: UIViewController, GameEngineDelegate {
     }
 
     func setUpGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(
+        let panGestureRecognizer = UIPanGestureRecognizer(
             target: self,
             action: #selector(willLaunchCannon(_:))
         )
-        gameArea.addGestureRecognizer(tapGestureRecognizer)
+        gameArea.addGestureRecognizer(panGestureRecognizer)
     }
 
     func initializeEngineAndLoadView(model: Model) {
@@ -81,7 +81,7 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     // MARK: Cannon Functionality
 
-    @objc func willLaunchCannon(_ gestureRecognizer: UITapGestureRecognizer) {
+    @objc func willLaunchCannon(_ gestureRecognizer: UIPanGestureRecognizer) {
         let location = gestureRecognizer.location(in: gameArea)
         cannon.rotate(facing: location)
         engine.aim(at: location)
