@@ -8,11 +8,11 @@
 import XCTest
 @testable import NotPeggle
 
-class PhysicsBodyTests: XCTestCase {
+class PhysicsBallTests: XCTestCase {
 
     // MARK: PhysicsBody test cases
-    var stationaryBody: PhysicsBody? {
-        return PhysicsBody(
+    var stationaryBody: PhysicsBall? {
+        return PhysicsBall(
             pos: CGPoint.zero,
             radius: 32,
             restitution: 0,
@@ -21,9 +21,9 @@ class PhysicsBodyTests: XCTestCase {
         )
     }
 
-    var movingBody: PhysicsBody? {
+    var movingBody: PhysicsBall? {
         let velocity = CGVector(dx: -2, dy: 0)
-        return PhysicsBody(
+        return PhysicsBall(
             pos: CGPoint(x: 70, y: 0),
             radius: 32,
             restitution: 1,
@@ -32,8 +32,8 @@ class PhysicsBodyTests: XCTestCase {
         )
     }
 
-    var acceleratingBody: PhysicsBody? {
-        return PhysicsBody(
+    var acceleratingBody: PhysicsBall? {
+        return PhysicsBall(
             pos: CGPoint.zero,
             radius: 32,
             restitution: 0,
@@ -48,7 +48,7 @@ class PhysicsBodyTests: XCTestCase {
     func testConstr() {
         XCTAssertNotNil(stationaryBody)
 
-        var fail = PhysicsBody(
+        var fail = PhysicsBall(
             pos: CGPoint.zero,
             radius: -3,
             restitution: 0,
@@ -57,7 +57,7 @@ class PhysicsBodyTests: XCTestCase {
         )
         XCTAssertNil(fail)
 
-        fail = PhysicsBody(
+        fail = PhysicsBall(
             pos: CGPoint.zero,
             radius: 0,
             restitution: 0,
@@ -71,7 +71,7 @@ class PhysicsBodyTests: XCTestCase {
         guard
             let body = stationaryBody,
             let otherBody = movingBody,
-            let collidingBody = PhysicsBody(
+            let collidingBody = PhysicsBall(
                 pos: CGPoint(x: 50, y: -50),
                 radius: 40,
                 restitution: 0,
@@ -123,9 +123,9 @@ class PhysicsBodyTests: XCTestCase {
     }
 
     // MARK: Collision test cases
-    var collider: PhysicsBody? {
+    var collider: PhysicsBall? {
         let velocity = CGVector(dx: 4, dy: 0)
-        return PhysicsBody(
+        return PhysicsBall(
             pos: CGPoint.zero,
             radius: 32,
             restitution: 1,
@@ -134,9 +134,9 @@ class PhysicsBodyTests: XCTestCase {
         )
     }
 
-    var topCollider: PhysicsBody? {
+    var topCollider: PhysicsBall? {
         let velocity = CGVector(dx: 0, dy: -4)
-        return PhysicsBody(
+        return PhysicsBall(
             pos: CGPoint(x: 64, y: 4),
             radius: 32,
             restitution: 1,
@@ -145,9 +145,9 @@ class PhysicsBodyTests: XCTestCase {
         )
     }
 
-    var angledCollider: PhysicsBody? {
+    var angledCollider: PhysicsBall? {
         let velocity = CGVector(dx: 4, dy: 0)
-        return PhysicsBody(
+        return PhysicsBall(
             pos: CGPoint(x: 19, y: 45),
             radius: 32,
             restitution: 0.8,
@@ -156,8 +156,8 @@ class PhysicsBodyTests: XCTestCase {
         )
     }
 
-    var collidee: PhysicsBody? {
-        return PhysicsBody(
+    var collidee: PhysicsBall? {
+        return PhysicsBall(
             pos: CGPoint(x: 64, y: 0),
             radius: 32,
             restitution: 0,

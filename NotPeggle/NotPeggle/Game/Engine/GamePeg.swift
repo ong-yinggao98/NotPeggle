@@ -10,7 +10,7 @@ import UIKit
 /**
  Representation of an immovable `GamePeg`. It lights up when hit by a cannon ball.
  */
-class GamePeg: StationaryObject {
+class GamePeg: StationaryBall {
     var hit = false
     let color: Color
 
@@ -19,7 +19,7 @@ class GamePeg: StationaryObject {
         super.init(center: pos, radius: radius)
     }
 
-    override func handleCollision(object: PhysicsBody) {
+    override func handleCollision(object: PhysicsBall) {
         super.handleCollision(object: object)
         guard object is CannonBall, collides(with: object) else {
             return

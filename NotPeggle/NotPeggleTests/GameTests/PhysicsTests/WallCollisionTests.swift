@@ -8,14 +8,14 @@
 import XCTest
 @testable import NotPeggle
 
-extension PhysicsBodyTests {
+extension PhysicsBallTests {
 
     var frame: CGRect {
         return CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 300, height: 300))
     }
 
-    var topLeftHitter: PhysicsBody? {
-        return PhysicsBody(
+    var topLeftHitter: PhysicsBall? {
+        return PhysicsBall(
             pos: CGPoint(x: 10, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -24,8 +24,8 @@ extension PhysicsBodyTests {
         )
     }
 
-    var topRightHitter: PhysicsBody? {
-        return PhysicsBody(
+    var topRightHitter: PhysicsBall? {
+        return PhysicsBall(
             pos: CGPoint(x: 290, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -34,8 +34,8 @@ extension PhysicsBodyTests {
         )
     }
 
-    var bottomLeftHitter: PhysicsBody? {
-        return PhysicsBody(
+    var bottomLeftHitter: PhysicsBall? {
+        return PhysicsBall(
             pos: CGPoint(x: 10, y: 290),
             radius: 10,
             restitution: 0.8,
@@ -44,8 +44,8 @@ extension PhysicsBodyTests {
         )
     }
 
-    var bottomRightHitter: PhysicsBody? {
-        return PhysicsBody(
+    var bottomRightHitter: PhysicsBall? {
+        return PhysicsBall(
             pos: CGPoint(x: 290, y: 290),
             radius: 10,
             restitution: 0.8,
@@ -59,7 +59,7 @@ extension PhysicsBodyTests {
         let frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 300, height: 300))
         let wallHitter = topLeftHitter
         wallHitter?.handleCollisionWithBorders(frame: frame, borders: [.top, .left])
-        let expected = PhysicsBody(
+        let expected = PhysicsBall(
             pos: CGPoint(x: 10, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -67,7 +67,7 @@ extension PhysicsBodyTests {
             accel: CGVector.zero
         )
         XCTAssertEqual(expected, wallHitter)
-        let nonHitter = PhysicsBody(
+        let nonHitter = PhysicsBall(
             pos: CGPoint(x: 10, y: 10),
             radius: 10, restitution: 0.8,
             velo: CGVector(dx: 0.8, dy: 0.8),
@@ -80,7 +80,7 @@ extension PhysicsBodyTests {
     func testWallCollision_topRightEnabled() {
         let wallHitter = topRightHitter
         wallHitter?.handleCollisionWithBorders(frame: frame, borders: [.top, .right])
-        let expected = PhysicsBody(
+        let expected = PhysicsBall(
             pos: CGPoint(x: 290, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -88,7 +88,7 @@ extension PhysicsBodyTests {
             accel: CGVector.zero
         )
         XCTAssertEqual(expected, wallHitter)
-        let nonHitter = PhysicsBody(
+        let nonHitter = PhysicsBall(
             pos: CGPoint(x: 290, y: 10),
             radius: 10, restitution: 0.8,
             velo: CGVector(dx: -0.8, dy: 0.8),
@@ -101,7 +101,7 @@ extension PhysicsBodyTests {
     func testWallCollision_bottomLeftEnabled() {
         let wallHitter = bottomLeftHitter
         wallHitter?.handleCollisionWithBorders(frame: frame, borders: [.bottom, .left])
-        let expected = PhysicsBody(
+        let expected = PhysicsBall(
             pos: CGPoint(x: 10, y: 290),
             radius: 10,
             restitution: 0.8,
@@ -109,7 +109,7 @@ extension PhysicsBodyTests {
             accel: CGVector.zero
         )
         XCTAssertEqual(expected, wallHitter)
-        let nonHitter = PhysicsBody(
+        let nonHitter = PhysicsBall(
             pos: CGPoint(x: 10, y: 290),
             radius: 10, restitution: 0.8,
             velo: CGVector(dx: 0.8, dy: -0.8),
@@ -122,7 +122,7 @@ extension PhysicsBodyTests {
     func testWallCollision_bottomRightEnabled() {
         let wallHitter = bottomRightHitter
         wallHitter?.handleCollisionWithBorders(frame: frame, borders: [.bottom, .right])
-        let expected = PhysicsBody(
+        let expected = PhysicsBall(
             pos: CGPoint(x: 290, y: 290),
             radius: 10,
             restitution: 0.8,
@@ -130,7 +130,7 @@ extension PhysicsBodyTests {
             accel: CGVector.zero
         )
         XCTAssertEqual(expected, wallHitter)
-        let nonHitter = PhysicsBody(
+        let nonHitter = PhysicsBall(
             pos: CGPoint(x: 290, y: 290),
             radius: 10, restitution: 0.8,
             velo: CGVector(dx: -0.8, dy: -0.8),
@@ -144,7 +144,7 @@ extension PhysicsBodyTests {
     func testWallCollision_leftWall() {
         let wallHitter = topLeftHitter
         wallHitter?.handleCollisionWithBorders(frame: frame, borders: [.left])
-        let expected = PhysicsBody(
+        let expected = PhysicsBall(
             pos: CGPoint(x: 10, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -152,7 +152,7 @@ extension PhysicsBodyTests {
             accel: CGVector.zero
         )
         XCTAssertEqual(expected, wallHitter)
-        let nonHitter = PhysicsBody(
+        let nonHitter = PhysicsBall(
             pos: CGPoint(x: 10, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -166,7 +166,7 @@ extension PhysicsBodyTests {
     func testWallCollision_topWall() {
         let wallHitter = topRightHitter
         wallHitter?.handleCollisionWithBorders(frame: frame, borders: [.top])
-        let expected = PhysicsBody(
+        let expected = PhysicsBall(
             pos: CGPoint(x: 290, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -174,7 +174,7 @@ extension PhysicsBodyTests {
             accel: CGVector.zero
         )
         XCTAssertEqual(expected, wallHitter)
-        let nonHitter = PhysicsBody(
+        let nonHitter = PhysicsBall(
             pos: CGPoint(x: 290, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -188,7 +188,7 @@ extension PhysicsBodyTests {
     func testWallCollision_rightWall() {
         let wallHitter = topRightHitter
         wallHitter?.handleCollisionWithBorders(frame: frame, borders: [.right])
-        let expected = PhysicsBody(
+        let expected = PhysicsBall(
             pos: CGPoint(x: 290, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -196,7 +196,7 @@ extension PhysicsBodyTests {
             accel: CGVector.zero
         )
         XCTAssertEqual(expected, wallHitter)
-        let nonHitter = PhysicsBody(
+        let nonHitter = PhysicsBall(
             pos: CGPoint(x: 290, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -210,7 +210,7 @@ extension PhysicsBodyTests {
     func testWallCollision_bottomWall() {
         let wallHitter = bottomRightHitter
         wallHitter?.handleCollisionWithBorders(frame: frame, borders: [.bottom])
-        let expected = PhysicsBody(
+        let expected = PhysicsBall(
             pos: CGPoint(x: 290, y: 290),
             radius: 10,
             restitution: 0.8,
@@ -218,7 +218,7 @@ extension PhysicsBodyTests {
             accel: CGVector.zero
         )
         XCTAssertEqual(expected, wallHitter)
-        let nonHitter = PhysicsBody(
+        let nonHitter = PhysicsBall(
             pos: CGPoint(x: 290, y: 290),
             radius: 10,
             restitution: 0.8,

@@ -13,7 +13,7 @@ import UIKit
  Each object also has a `restitution` value that defines the amount of velocity retained  after a collision,
  as well as its `velocity` and `acceleration`.
  */
-class PhysicsBody: NSObject {
+class PhysicsBall: NSObject {
 
     // MARK: Physical attributes
     private(set) var center: CGPoint
@@ -37,7 +37,7 @@ class PhysicsBody: NSObject {
     }
 
     /// Checks if the given PhysBody collides with another (i.e. areas intersect).
-    func collides(with other: PhysicsBody) -> Bool {
+    func collides(with other: PhysicsBall) -> Bool {
         guard other !== self else {
             return false
         }
@@ -82,7 +82,7 @@ class PhysicsBody: NSObject {
     /// If the two objects do not collide, this does not change anything.
     /// If the object has already collided and has not fully left the intersecting area,
     /// this method also does not change anything.
-    func handleCollision(object: PhysicsBody) {
+    func handleCollision(object: PhysicsBall) {
         guard collides(with: object) else {
             return
         }
@@ -164,7 +164,7 @@ class PhysicsBody: NSObject {
     // MARK: For Testing
 
     override func isEqual(_ other: Any?) -> Bool {
-        guard let other = other as? PhysicsBody else {
+        guard let other = other as? PhysicsBall else {
             return false
         }
 

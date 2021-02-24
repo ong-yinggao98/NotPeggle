@@ -17,7 +17,7 @@ struct TestUtils {
         XCTAssertEqual(expected.dy, actual.dy, accuracy: marginOfError)
     }
 
-    static func comparePhysicsBodySets(expected: Set<PhysicsBody>, actual: Set<PhysicsBody>) {
+    static func comparePhysicsBodySets(expected: Set<PhysicsBall>, actual: Set<PhysicsBall>) {
         let expectedBodies = Array(expected)
         let actualBodies = Array(expected)
         XCTAssertEqual(expectedBodies.count, actualBodies.count)

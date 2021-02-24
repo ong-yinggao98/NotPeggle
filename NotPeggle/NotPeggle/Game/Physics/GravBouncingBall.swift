@@ -11,7 +11,7 @@ import UIKit
  General `PhysicsObject` that is affected by a constant downward acceleration representing gravity.
  Upon collisions it will lose a small fraction of energy to prevent it from bouncing indefinitely.
  */
-class GravBouncingBall: PhysicsBody {
+class GravBouncingBall: PhysicsBall {
 
     static let restitution: CGFloat = 0.9
     static let gravity = CGVector(dx: 0, dy: 300)
@@ -33,7 +33,7 @@ class GravBouncingBall: PhysicsBody {
         return super.isEqual(other)
     }
 
-    override func handleCollision(object: PhysicsBody) {
+    override func handleCollision(object: PhysicsBall) {
         guard collides(with: object) else {
             return
         }
@@ -41,7 +41,7 @@ class GravBouncingBall: PhysicsBody {
         moveTillNotColliding(with: object)
     }
 
-    private func moveTillNotColliding(with object: PhysicsBody) {
+    private func moveTillNotColliding(with object: PhysicsBall) {
         var normal = center.unitNormalTo(point: object.center)
         let idealDist = radius + object.radius
         let distNeeded = idealDist - center.distanceTo(point: object.center)

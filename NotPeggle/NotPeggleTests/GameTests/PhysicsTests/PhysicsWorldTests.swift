@@ -12,8 +12,8 @@ class PhysicsWorldTests: XCTestCase {
 
     var frame = CGRect(x: 0, y: 0, width: 300, height: 300)
 
-    var bodyA: PhysicsBody? {
-        return PhysicsBody(
+    var bodyA: PhysicsBall? {
+        return PhysicsBall(
             pos: CGPoint(x: 150, y: 30),
             radius: 30,
             restitution: 0,
@@ -22,8 +22,8 @@ class PhysicsWorldTests: XCTestCase {
         )
     }
 
-    var bodyB: PhysicsBody? {
-        return PhysicsBody(
+    var bodyB: PhysicsBall? {
+        return PhysicsBall(
             pos: CGPoint(x: 70, y: 90),
             radius: 30,
             restitution: 0.8,
@@ -108,7 +108,7 @@ class PhysicsWorldTests: XCTestCase {
 
         let expectedPositionB = CGPoint(x: 72, y: 109.62)
         let expectedVelocityB = CGVector(dx: 1, dy: 19.62)
-        let expectedNewB = PhysicsBody(
+        let expectedNewB = PhysicsBall(
             pos: expectedPositionB,
             radius: 30,
             restitution: 0.8,
