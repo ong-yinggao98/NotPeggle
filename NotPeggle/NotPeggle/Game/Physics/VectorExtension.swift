@@ -29,8 +29,12 @@ extension CGVector {
         }
     }
 
+    var magnitudeSquared: CGFloat {
+        return dx * dx + dy * dy
+    }
+
     var magnitude: CGFloat {
-        return sqrt(dx * dx + dy * dy)
+        return sqrt(magnitudeSquared)
     }
 
     /// Rotates the vector **anticlockwise** by the given `angle`.

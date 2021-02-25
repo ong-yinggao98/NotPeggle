@@ -19,9 +19,8 @@ class GamePeg: StationaryBall {
         super.init(center: pos, radius: radius)
     }
 
-    override func handleCollision(object: PhysicsBall) {
-        super.handleCollision(object: object)
-        guard object is CannonBall, collides(with: object) else {
+    override func handleCollision(object: PhysicsBody) {
+        guard collides(with: object), object is CannonBall else {
             return
         }
         hit = true

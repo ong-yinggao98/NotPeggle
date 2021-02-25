@@ -33,12 +33,15 @@ class GravBouncingBall: PhysicsBall {
         return super.isEqual(other)
     }
 
-    override func handleCollision(object: PhysicsBall) {
+    override func handleCollision(object: PhysicsBody) {
         guard collides(with: object) else {
             return
         }
         super.handleCollision(object: object)
-        moveTillNotColliding(with: object)
+        guard let ball = object as? PhysicsBall else {
+            return
+        }
+        moveTillNotColliding(with: ball)
     }
 
     private func moveTillNotColliding(with object: PhysicsBall) {
