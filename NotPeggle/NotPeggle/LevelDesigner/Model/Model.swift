@@ -69,7 +69,7 @@ struct Model: Equatable, Codable {
 
     /// Checks if the given peg fits within the boards of the game area.
     func fitsOnBoard(peg: Peg) -> Bool {
-        return !peg.isTooCloseToEdges(width: width, height: height)
+        return !peg.tooCloseToEdges(width: width, height: height)
     }
 
     /// Returns the first `Peg` that satisfies the given predicate.
@@ -118,7 +118,7 @@ struct Model: Equatable, Codable {
 
     /// Clears all pegs.
     mutating func removeAllPegs() {
-        pegs.removeAll()
+        pegs = []
     }
 
     /// Checks that no stored `Peg` overlaps with another at any point in time.

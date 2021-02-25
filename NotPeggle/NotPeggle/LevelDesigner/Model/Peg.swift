@@ -14,7 +14,12 @@
     - Moving a peg to another center
  The struct is guaranteed to be immutable.
  */
-struct Peg: Hashable, Codable {
+struct Peg: LevelObject {
+
+    var type: Type {
+        return .peg
+    }
+
     let center: Point
     let color: Color
     let radius: Double
@@ -47,12 +52,32 @@ struct Peg: Hashable, Codable {
         self.radius = radius
     }
 
+    func overlapsWith(other: LevelObject) -> Bool {
+        switch other.type {
+        case .peg:
+            guard let peg = other as? Peg else {
+                fatalError("Should only be used by Peg types")
+            }
+            return overlapsWith(peg: peg)
+        case .block:
+            guard let block = other as? Block else {
+                fatalError("Should only be used by Block types")
+            }
+            return overlapsWith(block: block)
+        }
+    }
+
     /// Checks if the  `Peg` has intersection area with a given `Peg`.
     func overlapsWith(peg: Peg) -> Bool {
         let safeDist = radius + peg.radius
         let dist = distanceFrom(peg.center)
 
         return dist < safeDist
+    }
+
+    /// Checks if the  `Peg` has intersection area with a given `Peg`.
+    func overlapsWith(block: Block) -> Bool {
+        return false
     }
 
     /// Checks if the `Peg`contains a point within its area.
@@ -72,7 +97,7 @@ struct Peg: Hashable, Codable {
     /// Checks if a peg's coordinates are too close to a given rectangular boundary of
     /// a given `width` and `height`.
     /// A `Peg` is considered too close if the borders are less than one radius from the center.
-    func isTooCloseToEdges(width: Double, height: Double) -> Bool {
+    func tooCloseToEdges(width: Double, height: Double) -> Bool {
         let tooCloseToLeft = (center.xCoord - 0) < radius
         let tooCloseToTop = (center.yCoord - 0) < radius
         let tooCloseToRight = (width - center.xCoord) < radius
@@ -85,6 +110,9 @@ struct Peg: Hashable, Codable {
     func recenterTo(_ center: Point) -> Peg {
         return Peg(center: center, color: color)
     }
+}
+
+extension Peg: Hashable, Codable {
 }
 
 /**

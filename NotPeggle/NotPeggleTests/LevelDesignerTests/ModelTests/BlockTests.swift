@@ -8,10 +8,10 @@
 import XCTest
 @testable import NotPeggle
 
-class Rect2DTests: XCTestCase {
+class BlockTests: XCTestCase {
 
     func testMid() {
-        let rect = Rect2D(
+        let rect = Block(
             origin: Point(xCoord: 0, yCoord: 0),
             width: 2,
             height: 4,

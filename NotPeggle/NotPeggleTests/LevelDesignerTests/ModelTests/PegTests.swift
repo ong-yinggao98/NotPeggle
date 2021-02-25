@@ -35,7 +35,7 @@ class PegTests: XCTestCase {
         let radius = Constants.pegRadius
         let bounds = 3 * radius
         let predicate = { (peg: Peg) in
-            peg.isTooCloseToEdges(width: bounds, height: bounds)
+            peg.tooCloseToEdges(width: bounds, height: bounds)
         }
 
         var test = Peg(centerX: radius, centerY: radius, color: .blue)
@@ -54,7 +54,7 @@ class PegTests: XCTestCase {
         let radius = Constants.pegRadius
         let bounds = 3 * radius
         let predicate = { (peg: Peg) in
-            peg.isTooCloseToEdges(width: bounds, height: bounds)
+            peg.tooCloseToEdges(width: bounds, height: bounds)
         }
 
         let positiveLimit = bounds - radius
