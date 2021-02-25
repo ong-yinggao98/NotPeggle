@@ -12,6 +12,8 @@
 		842E815D25D90A6E0028DE3D /* PhysicsWorldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */; };
 		84421DE525E612B900CF6F63 /* PhysicsBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84421DE425E612B900CF6F63 /* PhysicsBody.swift */; };
 		84421DED25E636C500CF6F63 /* PhysicsBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84421DEC25E636C500CF6F63 /* PhysicsBlock.swift */; };
+		84421E0325E79B1000CF6F63 /* Rect2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84421E0225E79B1000CF6F63 /* Rect2D.swift */; };
+		84421E0825E7CBA100CF6F63 /* Rect2DTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84421E0725E7CBA100CF6F63 /* Rect2DTests.swift */; };
 		8442CB4E25C3DD3600C078A8 /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8442CB4D25C3DD3600C078A8 /* StorageTests.swift */; };
 		8442CB6625C4423100C078A8 /* SaveTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8442CB6525C4423100C078A8 /* SaveTableViewController.swift */; };
 		846339CE25D2CE5900F20297 /* PhysicsBallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846339CD25D2CE5900F20297 /* PhysicsBallTests.swift */; };
@@ -85,6 +87,8 @@
 		842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsWorldDelegate.swift; sourceTree = "<group>"; };
 		84421DE425E612B900CF6F63 /* PhysicsBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsBody.swift; sourceTree = "<group>"; };
 		84421DEC25E636C500CF6F63 /* PhysicsBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsBlock.swift; sourceTree = "<group>"; };
+		84421E0225E79B1000CF6F63 /* Rect2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rect2D.swift; sourceTree = "<group>"; };
+		84421E0725E7CBA100CF6F63 /* Rect2DTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rect2DTests.swift; sourceTree = "<group>"; };
 		8442CB4D25C3DD3600C078A8 /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
 		8442CB6525C4423100C078A8 /* SaveTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveTableViewController.swift; sourceTree = "<group>"; };
 		846339CD25D2CE5900F20297 /* PhysicsBallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsBallTests.swift; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 			children = (
 				847BD83425BEDA3F00C3782E /* Model.swift */,
 				847BD83925BEDAC000C3782E /* Peg.swift */,
+				84421E0225E79B1000CF6F63 /* Rect2D.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -363,6 +368,7 @@
 			children = (
 				84A2331E25C1814B000FF729 /* ModelTests.swift */,
 				8481A3B725C088B500728B0A /* PegTests.swift */,
+				84421E0725E7CBA100CF6F63 /* Rect2DTests.swift */,
 			);
 			path = ModelTests;
 			sourceTree = "<group>";
@@ -553,6 +559,7 @@
 				847BD83525BEDA3F00C3782E /* Model.swift in Sources */,
 				84421DED25E636C500CF6F63 /* PhysicsBlock.swift in Sources */,
 				8484524C25D64750004157B7 /* GameViewController.swift in Sources */,
+				84421E0325E79B1000CF6F63 /* Rect2D.swift in Sources */,
 				8486161125B712C800BB6178 /* LevelViewController.swift in Sources */,
 				84421DE525E612B900CF6F63 /* PhysicsBody.swift in Sources */,
 				84D09AB925BF069D0042FB19 /* PegModeButton.swift in Sources */,
@@ -597,6 +604,7 @@
 				8442CB4E25C3DD3600C078A8 /* StorageTests.swift in Sources */,
 				84A2332F25C19EED000FF729 /* ModelViewConverterTests.swift in Sources */,
 				8484526925D6B1EA004157B7 /* ModelGameConverterTests.swift in Sources */,
+				84421E0825E7CBA100CF6F63 /* Rect2DTests.swift in Sources */,
 				84A2332725C19C8A000FF729 /* PegModeButtonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

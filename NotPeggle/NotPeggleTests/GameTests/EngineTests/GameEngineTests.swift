@@ -138,6 +138,7 @@ class GameEngineTests: XCTestCase {
 
         // testing relaunch
         target = CGPoint(x: 0, y: 300)
+        engine.aim(at: target)
         engine.launch()
         guard let newVelocity = engine.cannon?.velocity else {
             XCTFail("Cannon should be fired")
