@@ -12,7 +12,7 @@ import UIKit
  */
 class CannonBall: GravBouncingBall {
 
-    static let speed: CGFloat = 1000
+    static let speed: CGFloat = 1_000
     static let radius = CGFloat(Constants.pegRadius)
 
     /// Constructs a cannon at the given `coord` ready to move at the given `angle`.

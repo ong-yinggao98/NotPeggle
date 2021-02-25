@@ -15,11 +15,11 @@ import UIKit
 class PegView: UIView {
 
     static var bluePeg: UIImageView! {
-        let image = UIImage(named: "blue-bubble")
+        let image = #imageLiteral(resourceName: "blue-bubble")
         return UIImageView(image: image)
     }
     static var orangePeg: UIImageView! {
-        let image = UIImage(named: "orange-bubble")
+        let image = #imageLiteral(resourceName: "orange-bubble")
         return UIImageView(image: image)
     }
 
@@ -43,6 +43,7 @@ class PegView: UIView {
         setUpGestureRecognition()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("This class should not be created in a Storyboard")
     }
@@ -124,6 +125,6 @@ class PegView: UIView {
             return false
         }
         return otherPeg.color == color
-            && otherPeg.frame == otherPeg.frame
+            && otherPeg.frame == frame
     }
 }

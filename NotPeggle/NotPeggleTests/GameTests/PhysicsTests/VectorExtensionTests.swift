@@ -67,21 +67,21 @@ class VectorExtensionTests: XCTestCase {
         TestUtils.compareVectors(expected: expected, actual: vector)
         XCTAssertEqual(vector.angleInRads, 0, accuracy: marginOfError)
 
-        let newAngle = 5 * CGFloat.pi/6
+        let newAngle = 5 * CGFloat.pi / 6
         vector.angleInRads = newAngle
-        expected = CGVector(dx: -5/2 * sqrt(3), dy: 5/2)
+        expected = CGVector(dx: -5 / 2 * sqrt(3), dy: 5 / 2)
         TestUtils.compareVectors(expected: expected, actual: vector)
-        XCTAssertEqual(vector.angleInRads, -CGFloat.pi/6, accuracy: marginOfError)
+        XCTAssertEqual(vector.angleInRads, -CGFloat.pi / 6, accuracy: marginOfError)
     }
 
     func testRotateBy_positiveDxNegativeDy() {
         var vector = CGVector(dx: 1, dy: -1)
-        vector.rotate(by: CGFloat.pi/4)
+        vector.rotate(by: CGFloat.pi / 4)
         var expected = CGVector(dx: sqrt(2), dy: 0)
         TestUtils.compareVectors(expected: expected, actual: vector)
 
         vector = CGVector(dx: 1, dy: -1)
-        vector.rotate(by: -CGFloat.pi/2)
+        vector.rotate(by: -CGFloat.pi / 2)
         expected = CGVector(dx: -1, dy: -1)
         TestUtils.compareVectors(expected: expected, actual: vector)
 
@@ -93,36 +93,36 @@ class VectorExtensionTests: XCTestCase {
 
     func testRotateBy_negativeDxNegativeDy() {
         var vector = CGVector(dx: -1, dy: -1)
-        vector.rotate(by: CGFloat.pi/4)
+        vector.rotate(by: CGFloat.pi / 4)
         var expected = CGVector(dx: 0, dy: -sqrt(2))
         TestUtils.compareVectors(expected: expected, actual: vector)
 
         vector = CGVector(dx: -1, dy: -1)
-        vector.rotate(by: -CGFloat.pi/2)
+        vector.rotate(by: -CGFloat.pi / 2)
         expected = CGVector(dx: -1, dy: 1)
         TestUtils.compareVectors(expected: expected, actual: vector)
     }
 
     func testRotateBy_positiveDxPositiveDy() {
         var vector = CGVector(dx: 1, dy: 1)
-        vector.rotate(by: CGFloat.pi/4)
+        vector.rotate(by: CGFloat.pi / 4)
         var expected = CGVector(dx: 0, dy: sqrt(2))
         TestUtils.compareVectors(expected: expected, actual: vector)
 
         vector = CGVector(dx: 1, dy: 1)
-        vector.rotate(by: -CGFloat.pi/2)
+        vector.rotate(by: -CGFloat.pi / 2)
         expected = CGVector(dx: 1, dy: -1)
         TestUtils.compareVectors(expected: expected, actual: vector)
     }
 
     func testRotateBy_negativeDxPositiveDy() {
         var vector = CGVector(dx: -1, dy: 1)
-        vector.rotate(by: CGFloat.pi/4)
+        vector.rotate(by: CGFloat.pi / 4)
         var expected = CGVector(dx: -sqrt(2), dy: 0)
         TestUtils.compareVectors(expected: expected, actual: vector)
 
         vector = CGVector(dx: -1, dy: 1)
-        vector.rotate(by: -CGFloat.pi/2)
+        vector.rotate(by: -CGFloat.pi / 2)
         expected = CGVector(dx: 1, dy: 1)
         TestUtils.compareVectors(expected: expected, actual: vector)
     }

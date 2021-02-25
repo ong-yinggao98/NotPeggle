@@ -96,13 +96,13 @@ class GameViewController: UIViewController, GameEngineDelegate {
         cannon.rotate(facing: position)
     }
 
-    @IBAction func didLaunchCannon(_ sender: UIButton) {
+    @IBAction private func didLaunchCannon(_ sender: UIButton) {
         engine.launch()
     }
 
     // MARK: Quit
 
-    @IBAction func returnToNotPeggle(_ sender: Any) {
+    @IBAction private func returnToNotPeggle(_ sender: Any) {
         navController?.popViewController(animated: false)
         engine.cleanUp()
         gameArea.subviews

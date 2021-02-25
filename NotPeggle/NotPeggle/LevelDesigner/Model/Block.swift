@@ -13,18 +13,30 @@ struct Block: LevelObject {
         return .block
     }
 
-    var origin: Point
+    var center: Point
     var width: Double
     var height: Double
     var angle: Double
 
-    var mid: Point {
-        let midXFlat = origin.xCoord + width / 2
-        let midYFlat = origin.yCoord + height / 2
+    var points: [Point] {
+        let topLeft = Point(
+            xCoord: center.xCoord - ((width / 2) * cos(angle) - (height / 2) * sin(angle)),
+            yCoord: center.yCoord - ((width / 2) * sin(angle) + (height / 2) * cos(angle))
+        )
+        let bottomLeft = Point(
+            xCoord: center.xCoord - ((width / 2) * cos(angle) + (height / 2) * sin(angle)),
+            yCoord: center.yCoord - ((width / 2) * sin(angle) - (height / 2) * cos(angle))
+        )
+        let bottomRight = Point(
+            xCoord: center.xCoord + ((width / 2) * cos(angle) + (height / 2) * sin(angle)),
+            yCoord: center.yCoord + ((width / 2) * sin(angle) - (height / 2) * cos(angle))
+        )
+        let topRight = Point(
+            xCoord: center.xCoord + ((width / 2) * cos(angle) - (height / 2) * sin(angle)),
+            yCoord: center.yCoord + ((width / 2) * sin(angle) + (height / 2) * cos(angle))
+        )
 
-        let midX = midXFlat * cos(angle) - midYFlat * sin(angle)
-        let midY = midXFlat * sin(angle) + midYFlat * cos(angle)
-        return Point(xCoord: midX, yCoord: midY)
+        return [topLeft, bottomLeft, bottomRight, topRight]
     }
 
     func overlapsWith(other: LevelObject) -> Bool {
@@ -43,7 +55,48 @@ struct Block: LevelObject {
     }
 
     private func overlapsWith(block: Block) -> Bool {
+        for block in [self, block] {
+            let points = block.points
+            for i in 1..<points.count {
+                let j = (i + 1) % points.count
+                let p1 = points[i]
+                let p2 = points[j]
+
+                let normal = SIMD2(p2.yCoord - p1.yCoord, p1.xCoord - p2.xCoord)
+
+                let range = rangeAlongProjection(normal: normal)
+                let otherRange = block.rangeAlongProjection(normal: normal)
+
+                if range.max < otherRange.min || otherRange.max < range.min {
+                    return false
+                }
+            }
+        }
         return false
+    }
+
+    private func rangeAlongProjection(normal: SIMD2<Double>) -> (min: Double, max: Double) {
+        var min: Double?
+        var max: Double?
+        for point in points {
+            let projected = normal.x * point.xCoord + normal.y * point.yCoord
+            if min == nil {
+                min = projected
+            }
+            if let minUnwrapped = min, projected < minUnwrapped {
+                min = projected
+            }
+            if max == nil {
+                max = projected
+            }
+            if let maxUnwrapped = max, projected > maxUnwrapped {
+                max = projected
+            }
+        }
+        guard let minUnwrapped = min, let maxUnwrapped = max else {
+            fatalError("Min and max should have been initialised by now")
+        }
+        return (minUnwrapped, maxUnwrapped)
     }
 
     private func overlapsWith(peg: Peg) -> Bool {

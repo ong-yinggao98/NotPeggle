@@ -21,14 +21,14 @@ class GamePegView: UIView {
     }
 
     static var orangeImage: UIImageView {
-        let orange = UIImage(named: "orange-bubble")
-        let orangeHighlight = UIImage(named: "orange-glow")
+        let orange = #imageLiteral(resourceName: "orange-bubble")
+        let orangeHighlight = #imageLiteral(resourceName: "orange-glow")
         return UIImageView(image: orange, highlightedImage: orangeHighlight)
     }
 
     static var blueImage: UIImageView {
-        let blue = UIImage(named: "blue-bubble")
-        let blueHighlight = UIImage(named: "blue-glow")
+        let blue = #imageLiteral(resourceName: "blue-bubble")
+        let blueHighlight = #imageLiteral(resourceName: "blue-glow")
         return UIImageView(image: blue, highlightedImage: blueHighlight)
     }
 
@@ -39,6 +39,7 @@ class GamePegView: UIView {
         setUpImage()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

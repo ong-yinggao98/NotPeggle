@@ -29,7 +29,7 @@ extension PhysicsBody {
     func displacementComponent(after time: Double) -> ((CGFloat, CGFloat) -> CGFloat) {
         return { (velocityComp: CGFloat, accelerationComp: CGFloat) in
             let distCompFromVelocity = velocityComp.native * time
-            let distCompFromAccel = 1/2 * accelerationComp.native * time * time
+            let distCompFromAccel = (1 / 2) * accelerationComp.native * time * time
             let displacement = distCompFromVelocity + distCompFromAccel
             return CGFloat(displacement)
         }

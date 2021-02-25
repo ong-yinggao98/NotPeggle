@@ -25,10 +25,10 @@ class GameEngine: PhysicsWorldDelegate {
 
     init(frame: CGRect) {
         world = PhysicsWorld(frame: frame, excluding: .bottom)
-        let xCoord = frame.width/2
+        let xCoord = frame.width / 2
         let yCoord = CGFloat(Constants.pegRadius)
         launchPoint = CGPoint(x: xCoord, y: yCoord)
-        launchAngle = CGFloat.pi/2
+        launchAngle = CGFloat.pi / 2
         world.delegate = self
     }
 

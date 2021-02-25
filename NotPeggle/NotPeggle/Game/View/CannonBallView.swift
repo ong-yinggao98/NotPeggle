@@ -9,8 +9,8 @@ import UIKit
 
 class CannonBallView: UIImageView {
 
-    static var image: UIImage? {
-        return UIImage(named: "ball")
+    static var image: UIImage! {
+        return #imageLiteral(resourceName: "ball")
     }
 
     init(center: CGPoint) {
@@ -20,6 +20,7 @@ class CannonBallView: UIImageView {
         image = CannonBallView.image
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

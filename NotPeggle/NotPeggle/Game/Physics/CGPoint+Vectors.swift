@@ -1,5 +1,5 @@
 //
-//  CGPointExtensions.swift
+//  CGPoint+Vectors.swift
 //  NotPeggle
 //
 //  Created by Ying Gao on 9/2/21.
@@ -21,7 +21,7 @@ extension CGPoint {
             return CGVector.zero
         }
 
-        vector.scale(factor: 1/magnitude)
+        vector.scale(factor: 1 / magnitude)
         return vector
     }
 
@@ -37,4 +37,5 @@ extension CGPoint {
         let distY = point.y - y
         return sqrt(distX * distX + distY * distY)
     }
+
 }

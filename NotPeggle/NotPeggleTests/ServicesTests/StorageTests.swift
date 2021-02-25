@@ -114,6 +114,7 @@ class StorageTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
+        try super.tearDownWithError()
         for save in Storage.saves {
             try? Storage.deleteSave(name: save)
         }

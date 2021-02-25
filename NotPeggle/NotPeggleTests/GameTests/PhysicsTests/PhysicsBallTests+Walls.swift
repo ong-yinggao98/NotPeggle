@@ -1,5 +1,5 @@
 //
-//  MorePhysicsBodyTests.swift
+//  PhysicsBallTests+Walls.swift
 //  NotPeggleTests
 //
 //  Created by Ying Gao on 14/2/21.

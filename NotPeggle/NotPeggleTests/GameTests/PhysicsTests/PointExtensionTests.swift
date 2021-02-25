@@ -41,11 +41,11 @@ class PointExtensionTests: XCTestCase {
         XCTAssertEqual(expected, result)
 
         result = origin.unitNormalTo(point: pointAngled)
-        expected = CGVector(dx: 1/sqrt(2), dy: 1/sqrt(2))
+        expected = CGVector(dx: 1 / sqrt(2), dy: 1 / sqrt(2))
         XCTAssertEqual(expected, result)
 
         result = origin.unitNormalTo(point: pointClose)
-        expected = CGVector(dx: -1/sqrt(2), dy: 1/sqrt(2))
+        expected = CGVector(dx: -1 / sqrt(2), dy: 1 / sqrt(2))
         XCTAssertEqual(expected, result)
     }
 
@@ -74,12 +74,12 @@ class PointExtensionTests: XCTestCase {
         XCTAssertEqual(expected, result)
 
         result = origin.unitTangentTo(point: pointAngled)
-        expected = CGVector(dx: -1/sqrt(2), dy: 1/sqrt(2))
+        expected = CGVector(dx: -1 / sqrt(2), dy: 1 / sqrt(2))
         XCTAssertEqual(expected, result)
 
         result = origin.unitTangentTo(point: pointClose)
         normal = origin.unitNormalTo(point: pointClose)
-        expected = CGVector(dx: -1/sqrt(2), dy: -1/sqrt(2))
+        expected = CGVector(dx: -1 / sqrt(2), dy: -1 / sqrt(2))
         XCTAssertEqual(expected, result)
         XCTAssertTrue(result.isPerpendicularTo(other: normal))
     }

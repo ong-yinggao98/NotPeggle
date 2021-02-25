@@ -53,7 +53,7 @@ class GameEngineTests: XCTestCase {
 
     func testAim() {
         let engine = testCase
-        XCTAssertEqual(engine.launchAngle, CGFloat.pi/2)
+        XCTAssertEqual(engine.launchAngle, CGFloat.pi / 2)
 
         var target = CGPoint(x: 0, y: 0)
         engine.aim(at: target)
@@ -86,7 +86,7 @@ class GameEngineTests: XCTestCase {
             return
         }
         let velocity = cannon.velocity
-        let expectedVelocity = CGVector(dx: -986.39392, dy: -164.39899)
+        let expectedVelocity = CGVector(dx: -986.393_92, dy: -164.398_99)
         TestUtils.compareVectors(expected: expectedVelocity, actual: velocity)
 
         target = CGPoint(x: 150, y: 150)
@@ -104,7 +104,7 @@ class GameEngineTests: XCTestCase {
             XCTFail("Cannon should be fired")
             return
         }
-        let expectedVelocity = CGVector(dx: 986.39392, dy: -164.39899)
+        let expectedVelocity = CGVector(dx: 986.393_92, dy: -164.398_99)
         TestUtils.compareVectors(expected: expectedVelocity, actual: velocity)
     }
 
@@ -117,7 +117,7 @@ class GameEngineTests: XCTestCase {
             XCTFail("Cannon should be fired")
             return
         }
-        let expectedVelocity = CGVector(dx: -478.85213, dy: 877.89557)
+        let expectedVelocity = CGVector(dx: -478.852_13, dy: 877.895_57)
         TestUtils.compareVectors(expected: expectedVelocity, actual: velocity)
     }
 
@@ -130,7 +130,7 @@ class GameEngineTests: XCTestCase {
             XCTFail("Cannon should be fired")
             return
         }
-        var expectedVelocity = CGVector(dx: 478.85213, dy: 877.89557)
+        var expectedVelocity = CGVector(dx: 478.852_13, dy: 877.895_57)
         TestUtils.compareVectors(expected: expectedVelocity, actual: velocity)
 
         engine.removeCannonBall()
@@ -144,7 +144,7 @@ class GameEngineTests: XCTestCase {
             XCTFail("Cannon should be fired")
             return
         }
-        expectedVelocity = CGVector(dx: -478.85213, dy: 877.89557)
+        expectedVelocity = CGVector(dx: -478.852_13, dy: 877.895_57)
         TestUtils.compareVectors(expected: expectedVelocity, actual: newVelocity)
     }
 

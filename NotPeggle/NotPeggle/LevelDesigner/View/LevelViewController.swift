@@ -20,17 +20,17 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     // MARK: Properties
 
-    @IBOutlet weak var buttonBluePeg: UIButton!
-    @IBOutlet weak var buttonOrangePeg: UIButton!
-    @IBOutlet weak var buttonDeletePeg: UIButton!
+    @IBOutlet private var buttonBluePeg: UIButton!
+    @IBOutlet private var buttonOrangePeg: UIButton!
+    @IBOutlet private var buttonDeletePeg: UIButton!
     private var buttons: [UIButton] {
         return [buttonBluePeg, buttonOrangePeg, buttonDeletePeg]
     }
 
-    @IBOutlet weak var pegBoard: UIView!
+    @IBOutlet private var pegBoard: UIView!
 
-    @IBOutlet weak var levelNameField: UITextField!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet private var levelNameField: UITextField!
+    @IBOutlet private var saveButton: UIButton!
 
     // MARK: Methods for Loading View
 
@@ -151,17 +151,17 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     // MARK: Button Actions
 
-    @IBAction func setAddBlueMode(_ sender: UIButton) {
+    @IBAction private func setAddBlueMode(_ sender: UIButton) {
         mode = .addBlue
         deselectAllButtonsExcept(sender)
     }
 
-    @IBAction func setAddOrangeMode(_ sender: UIButton) {
+    @IBAction private func setAddOrangeMode(_ sender: UIButton) {
         mode = .addOrange
         deselectAllButtonsExcept(sender)
     }
 
-    @IBAction func setDeleteMode(_ sender: UIButton) {
+    @IBAction private func setDeleteMode(_ sender: UIButton) {
         mode = .delete
         deselectAllButtonsExcept(sender)
     }
@@ -174,7 +174,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     // MARK: Gestures
 
     /// Detects a tap on the peg board and either creates or deletes a peg centered on the location of the tap.
-    @IBAction func managePegsOnBoard(_ sender: UITapGestureRecognizer) {
+    @IBAction private func managePegsOnBoard(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: pegBoard)
         switch mode {
         case .addBlue:
@@ -231,11 +231,11 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     // MARK: Load and Save
 
-    @IBAction func resetBoard(_ sender: UIButton) {
+    @IBAction private func resetBoard(_ sender: UIButton) {
         model.removeAllPegs()
     }
 
-    @IBAction func saveLevelLayout(_ sender: UIButton) {
+    @IBAction private func saveLevelLayout(_ sender: UIButton) {
         do {
             try Storage.saveToDisk(model: model)
             saveButton.isEnabled = false
@@ -247,7 +247,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     }
 
     /// Sets the model to the one selected in the load menu if it is a value save (i.e. `save != nil`).
-    @IBAction func unwindSaveSelection(sender: UIStoryboardSegue) {
+    @IBAction private func unwindSaveSelection(sender: UIStoryboardSegue) {
         guard
             let source = sender.source as? SaveTableViewController,
             let newModel = source.selectedSave
@@ -260,7 +260,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         saveButton.isEnabled = false
     }
 
-    @IBAction func startGame(_ sender: UIButton) {
+    @IBAction private func startGame(_ sender: UIButton) {
         let gameID = "gameController"
         let gameController = storyboard?.instantiateViewController(identifier: gameID) as? GameViewController
         guard let game = gameController else {
