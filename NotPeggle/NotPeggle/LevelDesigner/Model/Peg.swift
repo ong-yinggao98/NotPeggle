@@ -63,21 +63,16 @@ struct Peg: LevelObject {
             guard let block = other as? Block else {
                 fatalError("Should only be used by Block types")
             }
-            return overlapsWith(block: block)
+            return block.overlapsWith(other: self)
         }
     }
 
     /// Checks if the  `Peg` has intersection area with a given `Peg`.
-    func overlapsWith(peg: Peg) -> Bool {
+    private func overlapsWith(peg: Peg) -> Bool {
         let safeDist = radius + peg.radius
         let dist = distanceFrom(peg.center)
 
         return dist < safeDist
-    }
-
-    /// Checks if the  `Peg` has intersection area with a given `Peg`.
-    func overlapsWith(block: Block) -> Bool {
-        false
     }
 
     /// Checks if the `Peg`contains a point within its area.
@@ -113,12 +108,4 @@ struct Peg: LevelObject {
 }
 
 extension Peg: Hashable, Codable {
-}
-
-/**
- Representation of a pair of coordinates in 2D space.
- */
-struct Point: Hashable, Codable {
-    var x: Double
-    var y: Double
 }

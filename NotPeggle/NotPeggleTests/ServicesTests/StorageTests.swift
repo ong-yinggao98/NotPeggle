@@ -122,7 +122,7 @@ class StorageTests: XCTestCase {
 
     private func createModel(name: String, pegs: [Peg]) -> Model {
         guard
-            let model = Model(name: name, pegs: pegs, width: 300, height: 400)
+            let model = Model(name: name, pegs: pegs, blocks: [], width: 300, height: 400)
         else {
             XCTFail("Model init should not fail")
             fatalError("This should never be reached")

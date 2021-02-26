@@ -43,7 +43,7 @@ class ModelGameConverterTests: XCTestCase {
     }
 
     func testModelGameRepresentation_populatedModel() {
-        let model = Model(name: "", pegs: [pegA, pegB], width: 300, height: 300)
+        let model = Model(name: "", pegs: [pegA, pegB], blocks: [], width: 300, height: 300)
         guard
             let test = model,
             let pegAGame = pegAGame,

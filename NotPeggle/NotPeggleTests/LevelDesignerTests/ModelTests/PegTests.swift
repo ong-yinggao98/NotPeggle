@@ -22,13 +22,13 @@ class PegTests: XCTestCase {
         let pegOverlap = Peg(center: centerOverlap, color: .blue)
         let pegFar = Peg(center: centerFarAway, color: .blue)
 
-        XCTAssertTrue(peg.overlapsWith(peg: pegOverlap))
-        XCTAssertTrue(peg.overlapsWith(peg: peg))
-        XCTAssertFalse(peg.overlapsWith(peg: pegMinDist))
-        XCTAssertFalse(peg.overlapsWith(peg: pegFar))
+        XCTAssertTrue(peg.overlapsWith(other: pegOverlap))
+        XCTAssertTrue(peg.overlapsWith(other: peg))
+        XCTAssertFalse(peg.overlapsWith(other: pegMinDist))
+        XCTAssertFalse(peg.overlapsWith(other: pegFar))
 
         let orangePeg = Peg(center: centerMinDist, color: .orange)
-        XCTAssertFalse(orangePeg.overlapsWith(peg: peg))
+        XCTAssertFalse(orangePeg.overlapsWith(other: peg))
     }
 
     func testTooCloseToEdges_leftTopBorder() {

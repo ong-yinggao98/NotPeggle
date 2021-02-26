@@ -7,6 +7,11 @@
 
 import Foundation
 
+/**
+ Representation of a rectangular solid block.
+ A `Block` is definted by its center coordinates, size and angle of rotation.
+ Each block has a fixed 2:1 width : height ratio.
+ */
 struct Block: LevelObject {
 
     var type: Type {
@@ -14,16 +19,39 @@ struct Block: LevelObject {
     }
 
     var center: Point
-    var width: Double
     var height: Double
     var angle: Double
 
+    var width: Double {
+        height * 2
+    }
+
+    init(center: Point, height: Double) {
+        self.center = center
+        self.height = height
+        self.angle = 0
+    }
+
+    init(center: Point, height: Double, angle: Double) {
+        self.center = center
+        self.height = height
+        self.angle = angle
+    }
+
+    init(center: Point) {
+        self.center = center
+        self.height = Constants.blockHeight
+        self.angle = 0
+    }
+
+    /// Read-only property containing all points on a rotated block in anticlockwise order.
+    /// Adapted from https://stackoverflow.com/a/61664630
     var points: [Point] {
-        let topLeft = Point(
+        let bottomLeft = Point(
             x: center.x - ((width / 2) * cos(angle) - (height / 2) * sin(angle)),
             y: center.y - ((width / 2) * sin(angle) + (height / 2) * cos(angle))
         )
-        let bottomLeft = Point(
+        let topLeft = Point(
             x: center.x - ((width / 2) * cos(angle) + (height / 2) * sin(angle)),
             y: center.y - ((width / 2) * sin(angle) - (height / 2) * cos(angle))
         )
@@ -43,7 +71,7 @@ struct Block: LevelObject {
         switch other.type {
         case .block:
             guard let block = other as? Block else {
-                fatalError(".peg type should only be present on Pegs")
+                fatalError(".block type should only be present on Block")
             }
             return overlapsWith(block: block)
         case .peg:
@@ -54,10 +82,12 @@ struct Block: LevelObject {
         }
     }
 
+    /// Applies the separating axis theorem (SAT) to find if two blocks intersect.
+    /// Algorithm taken from https://stackoverflow.com/a/10965077
     private func overlapsWith(block: Block) -> Bool {
-        for block in [self, block] {
-            let points = block.points
-            for i in 1..<points.count {
+        for test in [self, block] {
+            let points = test.points
+            for i in 0..<points.count {
                 let j = (i + 1) % points.count
                 let p1 = points[i]
                 let p2 = points[j]
@@ -72,7 +102,7 @@ struct Block: LevelObject {
                 }
             }
         }
-        return false
+        return true
     }
 
     private func rangeAlongProjection(normal: SIMD2<Double>) -> (min: Double, max: Double) {
@@ -99,16 +129,55 @@ struct Block: LevelObject {
         return (minUnwrapped, maxUnwrapped)
     }
 
+    /// Checks if a peg overlaps with the block.
+    /// Algorithm adapted from https://gist.github.com/snorpey/8134c248296649433de2
     private func overlapsWith(peg: Peg) -> Bool {
-        false
+        let recenteredPeg = convertToLocalCoordinates(peg: peg)
+        let nearestPoint = closestPoint(to: recenteredPeg)
+
+        let localPegCenter = recenteredPeg.center
+        let dx = localPegCenter.x - nearestPoint.x
+        let dy = localPegCenter.y - nearestPoint.y
+        let distSquared = dx * dx + dy * dy
+        let minSafeDist = recenteredPeg.radius * recenteredPeg.radius
+
+        return distSquared < minSafeDist
     }
 
+    private func convertToLocalCoordinates(peg: Peg) -> Peg {
+        let circleCenter = peg.center
+        let newX = center.x + (circleCenter.x - center.x) * cos(-angle) - (circleCenter.y - center.y) * sin(-angle)
+        let newY = center.y + (circleCenter.x - center.x) * sin(-angle) + (circleCenter.y - center.y) * cos(-angle)
+        return peg.recenterTo(Point(x: newX, y: newY))
+    }
+
+    /// Returns the closest point along the block to the given `localPeg`.
+    /// All coordinates are local to the block (i.e. treated as a AABB).
+    private func closestPoint(to localPeg: Peg) -> Point {
+        let origin = Point(x: center.x - (width / 2), y: center.y - (height / 2))
+
+        let closestX = max(origin.x, min(localPeg.center.x, origin.x + width))
+        let closestY = max(origin.y, min(localPeg.center.y, origin.y + height))
+
+        return Point(x: closestX, y: closestY)
+    }
+
+    /// Checks if a rectangle contains a given `Point`.
+    /// Solution adapted from http://disq.us/p/2dpht33
     func contains(point: Point) -> Bool {
-        false
+        let area = width * height
+        let a = points[0], b = points[1], c = points[2], d = points[3]
+
+        let pointABArea = 0.5 * abs(a.x * (b.y - point.y) + b.x * (point.y - a.y) + point.x * (a.y - b.y))
+        let pointBCArea = 0.5 * abs(b.x * (c.y - point.y) + c.x * (point.y - b.y) + point.x * (b.y - c.y))
+        let pointCDArea = 0.5 * abs(c.x * (d.y - point.y) + d.x * (point.y - c.y) + point.x * (c.y - d.y))
+        let pointADArea = 0.5 * abs(d.x * (a.y - point.y) + a.x * (point.y - d.y) + point.x * (d.y - a.y))
+        let sumOfTriangleAreas = pointABArea + pointBCArea + pointCDArea + pointADArea
+        return area >= sumOfTriangleAreas
     }
 
     func tooCloseToEdges(width: Double, height: Double) -> Bool {
-        false
+        !points.allSatisfy { $0.x >= 0 && $0.x <= width && $0.y >= 0 && $0.y <= height }
     }
 
 }

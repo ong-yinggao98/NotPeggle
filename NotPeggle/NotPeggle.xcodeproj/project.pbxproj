@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84096E8725E9045F001411BB /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84096E8625E9045F001411BB /* Point.swift */; };
+		84096E8F25E93013001411BB /* ModelTests+Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84096E8E25E93013001411BB /* ModelTests+Blocks.swift */; };
 		842E814A25D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E814925D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift */; };
 		842E815225D9012F0028DE3D /* GameEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E815125D9012F0028DE3D /* GameEngineTests.swift */; };
 		842E815D25D90A6E0028DE3D /* PhysicsWorldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */; };
@@ -82,6 +84,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		84096E8625E9045F001411BB /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		84096E8E25E93013001411BB /* ModelTests+Blocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModelTests+Blocks.swift"; sourceTree = "<group>"; };
 		842E814925D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhysicsBallTests+Walls.swift"; sourceTree = "<group>"; };
 		842E815125D9012F0028DE3D /* GameEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngineTests.swift; sourceTree = "<group>"; };
 		842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsWorldDelegate.swift; sourceTree = "<group>"; };
@@ -229,9 +233,10 @@
 			isa = PBXGroup;
 			children = (
 				847BD83425BEDA3F00C3782E /* Model.swift */,
+				84421E0F25E8010B00CF6F63 /* LevelObject.swift */,
 				847BD83925BEDAC000C3782E /* Peg.swift */,
 				84421E0225E79B1000CF6F63 /* Block.swift */,
-				84421E0F25E8010B00CF6F63 /* LevelObject.swift */,
+				84096E8625E9045F001411BB /* Point.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -357,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				84A2331E25C1814B000FF729 /* ModelTests.swift */,
+				84096E8E25E93013001411BB /* ModelTests+Blocks.swift */,
 				8481A3B725C088B500728B0A /* PegTests.swift */,
 				84421E0725E7CBA100CF6F63 /* BlockTests.swift */,
 			);
@@ -562,6 +568,7 @@
 				8472D09625D39E9A0092E3B8 /* GameEngine.swift in Sources */,
 				84B4C02425E3AFCD00AD097D /* CannonView.swift in Sources */,
 				847B418825D50D9E004790B0 /* StationaryBall.swift in Sources */,
+				84096E8725E9045F001411BB /* Point.swift in Sources */,
 				8472D0A025D3BAA60092E3B8 /* CGVector+Angles.swift in Sources */,
 				8484529C25D78F88004157B7 /* CannonBallView.swift in Sources */,
 				84BD0C5525D2C6D40090B0E8 /* CGPoint+Vectors.swift in Sources */,
@@ -597,6 +604,7 @@
 				8484526925D6B1EA004157B7 /* ModelGameConverterTests.swift in Sources */,
 				84421E0825E7CBA100CF6F63 /* BlockTests.swift in Sources */,
 				84A2332725C19C8A000FF729 /* PegModeButtonTests.swift in Sources */,
+				84096E8F25E93013001411BB /* ModelTests+Blocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

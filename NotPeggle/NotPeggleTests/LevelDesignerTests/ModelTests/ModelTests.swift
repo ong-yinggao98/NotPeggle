@@ -192,13 +192,13 @@ class ModelTests: XCTestCase {
         XCTAssertEqual(test, modelFilled)
     }
 
-    func testRemoveAllPegs() {
+    func testRemoveAll() {
         var test = modelFilled
-        test.removeAllPegs()
+        test.removeAll()
         XCTAssertEqual(modelEmpty, test)
 
         test = modelEmpty
-        test.removeAllPegs()
+        test.removeAll()
         XCTAssertEqual(modelEmpty, test)
     }
 
@@ -209,23 +209,23 @@ class ModelTests: XCTestCase {
             return
         }
 
-        XCTAssertTrue(test.canAccommodate(peg: peg))
+        XCTAssertTrue(test.canAccommodate(object: peg))
 
         test.insert(peg: peg)
-        XCTAssertFalse(test.canAccommodate(peg: peg))
-        XCTAssertFalse(test.canAccommodate(peg: pegOverlap))
-        XCTAssertTrue(test.canAccommodate(peg: pegCompatible))
+        XCTAssertFalse(test.canAccommodate(object: peg))
+        XCTAssertFalse(test.canAccommodate(object: pegOverlap))
+        XCTAssertTrue(test.canAccommodate(object: pegCompatible))
 
         test.insert(peg: pegCompatible)
-        XCTAssertTrue(test.canAccommodate(peg: pegCompatible2))
+        XCTAssertTrue(test.canAccommodate(object: pegCompatible2))
     }
 
     func testCanAccommodate_borderCheck() {
         let test = modelEmpty
-        XCTAssertFalse(test.canAccommodate(peg: pegOutOfBoundsA))
-        XCTAssertFalse(test.canAccommodate(peg: pegOutOfBoundsB))
-        XCTAssertFalse(test.canAccommodate(peg: pegOutOfBoundsC))
-        XCTAssertFalse(test.canAccommodate(peg: pegOutOfBoundsD))
+        XCTAssertFalse(test.canAccommodate(object: pegOutOfBoundsA))
+        XCTAssertFalse(test.canAccommodate(object: pegOutOfBoundsB))
+        XCTAssertFalse(test.canAccommodate(object: pegOutOfBoundsC))
+        XCTAssertFalse(test.canAccommodate(object: pegOutOfBoundsD))
     }
 
     func testCanAccomodate_excludingPeg() {
@@ -244,44 +244,44 @@ class ModelTests: XCTestCase {
 
     func testFitsOnBoard() {
         let test = modelEmpty
-        XCTAssertTrue(test.fitsOnBoard(peg: peg))
-        XCTAssertTrue(test.fitsOnBoard(peg: pegOverlap))
-        XCTAssertTrue(test.fitsOnBoard(peg: pegCompatible))
-        XCTAssertTrue(test.fitsOnBoard(peg: pegCompatible2))
+        XCTAssertTrue(test.fitsOnBoard(object: peg))
+        XCTAssertTrue(test.fitsOnBoard(object: pegOverlap))
+        XCTAssertTrue(test.fitsOnBoard(object: pegCompatible))
+        XCTAssertTrue(test.fitsOnBoard(object: pegCompatible2))
 
-        XCTAssertFalse(test.fitsOnBoard(peg: pegOutOfBoundsA))
-        XCTAssertFalse(test.fitsOnBoard(peg: pegOutOfBoundsB))
-        XCTAssertFalse(test.fitsOnBoard(peg: pegOutOfBoundsC))
-        XCTAssertFalse(test.fitsOnBoard(peg: pegOutOfBoundsD))
+        XCTAssertFalse(test.fitsOnBoard(object: pegOutOfBoundsA))
+        XCTAssertFalse(test.fitsOnBoard(object: pegOutOfBoundsB))
+        XCTAssertFalse(test.fitsOnBoard(object: pegOutOfBoundsC))
+        XCTAssertFalse(test.fitsOnBoard(object: pegOutOfBoundsD))
     }
 
     func testFirst_containsPegs() {
         var predicate = { (_: Peg) in true }
         let test = modelFilled
-        var result = test.first(where: predicate)
+        var result = test.firstPeg(where: predicate)
         XCTAssertTrue(peg == result || pegCompatible == result)
 
         let testPeg = Peg(centerX: 100, centerY: 70, color: .orange)
-        predicate = { (peg: Peg) in peg.overlapsWith(peg: testPeg) }
-        result = test.first(where: predicate)
+        predicate = { (peg: Peg) in peg.overlapsWith(other: testPeg) }
+        result = test.firstPeg(where: predicate)
         XCTAssertEqual(pegCompatible, result)
     }
 
     func testFirst_empty_returnsNil() {
         let test = modelEmpty
         let predicate = { (_: Peg) in true }
-        XCTAssertNil(test.first(where: predicate))
+        XCTAssertNil(test.firstPeg(where: predicate))
     }
 
     func testFirst_pegNotPresent_returnsNil() {
         let test = modelFilled
         let predicate = { (_: Peg) in false }
-        XCTAssertNil(test.first(where: predicate))
+        XCTAssertNil(test.firstPeg(where: predicate))
     }
 
     private func createModel(name: String, pegs: [Peg]) -> Model {
         guard
-            let model = Model(name: name, pegs: pegs, width: width, height: height)
+            let model = Model(name: name, pegs: pegs, blocks: [], width: width, height: height)
         else {
             XCTFail("Model init should not fail")
             fatalError("This should never be reached")

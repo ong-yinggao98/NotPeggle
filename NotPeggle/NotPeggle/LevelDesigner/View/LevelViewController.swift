@@ -141,7 +141,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     /// Creates a `PegView` for a given `Peg` if it fits within the board area.
     private func addNewPegView(peg: Peg) {
-        guard model.fitsOnBoard(peg: peg) else {
+        guard model.fitsOnBoard(object: peg) else {
             return
         }
         let newPeg = Converter.viewFromPeg(peg)
@@ -195,7 +195,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     func deletePeg(at location: CGPoint) {
         let coordinates = Converter.pointFromCGPoint(point: location)
-        let toRemove = model.first(where: { $0.contains(point: coordinates) })
+        let toRemove = model.firstPeg(where: { $0.contains(point: coordinates) })
         guard let deletedPeg = toRemove else {
             return
         }
@@ -232,7 +232,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     // MARK: Load and Save
 
     @IBAction private func resetBoard(_ sender: UIButton) {
-        model.removeAllPegs()
+        model.removeAll()
     }
 
     @IBAction private func saveLevelLayout(_ sender: UIButton) {
