@@ -17,7 +17,7 @@ class GamePegView: UIView {
     var image: UIImageView!
 
     var radius: CGFloat {
-        return frame.width / 2
+        frame.width / 2
     }
 
     static var orangeImage: UIImageView {

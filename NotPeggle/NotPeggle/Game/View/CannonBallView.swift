@@ -10,7 +10,7 @@ import UIKit
 class CannonBallView: UIImageView {
 
     static var image: UIImage! {
-        return #imageLiteral(resourceName: "ball")
+        #imageLiteral(resourceName: "ball")
     }
 
     init(center: CGPoint) {

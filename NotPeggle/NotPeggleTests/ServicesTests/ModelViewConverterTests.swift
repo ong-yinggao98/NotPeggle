@@ -39,7 +39,7 @@ class ModelViewConverterTests: XCTestCase {
 
     func testModelRepresentation() {
         let test = CGPoint.zero
-        let expected = Point(xCoord: 0, yCoord: 0)
+        let expected = Point(x: 0, y: 0)
         let actual = MVC.pointFromCGPoint(point: test)
         XCTAssertEqual(expected, actual)
     }

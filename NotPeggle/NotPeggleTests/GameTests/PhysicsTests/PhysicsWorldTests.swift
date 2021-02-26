@@ -13,7 +13,7 @@ class PhysicsWorldTests: XCTestCase {
     var frame = CGRect(x: 0, y: 0, width: 300, height: 300)
 
     var bodyA: PhysicsBall? {
-        return PhysicsBall(
+        PhysicsBall(
             pos: CGPoint(x: 150, y: 30),
             radius: 30,
             restitution: 0,
@@ -23,7 +23,7 @@ class PhysicsWorldTests: XCTestCase {
     }
 
     var bodyB: PhysicsBall? {
-        return PhysicsBall(
+        PhysicsBall(
             pos: CGPoint(x: 70, y: 90),
             radius: 30,
             restitution: 0.8,

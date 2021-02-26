@@ -45,7 +45,7 @@ struct Model: Equatable, Codable {
 
     /// Checks if the given `Peg` exists in the model.
     func contains(_ peg: Peg) -> Bool {
-        return pegs.contains(peg)
+        pegs.contains(peg)
     }
 
     /// Checks if the given `Peg` can be added to the model.
@@ -69,12 +69,12 @@ struct Model: Equatable, Codable {
 
     /// Checks if the given peg fits within the boards of the game area.
     func fitsOnBoard(peg: Peg) -> Bool {
-        return !peg.tooCloseToEdges(width: width, height: height)
+        !peg.tooCloseToEdges(width: width, height: height)
     }
 
     /// Returns the first `Peg` that satisfies the given predicate.
     func first(where predicate: (Peg) -> Bool) -> Peg? {
-        return pegs.first(where: predicate)
+        pegs.first(where: predicate)
     }
 
     /// Saves a new `Peg` in the model only if it does not overlap with any other existing `Peg`.

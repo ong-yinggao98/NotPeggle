@@ -56,7 +56,7 @@ class PhysicsWorld: NSObject {
     }
 
     func contains(body: PhysicsBall) -> Bool {
-        return bodies.contains(body)
+        bodies.contains(body)
     }
 
     func removeAll() {

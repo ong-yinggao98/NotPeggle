@@ -11,11 +11,11 @@ import XCTest
 extension PhysicsBallTests {
 
     var frame: CGRect {
-        return CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 300, height: 300))
+        CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 300, height: 300))
     }
 
     var topLeftHitter: PhysicsBall? {
-        return PhysicsBall(
+        PhysicsBall(
             pos: CGPoint(x: 10, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -25,7 +25,7 @@ extension PhysicsBallTests {
     }
 
     var topRightHitter: PhysicsBall? {
-        return PhysicsBall(
+        PhysicsBall(
             pos: CGPoint(x: 290, y: 10),
             radius: 10,
             restitution: 0.8,
@@ -35,7 +35,7 @@ extension PhysicsBallTests {
     }
 
     var bottomLeftHitter: PhysicsBall? {
-        return PhysicsBall(
+        PhysicsBall(
             pos: CGPoint(x: 10, y: 290),
             radius: 10,
             restitution: 0.8,
@@ -45,7 +45,7 @@ extension PhysicsBallTests {
     }
 
     var bottomRightHitter: PhysicsBall? {
-        return PhysicsBall(
+        PhysicsBall(
             pos: CGPoint(x: 290, y: 290),
             radius: 10,
             restitution: 0.8,

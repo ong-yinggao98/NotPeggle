@@ -29,10 +29,10 @@ class ModelTests: XCTestCase {
     let modelName = "Test"
 
     var modelEmpty: Model {
-        return createModel(name: modelName, pegs: [])
+        createModel(name: modelName, pegs: [])
     }
     var modelFilled: Model {
-        return createModel(name: modelName, pegs: [peg, pegCompatible])
+        createModel(name: modelName, pegs: [peg, pegCompatible])
     }
 
     func testConstr_invalidDimensions() {

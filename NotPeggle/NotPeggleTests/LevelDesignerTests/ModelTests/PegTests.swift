@@ -12,10 +12,10 @@ class PegTests: XCTestCase {
 
     func testOverlapsWith() {
         let minDist = 2 * Constants.pegRadius
-        let center = Point(xCoord: 0.0, yCoord: 0.0)
-        let centerMinDist = Point(xCoord: minDist, yCoord: 0.0)
-        let centerOverlap = Point(xCoord: minDist - 0.1, yCoord: 0.0)
-        let centerFarAway = Point(xCoord: minDist + 0.1, yCoord: 0.0)
+        let center = Point(x: 0.0, y: 0.0)
+        let centerMinDist = Point(x: minDist, y: 0.0)
+        let centerOverlap = Point(x: minDist - 0.1, y: 0.0)
+        let centerFarAway = Point(x: minDist + 0.1, y: 0.0)
 
         let peg = Peg(center: center, color: .blue)
         let pegMinDist = Peg(center: centerMinDist, color: .blue)
@@ -72,29 +72,29 @@ class PegTests: XCTestCase {
         let peg = Peg(centerX: 0.0, centerY: 0.0, color: .orange)
         let radius = peg.radius
 
-        var test = Point(xCoord: radius, yCoord: 0.0)
+        var test = Point(x: radius, y: 0.0)
         XCTAssertFalse(peg.contains(point: test))
-        test = Point(xCoord: radius - 0.1, yCoord: 0.0)
+        test = Point(x: radius - 0.1, y: 0.0)
         XCTAssertTrue(peg.contains(point: test))
-        test = Point(xCoord: radius + 0.1, yCoord: 0.0)
+        test = Point(x: radius + 0.1, y: 0.0)
         XCTAssertFalse(peg.contains(point: test))
 
-        test = Point(xCoord: 0.0, yCoord: radius)
+        test = Point(x: 0.0, y: radius)
         XCTAssertFalse(peg.contains(point: test))
-        test = Point(xCoord: 0.0, yCoord: radius - 0.1)
+        test = Point(x: 0.0, y: radius - 0.1)
         XCTAssertTrue(peg.contains(point: test))
-        test = Point(xCoord: 0.0, yCoord: radius + 0.1)
+        test = Point(x: 0.0, y: radius + 0.1)
         XCTAssertFalse(peg.contains(point: test))
 
-        test = Point(xCoord: 23.0, yCoord: 23.0)
+        test = Point(x: 23.0, y: 23.0)
         XCTAssertFalse(peg.contains(point: test))
-        test = Point(xCoord: 15.0, yCoord: 15.0)
+        test = Point(x: 15.0, y: 15.0)
         XCTAssertTrue(peg.contains(point: test))
     }
 
     func testRecenterTo() {
         let peg = Peg(centerX: 0.0, centerY: 0.0, color: .blue)
-        let newCenter = Point(xCoord: 2.0, yCoord: 3.0)
+        let newCenter = Point(x: 2.0, y: 3.0)
 
         let expected = Peg(centerX: 2.0, centerY: 3.0, color: .blue)
         let actual = peg.recenterTo(newCenter)

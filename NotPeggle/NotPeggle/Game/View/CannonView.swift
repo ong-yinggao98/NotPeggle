@@ -10,7 +10,7 @@ import UIKit
 class CannonView: UIImageView {
 
     static var sprite: UIImage! {
-        return #imageLiteral(resourceName: "cannon")
+        #imageLiteral(resourceName: "cannon")
     }
 
     init(launchPosition: CGPoint) {

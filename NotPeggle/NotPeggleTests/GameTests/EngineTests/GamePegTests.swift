@@ -11,7 +11,7 @@ import XCTest
 class GamePegTests: XCTestCase {
 
     var peg: GamePeg? {
-        return GamePeg(pegColor: .blue, pos: CGPoint(x: 50, y: 80), radius: 25.0)
+        GamePeg(pegColor: .blue, pos: CGPoint(x: 50, y: 80), radius: 25.0)
     }
 
     func testCollision() {

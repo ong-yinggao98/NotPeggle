@@ -17,7 +17,7 @@
 struct Peg: LevelObject {
 
     var type: Type {
-        return .peg
+        .peg
     }
 
     let center: Point
@@ -40,13 +40,13 @@ struct Peg: LevelObject {
 
     /// Constructs a `Peg` from raw coordinates.
     init(centerX: Double, centerY: Double, color: Color) {
-        let center = Point(xCoord: centerX, yCoord: centerY)
+        let center = Point(x: centerX, y: centerY)
         self.init(center: center, color: color)
     }
 
     /// Constructs a `Peg` from raw coordinates.
     init(centerX: Double, centerY: Double, color: Color, radius: Double) {
-        let center = Point(xCoord: centerX, yCoord: centerY)
+        let center = Point(x: centerX, y: centerY)
         self.center = center
         self.color = color
         self.radius = radius
@@ -77,7 +77,7 @@ struct Peg: LevelObject {
 
     /// Checks if the  `Peg` has intersection area with a given `Peg`.
     func overlapsWith(block: Block) -> Bool {
-        return false
+        false
     }
 
     /// Checks if the `Peg`contains a point within its area.
@@ -88,8 +88,8 @@ struct Peg: LevelObject {
 
     /// Measures the distance from the center of a `Peg` to a given `Point`.
     private func distanceFrom(_ point: Point) -> Double {
-        let xDist = point.xCoord - center.xCoord
-        let yDist = point.yCoord - center.yCoord
+        let xDist = point.x - center.x
+        let yDist = point.y - center.y
         let distSquared = (xDist * xDist) + (yDist * yDist)
         return distSquared.squareRoot()
     }
@@ -98,17 +98,17 @@ struct Peg: LevelObject {
     /// a given `width` and `height`.
     /// A `Peg` is considered too close if the borders are less than one radius from the center.
     func tooCloseToEdges(width: Double, height: Double) -> Bool {
-        let tooCloseToLeft = (center.xCoord - 0) < radius
-        let tooCloseToTop = (center.yCoord - 0) < radius
-        let tooCloseToRight = (width - center.xCoord) < radius
-        let tooCloseToBottom = (height - center.yCoord) < radius
+        let tooCloseToLeft = (center.x - 0) < radius
+        let tooCloseToTop = (center.y - 0) < radius
+        let tooCloseToRight = (width - center.x) < radius
+        let tooCloseToBottom = (height - center.y) < radius
 
         return tooCloseToTop || tooCloseToLeft || tooCloseToRight || tooCloseToBottom
     }
 
     /// Returns a new `Peg` with the same colour but centered around the given `Point`.
     func recenterTo(_ center: Point) -> Peg {
-        return Peg(center: center, color: color)
+        Peg(center: center, color: color)
     }
 }
 
@@ -119,6 +119,6 @@ extension Peg: Hashable, Codable {
  Representation of a pair of coordinates in 2D space.
  */
 struct Point: Hashable, Codable {
-    var xCoord: Double
-    var yCoord: Double
+    var x: Double
+    var y: Double
 }

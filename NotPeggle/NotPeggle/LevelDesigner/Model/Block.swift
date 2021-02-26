@@ -10,7 +10,7 @@ import Foundation
 struct Block: LevelObject {
 
     var type: Type {
-        return .block
+        .block
     }
 
     var center: Point
@@ -20,20 +20,20 @@ struct Block: LevelObject {
 
     var points: [Point] {
         let topLeft = Point(
-            xCoord: center.xCoord - ((width / 2) * cos(angle) - (height / 2) * sin(angle)),
-            yCoord: center.yCoord - ((width / 2) * sin(angle) + (height / 2) * cos(angle))
+            x: center.x - ((width / 2) * cos(angle) - (height / 2) * sin(angle)),
+            y: center.y - ((width / 2) * sin(angle) + (height / 2) * cos(angle))
         )
         let bottomLeft = Point(
-            xCoord: center.xCoord - ((width / 2) * cos(angle) + (height / 2) * sin(angle)),
-            yCoord: center.yCoord - ((width / 2) * sin(angle) - (height / 2) * cos(angle))
+            x: center.x - ((width / 2) * cos(angle) + (height / 2) * sin(angle)),
+            y: center.y - ((width / 2) * sin(angle) - (height / 2) * cos(angle))
         )
         let bottomRight = Point(
-            xCoord: center.xCoord + ((width / 2) * cos(angle) + (height / 2) * sin(angle)),
-            yCoord: center.yCoord + ((width / 2) * sin(angle) - (height / 2) * cos(angle))
+            x: center.x + ((width / 2) * cos(angle) + (height / 2) * sin(angle)),
+            y: center.y + ((width / 2) * sin(angle) - (height / 2) * cos(angle))
         )
         let topRight = Point(
-            xCoord: center.xCoord + ((width / 2) * cos(angle) - (height / 2) * sin(angle)),
-            yCoord: center.yCoord + ((width / 2) * sin(angle) + (height / 2) * cos(angle))
+            x: center.x + ((width / 2) * cos(angle) - (height / 2) * sin(angle)),
+            y: center.y + ((width / 2) * sin(angle) + (height / 2) * cos(angle))
         )
 
         return [topLeft, bottomLeft, bottomRight, topRight]
@@ -62,7 +62,7 @@ struct Block: LevelObject {
                 let p1 = points[i]
                 let p2 = points[j]
 
-                let normal = SIMD2(p2.yCoord - p1.yCoord, p1.xCoord - p2.xCoord)
+                let normal = SIMD2(p2.y - p1.y, p1.x - p2.x)
 
                 let range = rangeAlongProjection(normal: normal)
                 let otherRange = block.rangeAlongProjection(normal: normal)
@@ -79,7 +79,7 @@ struct Block: LevelObject {
         var min: Double?
         var max: Double?
         for point in points {
-            let projected = normal.x * point.xCoord + normal.y * point.yCoord
+            let projected = normal.x * point.x + normal.y * point.y
             if min == nil {
                 min = projected
             }
@@ -100,15 +100,15 @@ struct Block: LevelObject {
     }
 
     private func overlapsWith(peg: Peg) -> Bool {
-        return false
+        false
     }
 
     func contains(point: Point) -> Bool {
-        return false
+        false
     }
 
     func tooCloseToEdges(width: Double, height: Double) -> Bool {
-        return false
+        false
     }
 
 }

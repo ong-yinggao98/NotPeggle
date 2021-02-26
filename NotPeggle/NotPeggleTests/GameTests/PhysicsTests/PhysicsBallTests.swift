@@ -12,7 +12,7 @@ class PhysicsBallTests: XCTestCase {
 
     // MARK: PhysicsBody test cases
     var stationaryBody: PhysicsBall? {
-        return PhysicsBall(
+        PhysicsBall(
             pos: CGPoint.zero,
             radius: 32,
             restitution: 0,
@@ -33,7 +33,7 @@ class PhysicsBallTests: XCTestCase {
     }
 
     var acceleratingBody: PhysicsBall? {
-        return PhysicsBall(
+        PhysicsBall(
             pos: CGPoint.zero,
             radius: 32,
             restitution: 0,
@@ -157,7 +157,7 @@ class PhysicsBallTests: XCTestCase {
     }
 
     var collidee: PhysicsBall? {
-        return PhysicsBall(
+        PhysicsBall(
             pos: CGPoint(x: 64, y: 0),
             radius: 32,
             restitution: 0,

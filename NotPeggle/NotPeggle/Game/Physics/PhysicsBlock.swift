@@ -49,7 +49,7 @@ class PhysicsBlock: NSObject, PhysicsBody {
     }
 
     func collides(with other: PhysicsBody) -> Bool {
-        return false
+        false
     }
 
     func handleCollision(object: PhysicsBody) {

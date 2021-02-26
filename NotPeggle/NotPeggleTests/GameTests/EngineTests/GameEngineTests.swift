@@ -22,19 +22,19 @@ class GameEngineTests: XCTestCase {
     }
 
     var radius: CGFloat {
-        return CGFloat(Constants.pegRadius)
+        CGFloat(Constants.pegRadius)
     }
 
-    var pegA: GamePeg {
-        return GamePeg(pegColor: .blue, pos: CGPoint(x: 40, y: 40), radius: radius)!
+    var pegA: GamePeg! {
+        GamePeg(pegColor: .blue, pos: CGPoint(x: 40, y: 40), radius: radius)
     }
 
-    var pegB: GamePeg {
-        return GamePeg(pegColor: .orange, pos: CGPoint(x: 100, y: 100), radius: radius)!
+    var pegB: GamePeg! {
+        GamePeg(pegColor: .orange, pos: CGPoint(x: 100, y: 100), radius: radius)
     }
 
-    var pegC: GamePeg {
-        return GamePeg(pegColor: .blue, pos: CGPoint(x: 210, y: 80), radius: radius)!
+    var pegC: GamePeg! {
+        GamePeg(pegColor: .blue, pos: CGPoint(x: 210, y: 80), radius: radius)
     }
 
     func testLoadPegs_pegsAdded() {
@@ -150,7 +150,10 @@ class GameEngineTests: XCTestCase {
 
     func testRemoveAllHitPegs() {
         let engine = testCase
-        let hitPegB = pegB
+        guard let hitPegB = pegB else {
+            XCTFail("Why do I even need to unwrap an implicitly unwrapped optional??")
+            return
+        }
         hitPegB.hit = true
         engine.loadPegsIntoWorld(pegs: [pegA, hitPegB])
         engine.removeAllHitPegs()

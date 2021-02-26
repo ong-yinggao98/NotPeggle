@@ -15,12 +15,10 @@ import UIKit
 class PegView: UIView {
 
     static var bluePeg: UIImageView! {
-        let image = #imageLiteral(resourceName: "blue-bubble")
-        return UIImageView(image: image)
+        UIImageView(image: #imageLiteral(resourceName: "blue-bubble"))
     }
     static var orangePeg: UIImageView! {
-        let image = #imageLiteral(resourceName: "orange-bubble")
-        return UIImageView(image: image)
+        UIImageView(image: #imageLiteral(resourceName: "orange-bubble"))
     }
 
     // MARK: Instance variables
@@ -28,7 +26,7 @@ class PegView: UIView {
     weak var delegate: PegViewDelegate!
 
     var radius: CGFloat {
-        return frame.height / 2
+        frame.height / 2
     }
 
     // MARK: Initialisers

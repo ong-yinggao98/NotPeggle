@@ -30,14 +30,11 @@ extension CGVector {
     }
 
     var magnitudeSquared: CGFloat {
-        let xSquared = dx * dx
-        let ySquared = dy * dy
-        return xSquared + ySquared
+        dx * dx + dy * dy
     }
 
     var magnitude: CGFloat {
-        let magnitudeSquared = self.magnitudeSquared
-        return sqrt(magnitudeSquared)
+        sqrt(magnitudeSquared)
     }
 
     /// Rotates the vector **anticlockwise** by the given `angle`.
@@ -51,14 +48,11 @@ extension CGVector {
 
     /// Returns the dot product between the two vectors
     func dot(other: CGVector) -> CGFloat {
-        let xDot = dx * other.dx
-        let yDot = dy * other.dy
-        return xDot + yDot
+        dx * other.dx + dy * other.dy
     }
 
     func isPerpendicularTo(other: CGVector) -> Bool {
-        let dotPdt = dot(other: other)
-        return dotPdt == 0
+         dot(other: other) == 0
     }
 
     /// Multiplies the magnitude of the vector by the given `factor`.

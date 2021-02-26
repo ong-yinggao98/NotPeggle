@@ -43,7 +43,7 @@ struct ModelGameConverter {
     static func gameRepresentation(peg: Peg) -> GamePeg? {
         let color = peg.color
         let pos = peg.center
-        let gamePos = CGPoint(x: pos.xCoord, y: pos.yCoord)
+        let gamePos = CGPoint(x: pos.x, y: pos.y)
         let radius = CGFloat(peg.radius)
         return GamePeg(pegColor: color, pos: gamePos, radius: radius)
     }

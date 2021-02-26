@@ -13,10 +13,10 @@ class StorageTests: XCTestCase {
     // MARK: Empty Model Case
     let levelNameEmpty = "empty model"
     var emptyModel: Model {
-        return createModel(name: levelNameEmpty, pegs: [])
+        createModel(name: levelNameEmpty, pegs: [])
     }
     var emptyModelJSON: Data! {
-        return try? Storage.encoder.encode(emptyModel)
+        try? Storage.encoder.encode(emptyModel)
     }
 
     // MARK: Populated Model Case
@@ -24,20 +24,20 @@ class StorageTests: XCTestCase {
     let peg1 = Peg(centerX: 32, centerY: 32, color: .blue)
     let peg2 = Peg(centerX: 106, centerY: 200, color: .orange)
     var modelWithValues: Model {
-        return createModel(name: levelNameWithValues, pegs: [peg1, peg2])
+        createModel(name: levelNameWithValues, pegs: [peg1, peg2])
     }
     var modelWithValuesJSON: Data! {
-        return try? Storage.encoder.encode(modelWithValues)
+        try? Storage.encoder.encode(modelWithValues)
     }
 
     // MARK: Invalid Cases
     let unnamedModel = Model(width: 300, height: 400)
     var unnamedModelJSON: Data! {
-        return try? Storage.encoder.encode(unnamedModel)
+        try? Storage.encoder.encode(unnamedModel)
     }
     let invalidString = "{\n  \"invalidField\" : [\n\n  ],\n  \"levelName\" : \"empty model\"\n}"
     var invalidJSON: Data! {
-        return invalidString.data(using: .utf8)!
+        invalidString.data(using: .utf8)!
     }
 
     // MARK: Tests

@@ -24,7 +24,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     @IBOutlet private var buttonOrangePeg: UIButton!
     @IBOutlet private var buttonDeletePeg: UIButton!
     private var buttons: [UIButton] {
-        return [buttonBluePeg, buttonOrangePeg, buttonDeletePeg]
+        [buttonBluePeg, buttonOrangePeg, buttonDeletePeg]
     }
 
     @IBOutlet private var pegBoard: UIView!
