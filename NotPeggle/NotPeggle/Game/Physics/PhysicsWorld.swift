@@ -18,7 +18,7 @@ class PhysicsWorld: NSObject {
     let dimensions: CGRect
     private(set) var borders: Set<Border> = [.top, .bottom, .left, .right]
 
-    weak var delegate: PhysicsWorldDelegate?
+    private weak var delegate: PhysicsWorldDelegate?
 
     /// Constructs a `PhysicsWorld` with the given boundaries.
     init(frame: CGRect) {
@@ -32,6 +32,10 @@ class PhysicsWorld: NSObject {
         for border in borders {
             self.borders.remove(border)
         }
+    }
+
+    func setDelegate(_ delegate: PhysicsWorldDelegate) {
+        self.delegate = delegate
     }
 
     internal init(frame: CGRect, bodies: [PhysicsBody]) {

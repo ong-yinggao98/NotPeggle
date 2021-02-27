@@ -14,6 +14,8 @@ class GameViewController: UIViewController, GameEngineDelegate {
     var engine: GameEngine!
     var cannon: CannonView!
 
+    private var cannonBallSprite: CannonBallView?
+
     weak var navController: UINavigationController?
 
     // ==================== //
@@ -54,10 +56,8 @@ class GameViewController: UIViewController, GameEngineDelegate {
     }
 
     func initializeEngineAndLoadView(model: Model) {
-        engine = ModelGameConverter.gameRepresentation(model: model)
-        engine.observer = self
+        engine = ModelGameConverter.gameRepresentation(model: model, delegate: self)
         showCannon()
-        updateSprites()
         viewDidAppear(false)
     }
 
@@ -115,28 +115,17 @@ class GameViewController: UIViewController, GameEngineDelegate {
     // MARK: Sprite Updates
     // ==================== //
 
-    /// Updates the location and status of all cannon and pegs in the game.
-    func updateSprites() {
-        updateCannonBallPosition()
-        updatePegSprites()
-    }
-
     func updateCannonBallPosition() {
-        for child in gameArea.subviews where child is CannonBallView {
-            child.removeFromSuperview()
+        if let cannonBallView = cannonBallSprite {
+            cannonBallView.removeFromSuperview()
+            cannonBallSprite = nil
         }
         guard let cannonBall = engine.cannon else {
             return
         }
         let cannonBallView = CannonBallView(center: cannonBall.center)
+        cannonBallSprite = cannonBallView
         gameArea.insertSubview(cannonBallView, belowSubview: cannon)
-    }
-
-    func updatePegSprites() {
-        deleteExtraPegs()
-        addMissingPegs()
-        addMissingBlocks()
-        highlightPegs()
     }
 
     /// Hides highlighted pegs after the ball has left the screen.
@@ -155,26 +144,35 @@ class GameViewController: UIViewController, GameEngineDelegate {
         )
     }
 
-    func addMissingPegs() {
-        engine.gamePegs
-            .map { GamePegView(radius: $0.radius, center: $0.center, color: $0.color) }
+    func addMissingObjects(pegs: [GamePeg], blocks: [GameBlock]) {
+        addMissingPegs(pegs: pegs)
+        addMissingBlocks(blocks: blocks)
+    }
+
+    private func addMissingPegs(pegs: [GamePeg]) {
+        pegs.map { GamePegView(radius: $0.radius, center: $0.center, color: $0.color) }
             .filter { !gameArea.subviews.contains($0) }
             .forEach { gameArea.addSubview($0) }
     }
 
-    func addMissingBlocks() {
-        engine.gameBlocks.map { GameBlockView(center: $0.center, width: $0.width, height: $0.height, angle: $0.angle) }
+    private func addMissingBlocks(blocks: [GameBlock]) {
+        blocks.map { GameBlockView(center: $0.center, width: $0.width, height: $0.height, angle: $0.angle) }
             .filter { !gameArea.subviews.contains($0) }
             .forEach { gameArea.addSubview($0) }
+    }
+
+    func removeView(of peg: GamePeg) {
+        let pegViews = gameArea.subviews.compactMap { $0 as? GamePegView }
+        let toRemove = pegViews.first(where: { $0.center == peg.center && $0.color == peg.color })
+        UIView.animate(withDuration: 0.2, animations: { toRemove?.makeTransparent() })
     }
 
     /// Sets hit pegs to their highlighted forms.
     func highlightPegs() {
         let pegViews = gameArea.subviews.compactMap { $0 as? GamePegView }
         for peg in engine.gamePegs where peg.hit {
-            pegViews
-                .first(where: { $0.center == peg.center && $0.color == peg.color })?
-                .highlight()
+            let highlighted = pegViews.first(where: { $0.center == peg.center && $0.color == peg.color })
+            highlighted?.highlight()
         }
     }
 

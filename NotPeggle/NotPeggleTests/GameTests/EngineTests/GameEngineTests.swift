@@ -12,7 +12,7 @@ class GameEngineTests: XCTestCase {
 
     var testCase: GameEngine {
         let frame = CGRect(x: 0, y: 0, width: 300, height: 300)
-        return GameEngine(frame: frame)
+        return GameEngine(frame: frame, delegate: nil)
     }
 
     func testLoadPegs_emptyArray_noChange() {

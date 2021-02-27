@@ -9,7 +9,7 @@
 struct Constants {
     static let pegRadius = 25.0
     static let cannonWidth = 100.0
-    static let blockHeight = 50.0
+    static let blockHeight = 30.0
 }
 
 /// Inherits String for ease of encoding and decoding

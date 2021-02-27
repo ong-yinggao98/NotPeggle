@@ -15,17 +15,17 @@ struct ModelGameConverter {
 
     /// Converts a given `Model` into a `GameEngine`.
     /// The engine has the same boundaries as the `model` as well as its converted pegs.
-    static func gameRepresentation(model: Model) -> GameEngine {
-        let engine = initializeEngine(model: model)
+    static func gameRepresentation(model: Model, delegate: GameEngineDelegate? = nil) -> GameEngine {
+        let engine = initializeEngine(model: model, delegate: delegate)
         let gamePegs = getGamePegs(from: model)
         let gameBlocks = getGameBlocks(from: model)
         engine.loadIntoWorld(pegs: gamePegs, blocks: gameBlocks)
         return engine
     }
 
-    private static func initializeEngine(model: Model) -> GameEngine {
+    private static func initializeEngine(model: Model, delegate: GameEngineDelegate?) -> GameEngine {
         let frame = CGRect(x: 0, y: 0, width: model.width, height: model.height)
-        return GameEngine(frame: frame)
+        return GameEngine(frame: frame, delegate: delegate)
     }
 
     private static func getGamePegs(from model: Model) -> [GamePeg] {

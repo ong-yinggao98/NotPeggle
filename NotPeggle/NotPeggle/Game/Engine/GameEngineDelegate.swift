@@ -7,6 +7,12 @@
 
 protocol GameEngineDelegate: AnyObject {
 
-    func updateSprites()
+    func updateCannonBallPosition()
+
+    func highlightPegs()
+
+    func addMissingObjects(pegs: [GamePeg], blocks: [GameBlock])
+
+    func removeView(of peg: GamePeg)
 
 }

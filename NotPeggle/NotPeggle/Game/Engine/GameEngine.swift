@@ -22,15 +22,16 @@ class GameEngine: PhysicsWorldDelegate {
     private(set) var gamePegs: [GamePeg] = []
     private(set) var gameBlocks: [GameBlock] = []
 
-    weak var observer: GameEngineDelegate?
+    weak var delegate: GameEngineDelegate?
 
-    init(frame: CGRect) {
+    init(frame: CGRect, delegate: GameEngineDelegate?) {
         world = PhysicsWorld(frame: frame, excluding: .bottom)
         let xCoord = frame.width / 2
         let yCoord = CGFloat(Constants.pegRadius)
         launchPoint = CGPoint(x: xCoord, y: yCoord)
         launchAngle = CGFloat.pi / 2
-        world.delegate = self
+        world.setDelegate(self)
+        self.delegate = delegate
     }
 
     /// Adds the `GamePeg` objects into the engine if they do not already exist.
@@ -41,15 +42,12 @@ class GameEngine: PhysicsWorldDelegate {
             .forEach { world.insert(body: $0) }
     }
 
-    func setObserver(delegate: GameEngineDelegate) {
-        observer = delegate
-    }
-
     /// Updates the location of all pegs and cannon balls (if the latter is present).
     /// If the cannon has left the boundaries, it performs the removal of hit pegs and the cannon.
     func refresh(elapsed: TimeInterval) {
         world.update(time: elapsed)
-        observer?.updateSprites()
+        delegate?.updateCannonBallPosition()
+        delegate?.highlightPegs()
         handleCannonExit()
     }
 
@@ -127,14 +125,17 @@ class GameEngine: PhysicsWorldDelegate {
     // MARK: Delegate Methods
 
     func updateAddedPegs() {
-        world.bodies
+        let pegsToAdd = world.bodies
             .compactMap { $0 as? GamePeg }
             .filter { !gamePegs.contains($0) }
-            .forEach { gamePegs.append($0) }
-        world.bodies
+        pegsToAdd.forEach { gamePegs.append($0) }
+
+        let blocksToAdd = world.bodies
             .compactMap { $0 as? GameBlock }
             .filter { !gameBlocks.contains($0) }
-            .forEach { gameBlocks.append($0) }
+        blocksToAdd.forEach { gameBlocks.append($0) }
+
+        delegate?.addMissingObjects(pegs: pegsToAdd, blocks: blocksToAdd)
     }
 
     func updateRemovedPegs() {
@@ -147,6 +148,7 @@ class GameEngine: PhysicsWorldDelegate {
             return
         }
         gamePegs.remove(at: index)
+        delegate?.removeView(of: peg)
     }
 
 }
