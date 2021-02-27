@@ -22,4 +22,6 @@ protocol GameEngineDelegate: AnyObject {
     /// Ends the game and displays a message based on the condition on which the game had ended.
     func endGame(condition: GameOverState)
 
+    func setLaunchButtonState()
+
 }

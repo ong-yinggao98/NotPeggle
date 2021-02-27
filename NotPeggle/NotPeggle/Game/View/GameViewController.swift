@@ -132,7 +132,7 @@ class GameViewController: UIViewController, GameEngineDelegate {
             cannonBallView.removeFromSuperview()
             cannonBallSprite = nil
         }
-        guard let cannonBall = engine.cannon else {
+        guard let cannonBall = engine.cannonBall else {
             return
         }
         let cannonBallView = CannonBallView(center: cannonBall.center)
@@ -189,6 +189,10 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     func displayScore() {
         score.text = "Score: \(engine.score)/\(engine.requiredScore)"
+    }
+
+    func setLaunchButtonState() {
+        launchButton.isEnabled.toggle()
     }
 
     func endGame(condition: GameOverState) {

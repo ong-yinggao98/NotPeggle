@@ -23,7 +23,7 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
     private(set) var launchPoint: CGPoint
     private(set) var launchAngle: CGFloat
 
-    private(set) var cannon: CannonBall?
+    private(set) var cannonBall: CannonBall?
     private(set) var gamePegs: [GamePeg] = []
     private(set) var gameBlocks: [GameBlock] = []
 
@@ -72,21 +72,21 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
     /// Checks if the cannon is within the playing area. If it has left, it is removed and all hit pegs are removed.
     func handleCannonExit() {
         guard
-            let currentCannon = cannon,
-            currentCannon.outOfBounds(frame: world.dimensions)
+            let ball = cannonBall,
+            ball.outOfBounds(frame: world.dimensions)
         else {
             return
         }
 
-        currentCannon.respawnAtTopIfPossible()
-        if currentCannon.outOfBounds(frame: world.dimensions) {
+        ball.respawnAtTopIfPossible()
+        if ball.outOfBounds(frame: world.dimensions) {
             removeAllHitPegs()
             removeCannonBall()
         }
     }
 
     func handleBallStuck() {
-        guard let ball = cannon, ball.stuck else {
+        guard let ball = cannonBall, ball.stuck else {
             return
         }
         removeAllHitPegs()
@@ -94,12 +94,13 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
     }
 
     func removeCannonBall() {
-        guard let currentCannon = cannon else {
+        guard let ball = cannonBall else {
             return
         }
-        world.remove(body: currentCannon)
-        cannon = nil
+        world.remove(body: ball)
+        cannonBall = nil
         ballLaunched = false
+        delegate?.setLaunchButtonState()
         endGameIfPossible()
     }
 
@@ -144,12 +145,13 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
     }
 
     private func startCannonSimulation() {
-        cannon = CannonBall(angle: launchAngle, coord: launchPoint)
-        guard let cannon = cannon else {
+        cannonBall = CannonBall(angle: launchAngle, coord: launchPoint)
+        guard let ball = cannonBall else {
             fatalError("Cannon should be initialised by now")
         }
-        world.insert(body: cannon)
+        world.insert(body: ball)
         ballLaunched = true
+        delegate?.setLaunchButtonState()
         shotsLeft -= 1
     }
 
@@ -170,7 +172,7 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
 
     /// Removes unneeded resources.
     func cleanUp() {
-        cannon = nil
+        cannonBall = nil
         gamePegs.removeAll()
     }
 
@@ -184,7 +186,8 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
             gamePegs.append(peg)
             peg.delegate = self
         }
-        shotsLeft += pegsToAdd.count * 1
+        shotsLeft += pegsToAdd.count
+        shotsLeft = min(shotsLeft, 10)
         requiredScore += pegsToAdd.count * BlueGamePeg.score
 
         let blocksToAdd = world.bodies.compactMap { $0 as? GameBlock }.filter { !gameBlocks.contains($0) }

@@ -10,7 +10,7 @@ import UIKit
 struct SpookyBall: PowerUp {
 
     func activate(peg: GamePeg, on engine: GameEngine) {
-        guard let ball = engine.cannon else {
+        guard let ball = engine.cannonBall else {
             fatalError("Ball should have been fired for this to be activated")
         }
         ball.guaranteeRespawn()
