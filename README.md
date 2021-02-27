@@ -30,10 +30,53 @@ Alternatively, you can rewrite this section in your own style. You may also
 write this section in a new file entirely, if you wish.
 
 ### Cannon Direction
-Please explain how the player moves the cannon.
+> Please explain how the player moves the cannon.
+
+To use the cannon, the player must first aim the cannon, then fire a round.
+
+Simply drag your finger over the playing area (with the beach background) to your intended
+target. The cannon will automatically point directly at that location. Be warned! The cannon
+will not account for gravity when turning, that is on you to figure out.
+
+When you are ready to fire, hit the button that says "LAUNCH". The launch button also shows
+the number of shots you have left. Firing the cannon causes that number to decrement by 1,
+and the cannon immediately launches a ball towards wherever you aimed at. Aim carefully before
+you do, because if you run out of shots too soon you lose!
+
+The launch button is disabled when your previously-fired round has not yet left the screen,
+or when the game has already ended. However, you can continue to aim the cannon wherever
+you like in preparation for the next shot.
 
 ### Win and Lose Conditions
-Please explain how the player wins/loses the game.
+> Please explain how the player wins/loses the game.
+
+When you start a level, the game calculates the minimum score you must obtain in order to win.
+This score is calculated by the number of pegs you have multiplied by 100.
+The player must aim to hit this goal by hitting pegs every turn. The scoring system is as follows:
+1. Blue - 100 points
+1. Green - 100 points
+1. Orange - 200 points.
+
+You win so long you hit the minimum score within your allocated shots.
+
+If you run out of shots before you hit the minimum score, you lose!
+
+And don't try to start a game without any pegs, if none are found the game will leave you a nasty message.
+
+### Power-Ups
+Green pegs are worth as much as blue pegs in points, but they activate power-ups when hit.
+The two power-ups are Space Blast and Spooky Ball (or rather their clones). Hitting green pegs cause
+them to activate in order with Space Blast first, then Spooky Ball, then Space Blast again, so on so forth.
+Power-ups can be activated multiple times in one round so long the ball continuously hits green pegs.
+
+#### Space Blast
+Space Blast causes pegs in the vicinity of the green peg to be highlighted instantly, effectively allowing you
+to score lots of points with a single hit.
+
+#### Spooky Ball
+Spooky Ball gives the ball an extra life, respawning it back at the top when after it falls through the ground.
+Its effect does not stack, i.e. activating Spooky Ball multiple times will not grant the cannon ball anymore
+respawns while until it has fallen out of the game area and has respawned.
 
 ## Level Designer Additional Features
 
