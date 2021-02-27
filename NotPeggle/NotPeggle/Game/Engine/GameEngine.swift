@@ -18,6 +18,7 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
 
     private(set) var ballLaunched = false
     private(set) var world: PhysicsWorld
+    private var powerUpsManager: PowerUpManager
 
     private(set) var launchPoint: CGPoint
     private(set) var launchAngle: CGFloat
@@ -34,11 +35,15 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
 
     init(frame: CGRect, delegate: GameEngineDelegate?) {
         world = PhysicsWorld(frame: frame, excluding: .bottom)
+        powerUpsManager = PowerUpManager()
+
         let xCoord = frame.width / 2
         let yCoord = CGFloat(Constants.pegRadius)
         launchPoint = CGPoint(x: xCoord, y: yCoord)
         launchAngle = CGFloat.pi / 2
+
         world.setDelegate(self)
+        powerUpsManager.setEngine(self)
         self.delegate = delegate
     }
 
@@ -66,15 +71,18 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
 
     /// Checks if the cannon is within the playing area. If it has left, it is removed and all hit pegs are removed.
     func handleCannonExit() {
-        guard let currentCannon = cannon else {
+        guard
+            let currentCannon = cannon,
+            currentCannon.outOfBounds(frame: world.dimensions)
+        else {
             return
         }
-        let cannonHasLeftArea = currentCannon.outOfBounds(frame: world.dimensions)
-        guard cannonHasLeftArea else {
-            return
+
+        currentCannon.respawnAtTopIfPossible()
+        if currentCannon.outOfBounds(frame: world.dimensions) {
+            removeAllHitPegs()
+            removeCannonBall()
         }
-        removeAllHitPegs()
-        removeCannonBall()
     }
 
     func handleBallStuck() {
@@ -207,8 +215,12 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
         delegate?.displayScore()
     }
 
-    func pegsInVicinity(searchRadius: CGFloat, around center: CGPoint) -> [GamePeg] {
-        gamePegs.filter { $0.center.distanceTo(point: center) <= searchRadius }
+    func activatePowerUp(_ peg: GamePeg) {
+        guard peg.color == .green else {
+            print("Only green pegs have power ups, loser.")
+            return
+        }
+        powerUpsManager.activateNextPowerUp(from: peg)
     }
 
 }

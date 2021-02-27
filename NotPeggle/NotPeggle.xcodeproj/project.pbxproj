@@ -15,6 +15,10 @@
 		8428093625EAA83500D2B666 /* BlueGamePeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428093525EAA83500D2B666 /* BlueGamePeg.swift */; };
 		8428093B25EAAAFF00D2B666 /* OrangeGamePeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428093A25EAAAFF00D2B666 /* OrangeGamePeg.swift */; };
 		8428094325EAAB7300D2B666 /* GreenGamePeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428094225EAAB7300D2B666 /* GreenGamePeg.swift */; };
+		8428096025EAEA8700D2B666 /* PowerUpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428095F25EAEA8700D2B666 /* PowerUpManager.swift */; };
+		8428097025EAEBCA00D2B666 /* SpaceBlast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428096F25EAEBCA00D2B666 /* SpaceBlast.swift */; };
+		8428097525EAEDE900D2B666 /* PowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428097425EAEDE900D2B666 /* PowerUp.swift */; };
+		8428097D25EAEF2400D2B666 /* SpookyBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428097C25EAEF2400D2B666 /* SpookyBall.swift */; };
 		842E814A25D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E814925D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift */; };
 		842E815225D9012F0028DE3D /* GameEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E815125D9012F0028DE3D /* GameEngineTests.swift */; };
 		842E815D25D90A6E0028DE3D /* PhysicsWorldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */; };
@@ -99,6 +103,10 @@
 		8428093525EAA83500D2B666 /* BlueGamePeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueGamePeg.swift; sourceTree = "<group>"; };
 		8428093A25EAAAFF00D2B666 /* OrangeGamePeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeGamePeg.swift; sourceTree = "<group>"; };
 		8428094225EAAB7300D2B666 /* GreenGamePeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenGamePeg.swift; sourceTree = "<group>"; };
+		8428095F25EAEA8700D2B666 /* PowerUpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpManager.swift; sourceTree = "<group>"; };
+		8428096F25EAEBCA00D2B666 /* SpaceBlast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceBlast.swift; sourceTree = "<group>"; };
+		8428097425EAEDE900D2B666 /* PowerUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUp.swift; sourceTree = "<group>"; };
+		8428097C25EAEF2400D2B666 /* SpookyBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpookyBall.swift; sourceTree = "<group>"; };
 		842E814925D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhysicsBallTests+Walls.swift"; sourceTree = "<group>"; };
 		842E815125D9012F0028DE3D /* GameEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngineTests.swift; sourceTree = "<group>"; };
 		842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsWorldDelegate.swift; sourceTree = "<group>"; };
@@ -244,6 +252,30 @@
 			path = ViewTests;
 			sourceTree = "<group>";
 		};
+		8428095A25EAEA5600D2B666 /* GameObject */ = {
+			isa = PBXGroup;
+			children = (
+				8484524625D641D8004157B7 /* CannonBall.swift */,
+				8484525025D683E5004157B7 /* GamePeg.swift */,
+				8428093525EAA83500D2B666 /* BlueGamePeg.swift */,
+				8428093A25EAAAFF00D2B666 /* OrangeGamePeg.swift */,
+				8428094225EAAB7300D2B666 /* GreenGamePeg.swift */,
+				8464C2EA25EA34B40048AC07 /* GameBlock.swift */,
+			);
+			path = GameObject;
+			sourceTree = "<group>";
+		};
+		8428095B25EAEA6800D2B666 /* PowerUp */ = {
+			isa = PBXGroup;
+			children = (
+				8428095F25EAEA8700D2B666 /* PowerUpManager.swift */,
+				8428097425EAEDE900D2B666 /* PowerUp.swift */,
+				8428096F25EAEBCA00D2B666 /* SpaceBlast.swift */,
+				8428097C25EAEF2400D2B666 /* SpookyBall.swift */,
+			);
+			path = PowerUp;
+			sourceTree = "<group>";
+		};
 		8438485225CBB42A00B14E47 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,14 +316,10 @@
 		8472D09425D39E890092E3B8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				8428095B25EAEA6800D2B666 /* PowerUp */,
+				8428095A25EAEA5600D2B666 /* GameObject */,
 				8472D09525D39E9A0092E3B8 /* GameEngine.swift */,
 				8484528325D783EC004157B7 /* GameEngineDelegate.swift */,
-				8484524625D641D8004157B7 /* CannonBall.swift */,
-				8484525025D683E5004157B7 /* GamePeg.swift */,
-				8428093525EAA83500D2B666 /* BlueGamePeg.swift */,
-				8428093A25EAAAFF00D2B666 /* OrangeGamePeg.swift */,
-				8428094225EAAB7300D2B666 /* GreenGamePeg.swift */,
-				8464C2EA25EA34B40048AC07 /* GameBlock.swift */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -567,6 +595,8 @@
 			files = (
 				8484525125D683E5004157B7 /* GamePeg.swift in Sources */,
 				8464C2EB25EA34B40048AC07 /* GameBlock.swift in Sources */,
+				8428097525EAEDE900D2B666 /* PowerUp.swift in Sources */,
+				8428097D25EAEF2400D2B666 /* SpookyBall.swift in Sources */,
 				8442CB6625C4423100C078A8 /* SaveTableViewController.swift in Sources */,
 				84D09AC125BFF4640042FB19 /* ModelViewConverter.swift in Sources */,
 				847BD83A25BEDAC000C3782E /* Peg.swift in Sources */,
@@ -575,6 +605,7 @@
 				8484528425D783EC004157B7 /* GameEngineDelegate.swift in Sources */,
 				8428093B25EAAAFF00D2B666 /* OrangeGamePeg.swift in Sources */,
 				8481A39725C049F900728B0A /* PegView.swift in Sources */,
+				8428096025EAEA8700D2B666 /* PowerUpManager.swift in Sources */,
 				847BD83525BEDA3F00C3782E /* Model.swift in Sources */,
 				84421DED25E636C500CF6F63 /* PhysicsBlock.swift in Sources */,
 				8484524C25D64750004157B7 /* GameViewController.swift in Sources */,
@@ -601,6 +632,7 @@
 				8481A3AA25C0782C00728B0A /* Constants.swift in Sources */,
 				8428093625EAA83500D2B666 /* BlueGamePeg.swift in Sources */,
 				8428091B25EA4F4D00D2B666 /* GameBlockView.swift in Sources */,
+				8428097025EAEBCA00D2B666 /* SpaceBlast.swift in Sources */,
 				842E815D25D90A6E0028DE3D /* PhysicsWorldDelegate.swift in Sources */,
 				8484529425D788A3004157B7 /* GamePegView.swift in Sources */,
 				8464C2E325EA232B0048AC07 /* OrientedBoundingBox.swift in Sources */,
