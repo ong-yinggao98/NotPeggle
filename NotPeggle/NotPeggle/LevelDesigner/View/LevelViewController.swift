@@ -22,10 +22,11 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     @IBOutlet private var buttonBluePeg: UIButton!
     @IBOutlet private var buttonOrangePeg: UIButton!
-    @IBOutlet private var buttonDeletePeg: UIButton!
+    @IBOutlet private var buttonGreenPeg: UIButton!
     @IBOutlet private var buttonBlock: UIButton!
+    @IBOutlet private var buttonDeletePeg: UIButton!
     private var buttons: [UIButton] {
-        [buttonBluePeg, buttonOrangePeg, buttonDeletePeg, buttonBlock]
+        [buttonBluePeg, buttonOrangePeg, buttonDeletePeg, buttonGreenPeg, buttonBlock]
     }
 
     @IBOutlet private var pegBoard: UIView!
@@ -199,6 +200,11 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         deselectAllButtonsExcept(sender)
     }
 
+    @IBAction private func setAddGreenMode(_ sender: UIButton) {
+        mode = .addGreen
+        deselectAllButtonsExcept(sender)
+    }
+
     @IBAction private func setBlockMode(_ sender: UIButton) {
         mode = .addBlock
         deselectAllButtonsExcept(sender)
@@ -263,5 +269,5 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 }
 
 enum Mode {
-    case addBlue, addOrange, delete, addBlock
+    case addBlue, addOrange, delete, addBlock, addGreen
 }

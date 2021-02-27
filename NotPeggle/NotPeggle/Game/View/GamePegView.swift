@@ -19,15 +19,15 @@ class GamePegView: UIView {
     var radius: CGFloat
 
     static var orangeImage: UIImageView {
-        let orange = #imageLiteral(resourceName: "orange-bubble")
-        let orangeHighlight = #imageLiteral(resourceName: "orange-glow")
-        return UIImageView(image: orange, highlightedImage: orangeHighlight)
+        UIImageView(image: #imageLiteral(resourceName: "orange-bubble"), highlightedImage: #imageLiteral(resourceName: "orange-glow"))
     }
 
     static var blueImage: UIImageView {
-        let blue = #imageLiteral(resourceName: "blue-bubble")
-        let blueHighlight = #imageLiteral(resourceName: "blue-glow")
-        return UIImageView(image: blue, highlightedImage: blueHighlight)
+        UIImageView(image: #imageLiteral(resourceName: "blue-bubble"), highlightedImage: #imageLiteral(resourceName: "blue-glow"))
+    }
+
+    static var greenImage: UIImageView {
+        UIImageView(image: #imageLiteral(resourceName: "green-bubble"), highlightedImage: #imageLiteral(resourceName: "green-glow"))
     }
 
     init(radius: CGFloat, center: CGPoint, color: Color) {
@@ -49,6 +49,8 @@ class GamePegView: UIView {
             resizeToFrameAndApply(imageView: GamePegView.orangeImage)
         case .blue:
             resizeToFrameAndApply(imageView: GamePegView.blueImage)
+        case.green:
+            resizeToFrameAndApply(imageView: GamePegView.greenImage)
         }
     }
 

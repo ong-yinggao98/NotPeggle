@@ -14,5 +14,5 @@ struct Constants {
 
 /// Inherits String for ease of encoding and decoding
 enum Color: String, Codable {
-    case blue, orange
+    case blue, orange, green
 }

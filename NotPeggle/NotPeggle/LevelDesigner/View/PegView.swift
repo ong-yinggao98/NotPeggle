@@ -20,6 +20,9 @@ class PegView: UIView {
     static var orangePeg: UIImageView! {
         UIImageView(image: #imageLiteral(resourceName: "orange-bubble"))
     }
+    static var greenPeg: UIImageView! {
+        UIImageView(image: #imageLiteral(resourceName: "green-bubble"))
+    }
 
     // MARK: Instance variables
     let color: Color
@@ -77,6 +80,8 @@ class PegView: UIView {
             return PegView.bluePeg
         case .orange:
             return PegView.orangePeg
+        case .green:
+            return PegView.greenPeg
         }
     }
 

@@ -16,13 +16,9 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     weak var navController: UINavigationController?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
+    // ==================== //
     // MARK: Set-up Actions
+    // ==================== //
 
     /// Initialises the game area and engine from the data given.
     /// This method **must** be called by the previous view controller before pushing this to the stack.
@@ -36,19 +32,15 @@ class GameViewController: UIViewController, GameEngineDelegate {
     }
 
     func setGameArea(board: UIView) {
-        for child in board.subviews {
-            guard let image = child as? UIImageView else {
-                continue
-            }
-            setBackgroundFrom(image)
-        }
+        setBackgroundFrom(board)
         gameArea.isUserInteractionEnabled = true
+        gameArea.clipsToBounds = true
         view.addSubview(gameArea!)
     }
 
-    private func setBackgroundFrom(_ imageView: UIImageView) {
-        let background = UIImageView(image: imageView.image)
-        background.frame = imageView.frame
+    private func setBackgroundFrom(_ view: UIView) {
+        let background = UIImageView(image: #imageLiteral(resourceName: "background"))
+        background.frame = view.frame
         background.contentMode = .scaleAspectFill
         gameArea = background
     }
@@ -100,7 +92,9 @@ class GameViewController: UIViewController, GameEngineDelegate {
         engine.launch()
     }
 
+    // ========== //
     // MARK: Quit
+    // ========== //
 
     @IBAction private func returnToNotPeggle(_ sender: Any) {
         navController?.popViewController(animated: false)
@@ -117,7 +111,9 @@ class GameViewController: UIViewController, GameEngineDelegate {
             .forEach { $0.removeFromSuperview() }
     }
 
+    // ==================== //
     // MARK: Sprite Updates
+    // ==================== //
 
     /// Updates the location and status of all cannon and pegs in the game.
     func updateSprites() {

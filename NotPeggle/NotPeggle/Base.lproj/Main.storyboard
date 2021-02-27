@@ -73,7 +73,7 @@
                                 </constraints>
                             </stackView>
                             <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="gTg-yU-Pay">
-                                <rect key="frame" x="20" y="993" width="328" height="96"/>
+                                <rect key="frame" x="20" y="993" width="444" height="96"/>
                                 <subviews>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="eOd-qS-SBY" customClass="PegModeButton" customModule="NotPeggle" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
@@ -98,8 +98,15 @@
                                             <action selector="setAddOrangeMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9MU-rg-nvB"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QGQ-pg-NlU" customClass="PegModeButton" customModule="NotPeggle" customModuleProvider="target">
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y8S-IP-pv2" customClass="PegModeButton" customModule="NotPeggle" customModuleProvider="target">
                                         <rect key="frame" x="232" y="0.0" width="96" height="96"/>
+                                        <state key="normal" title="Button" image="green-bubble"/>
+                                        <connections>
+                                            <action selector="setAddGreenMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RLQ-WX-09T"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QGQ-pg-NlU" customClass="PegModeButton" customModule="NotPeggle" customModuleProvider="target">
+                                        <rect key="frame" x="348" y="0.0" width="96" height="96"/>
                                         <state key="normal" title="Button" image="Block"/>
                                         <connections>
                                             <action selector="setBlockMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6gq-13-WQR"/>
@@ -107,14 +114,16 @@
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="y8S-IP-pv2" firstAttribute="height" secondItem="QVF-Ug-Laq" secondAttribute="height" id="BBd-Lp-zJl"/>
                                     <constraint firstItem="QVF-Ug-Laq" firstAttribute="width" secondItem="eOd-qS-SBY" secondAttribute="width" id="WNc-TS-Xo7"/>
                                     <constraint firstItem="QGQ-pg-NlU" firstAttribute="width" secondItem="QVF-Ug-Laq" secondAttribute="width" id="pFA-Wh-DkM"/>
+                                    <constraint firstItem="y8S-IP-pv2" firstAttribute="width" secondItem="QVF-Ug-Laq" secondAttribute="width" id="qu6-ph-73w"/>
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qQu-a4-nL1">
                                 <rect key="frame" x="0.0" y="0.0" width="834" height="958"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="CVw-jr-FrC">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="CVw-jr-FrC">
                                         <rect key="frame" x="0.0" y="0.0" width="834" height="958"/>
                                         <gestureRecognizers/>
                                     </imageView>
@@ -175,6 +184,7 @@
                         <outlet property="buttonBlock" destination="QGQ-pg-NlU" id="3Mk-hz-i9F"/>
                         <outlet property="buttonBluePeg" destination="eOd-qS-SBY" id="qXL-L1-AwD"/>
                         <outlet property="buttonDeletePeg" destination="RyT-0b-idK" id="n8k-E4-dEq"/>
+                        <outlet property="buttonGreenPeg" destination="y8S-IP-pv2" id="GWv-1F-NDg"/>
                         <outlet property="buttonOrangePeg" destination="QVF-Ug-Laq" id="olm-e2-CAE"/>
                         <outlet property="levelNameField" destination="7X0-Ue-yEc" id="baW-ug-lch"/>
                         <outlet property="pegBoard" destination="qQu-a4-nL1" id="3E1-Uc-N6w"/>
@@ -314,6 +324,7 @@
         <image name="background" width="2000" height="1500"/>
         <image name="blue-bubble" width="128" height="128"/>
         <image name="delete-bubble" width="128" height="128"/>
+        <image name="green-bubble" width="128" height="128"/>
         <image name="orange-bubble" width="128" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

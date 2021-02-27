@@ -86,10 +86,12 @@ extension LevelViewController {
             addNewPeg(color: .blue, at: location)
         case .addOrange:
             addNewPeg(color: .orange, at: location)
-        case .delete:
-            deletePeg(at: location)
+        case .addGreen:
+            addNewPeg(color: .green, at: location)
         case .addBlock:
             addBlock(at: location)
+        case .delete:
+            deletePeg(at: location)
         case .none:
             fatalError("View Controller should always load with a mode")
         }
