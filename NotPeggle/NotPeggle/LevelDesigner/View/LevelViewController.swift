@@ -33,6 +33,10 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     @IBOutlet private var levelNameField: UITextField!
     @IBOutlet private var saveButton: UIButton!
 
+    var gameArea: UIView! {
+        pegBoard
+    }
+
     // ============================== //
     // MARK: Methods for Loading View
     // ============================== //
@@ -203,117 +207,6 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     private func deselectAllButtonsExcept(_ sender: UIButton) {
         sender.isSelected = true
         buttons.filter { $0 !== sender }.forEach { $0.isSelected = false }
-    }
-
-    // ============== //
-    // MARK: Gestures
-    // ============== //
-
-    /// Detects a tap on the peg board and either creates or deletes a peg centered on the location of the tap.
-    @IBAction private func managePegsOnBoard(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: pegBoard)
-        switch mode {
-        case .addBlue:
-            addNewPeg(color: .blue, at: location)
-        case .addOrange:
-            addNewPeg(color: .orange, at: location)
-        case .delete:
-            deletePeg(at: location)
-        case .addBlock:
-            addBlock(at: location)
-        case .none:
-            fatalError("View Controller should always load with a mode")
-        }
-    }
-
-    func addNewPeg(color: Color, at location: CGPoint) {
-        let peg = Converter.pegFromCGPoint(color: color, at: location)
-        model.insert(peg: peg)
-    }
-
-    func deletePeg(at location: CGPoint) {
-        let coordinates = Converter.pointFromCGPoint(point: location)
-        let pegtoRemove = model.firstPeg(where: { $0.contains(point: coordinates) })
-        let blocktoRemove = model.firstBlock(where: { $0.contains(point: coordinates) })
-        if let deletedPeg = pegtoRemove {
-            model.delete(peg: deletedPeg)
-        } else if let deletedBlock = blocktoRemove {
-            model.delete(block: deletedBlock)
-        }
-    }
-
-    func addBlock(at location: CGPoint) {
-        let block = Block(center: Converter.pointFromCGPoint(point: location))
-        model.insert(block: block)
-    }
-
-    // ================================ //
-    // MARK: Level Object View Handlers
-    // ================================ //
-
-    /// Deletes a peg from data after a long press has been applied to and refreshes UI to show the deletion.
-    func holdToDeletePeg(_ gesture: UILongPressGestureRecognizer) {
-        guard let view = gesture.view as? PegView else {
-            fatalError("Gesture should target a PegView")
-        }
-        let peg = Converter.pegFromView(view)
-        model.delete(peg: peg)
-    }
-
-    /// Drags a peg to a position that does not clash with pegs and saves its position.
-    func dragPeg(_ gesture: UIPanGestureRecognizer) {
-        guard let view = gesture.view as? PegView else {
-            fatalError("Gesture should be attached to a PegView")
-        }
-        let peg = Converter.pegFromView(view)
-        let location = gesture.location(in: pegBoard)
-        let newCenter = Converter.pointFromCGPoint(point: location)
-        let newPeg = peg.recenterTo(newCenter)
-
-        if model.canAccommodate(newPeg, excluding: peg) {
-            view.center = location
-            model.replace(peg, with: newPeg)
-        }
-    }
-
-    /// Deletes a peg from data after a long press has been applied to and refreshes UI to show the deletion.
-    func holdToDeleteBlock(_ gesture: UILongPressGestureRecognizer) {
-        guard let view = gesture.view as? BlockView else {
-            fatalError("Gesture should target a PegView")
-        }
-        let block = Converter.blockFromView(view)
-        model.delete(block: block)
-    }
-
-    /// Drags a peg to a position that does not clash with pegs and saves its position.
-    func dragBlock(_ gesture: UIPanGestureRecognizer) {
-        guard let view = gesture.view as? BlockView else {
-            fatalError("Gesture should be attached to a PegView")
-        }
-        let block = Converter.blockFromView(view)
-        let location = gesture.location(in: pegBoard)
-        let newCenter = Converter.pointFromCGPoint(point: location)
-        let newBlock = block.recenterTo(newCenter)
-
-        if model.canAccommodate(newBlock, excluding: block) {
-            view.center = location
-            model.replace(block, with: newBlock)
-        }
-    }
-
-    func rotateBlock(_ gesture: UIRotationGestureRecognizer) {
-        guard let view = gesture.view as? BlockView else {
-            fatalError("Gesture should be attached to a BlockView")
-        }
-        let block = Converter.blockFromView(view)
-        let angle = gesture.rotation
-        let newBlock = block.rotate(angle: angle.native)
-
-        if model.canAccommodate(newBlock, excluding: block) {
-            print(angle)
-            view.rotate(to: angle)
-            model.replace(block, with: newBlock)
-        }
     }
 
     // =================== //
