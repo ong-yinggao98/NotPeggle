@@ -1,5 +1,5 @@
 //
-//  BlueGamePeg.swift
+//  GamePeg.swift
 //  NotPeggle
 //
 //  Created by Ying Gao on 12/2/21.
@@ -8,7 +8,8 @@
 import UIKit
 
 /**
- Representation of an immovable `GamePeg`. It lights up when hit by a cannon ball.
+ Abstract representation of an immovable `GamePeg` that lights up when hit by a cannon ball.
+ This class should not be directly constructed.
  */
 class GamePeg: StationaryBall {
 

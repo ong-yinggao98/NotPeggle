@@ -137,7 +137,7 @@ class PhysicsBall: PhysicsBody {
         let dx = localCenter.x - nearestX
         let dy = localCenter.y - nearestY
         let minSafeDist = radius - sqrt(dx * dx + dy * dy)
-        normal.scale(factor: minSafeDist * 0.95)
+        normal.scale(factor: minSafeDist * 0.8)
         recenterBy(xDist: normal.dx, yDist: normal.dy)
     }
 

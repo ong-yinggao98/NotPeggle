@@ -56,6 +56,7 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
         world.update(time: elapsed)
         delegate?.updateCannonBallPosition()
         delegate?.highlightPegs()
+        handleBallStuck()
         handleCannonExit()
     }
 
@@ -70,6 +71,14 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
         }
         let cannonHasLeftArea = currentCannon.outOfBounds(frame: world.dimensions)
         guard cannonHasLeftArea else {
+            return
+        }
+        removeAllHitPegs()
+        removeCannonBall()
+    }
+
+    func handleBallStuck() {
+        guard let ball = cannon, ball.stuck else {
             return
         }
         removeAllHitPegs()
@@ -91,6 +100,11 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
         hitPegs.forEach { world.remove(body: $0) }
     }
 
+    /// Checks if the conditions for ending the game have been met.
+    /// If the game had no pegs to begin with, a no start is declared.
+    /// If the player has gotten the required score within the number of cannon shots, he wins.
+    /// If the player has used up all shots and failed to score the minimum score, he loses.
+    /// Otherwise, the game continues.
     func endGameIfPossible() {
         // TODO: Implement this
         // delegate?.endGame(won)

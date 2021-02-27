@@ -7,6 +7,9 @@
 
 import UIKit
 
+/**
+ Representation of a green peg that activates the Space Blast powerup when hit, lighting up all nearby pegs.
+ */
 class GreenGamePeg: GamePeg {
 
     static let score = 100

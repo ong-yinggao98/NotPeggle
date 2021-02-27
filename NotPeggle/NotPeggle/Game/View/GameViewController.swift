@@ -115,17 +115,12 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     @IBAction private func returnToNotPeggle(_ sender: Any) {
         navController?.popViewController(animated: false)
-        engine.cleanUp()
-        gameArea.subviews
-            .compactMap { $0 as? GamePegView }
-            .forEach { $0.removeFromSuperview() }
+        cleanUp()
     }
 
     private func cleanUp() {
         engine.cleanUp()
-        gameArea.subviews
-            .compactMap { $0 as? GamePegView }
-            .forEach { $0.removeFromSuperview() }
+        gameArea.subviews.forEach { $0.removeFromSuperview() }
     }
 
     // ==================== //
@@ -184,7 +179,6 @@ class GameViewController: UIViewController, GameEngineDelegate {
         UIView.animate(withDuration: 0.2, animations: { toRemove?.makeTransparent() })
     }
 
-    /// Sets hit pegs to their highlighted forms.
     func highlightPegs() {
         let pegViews = gameArea.subviews.compactMap { $0 as? GamePegView }
         for peg in engine.gamePegs where peg.hit {
@@ -206,6 +200,7 @@ class GameViewController: UIViewController, GameEngineDelegate {
         )
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
+        launchButton.isEnabled = false
     }
 
     private func gameOverMessage(_ condition: GameOverState) -> String {

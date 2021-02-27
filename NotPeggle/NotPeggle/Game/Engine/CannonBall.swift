@@ -15,6 +15,10 @@ class CannonBall: GravBouncingBall {
     static let speed: CGFloat = 1_000
     static let radius = CGFloat(Constants.pegRadius)
 
+    private(set) var framesStuck = 0
+    private let minimumDisplacement: CGFloat = 0.4 // Minimum displacement of 0.4 to account for micro-bounces
+    private let limit = 600 // Roughly 10 seconds is allowed before a ball is considered effectively stuck
+
     /// Constructs a cannon at the given `coord` ready to move at the given `angle`.
     init(angle: CGFloat, coord: CGPoint) {
         let velocity = CannonBall.calculateInitialVelocity(angle: angle)
@@ -24,6 +28,26 @@ class CannonBall: GravBouncingBall {
 
     internal init?(coord: CGPoint, velocity: CGVector) {
         super.init(center: coord, radius: CannonBall.radius, velocity: velocity)
+    }
+
+    override func updateProperties(time: TimeInterval) {
+        let initialPosition = center
+        super.updateProperties(time: time)
+        let displacement = CGVector(dx: center.x - initialPosition.x, dy: center.y - initialPosition.y)
+        checkIfStuck(displacement: displacement)
+    }
+
+    private func checkIfStuck(displacement: CGVector) {
+        let minDistSquared = minimumDisplacement * minimumDisplacement
+        if displacement.magnitudeSquared < minDistSquared {
+            framesStuck += 1
+        } else {
+            framesStuck = 0
+        }
+    }
+
+    var stuck: Bool {
+        framesStuck > limit
     }
 
     /// Computes the velocity from the magnitude and angle of launch

@@ -7,6 +7,10 @@
 
 import UIKit
 
+/**
+ Representation of an orange peg that merits a higher score than others, allowing the player
+ to more easily meet the mimum score required to win the game.
+ */
 class OrangeGamePeg: GamePeg {
 
     static let score = 200

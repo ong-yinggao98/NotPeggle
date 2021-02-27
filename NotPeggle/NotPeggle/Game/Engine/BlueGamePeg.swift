@@ -7,6 +7,9 @@
 
 import UIKit
 
+/**
+ Generic blue peg that merits the standard score.
+ */
 class BlueGamePeg: GamePeg {
 
     static let score = 100
