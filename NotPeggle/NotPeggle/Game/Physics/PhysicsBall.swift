@@ -5,6 +5,7 @@
 //  Created by Ying Gao on 8/2/21.
 //
 
+import Foundation
 import UIKit
 
 /**
@@ -13,18 +14,11 @@ import UIKit
  Each object also has a `restitution` value that defines the amount of velocity retained  after a collision,
  as well as its `velocity` and `acceleration`.
  */
-class PhysicsBall: NSObject, PhysicsBody {
-
-    let shape = Shape.ball
+class PhysicsBall: PhysicsBody {
 
     // MARK: Physical attributes
     private(set) var center: CGPoint
     private(set) var radius: CGFloat
-    private(set) var restitution: CGFloat
-
-    // MARK: Dynamic attributes
-    var velocity: CGVector
-    var acceleration: CGVector
 
     init?(pos: CGPoint, radius: CGFloat, restitution: CGFloat, velo: CGVector, accel: CGVector) {
         center = pos
@@ -33,21 +27,22 @@ class PhysicsBall: NSObject, PhysicsBody {
         }
 
         self.radius = radius
-        self.restitution = restitution
-        velocity = velo
-        acceleration = accel
+        super.init(shape: .ball, restitution: restitution, velocity: velo, acceleration: accel)
     }
 
     /// Checks if the given PhysBody collides with another (i.e. areas intersect).
-    func collides(with other: PhysicsBody) -> Bool {
-        switch shape {
+    override func collides(with other: PhysicsBody) -> Bool {
+        switch other.shape {
         case .ball:
             guard let ball = other as? PhysicsBall else {
                 fatalError("Ball shape should only be used by PhysicsBalls")
             }
             return collides(ball: ball)
         case .block:
-            return false
+            guard let block = other as? PhysicsBlock else {
+                fatalError("Block shape should only be used by PhysicsBlocks")
+            }
+            return block.collides(with: self)
         }
     }
 
@@ -65,19 +60,12 @@ class PhysicsBall: NSObject, PhysicsBody {
         return distSquared <= minSafeDistSquared
     }
 
-//    private func collides(block: PhysicsBlock) -> Bool {
-//        let boundingBox = block.boundingBox
-//
-//        let min = CGVector.zero
-//        let max = CGVector(dx: boundingBox.width, dy: boundingBox.height)
-//
-//        let blockCenter = CGPoint(x: boundingBox.midX, y: boundingBox.midY)
-//        let vectorToBoxCenter = center.unitNormalTo(point: blockCenter)
-//        return false
-//    }
+    private func collides(block: PhysicsBlock) -> Bool {
+        false
+    }
 
     /// Computes the new location of the object after the elapsed `time` and moves it to that location.
-    func updateProperties(time: TimeInterval) {
+    override func updateProperties(time: TimeInterval) {
         let elapsed = time.magnitude
         setNewCenter(time: elapsed)
         setNewVelocity(time: time)
@@ -100,7 +88,7 @@ class PhysicsBall: NSObject, PhysicsBody {
     /// If the two objects do not collide, this does not change anything.
     /// If the object has already collided and has not fully left the intersecting area,
     /// this method also does not change anything.
-    func handleCollision(object: PhysicsBody) {
+    override func handleCollision(object: PhysicsBody) {
         guard collides(with: object) else {
             return
         }
@@ -117,15 +105,26 @@ class PhysicsBall: NSObject, PhysicsBody {
     }
 
     private func handleCollision(ball: PhysicsBall) {
-        let tangent = center.unitTangentTo(point: ball.center)
-        let angleOffSet = tangent.angleInRads
-        reflect(at: angleOffSet)
+        reflectOffNormal(to: ball.center)
     }
 
-    private func reflect(at angleOffSet: CGFloat) {
-        velocity.rotate(by: -angleOffSet)
-        velocity.dy *= -1
-        velocity.rotate(by: angleOffSet)
+    private func handleCollision(block: PhysicsBlock) {
+        let localCenter = block.convertToLocalCoordinates(ball: self)
+        let blockOrigin = CGPoint(x: block.center.x - block.width / 2, y: block.center.y - block.height / 2)
+
+        let nearestX = max(blockOrigin.x, min(localCenter.x, blockOrigin.x + block.width))
+        let nearestY = max(blockOrigin.y, min(localCenter.y, blockOrigin.y + block.height))
+        let nearestPoint = CGPoint(x: nearestX, y: nearestY)
+
+        reflectOffNormal(to: nearestPoint)
+    }
+
+    private func reflectOffNormal(to point: CGPoint) {
+        var normal = center.unitNormalTo(point: point)
+        let velocityComp = velocity.dot(other: normal)
+        normal.scale(factor: 2 * velocityComp)
+        velocity.dy -= normal.dy
+        velocity.dx -= normal.dx
         velocity.scale(factor: restitution)
     }
 
@@ -135,7 +134,7 @@ class PhysicsBall: NSObject, PhysicsBody {
     /// - Parameters:
     ///   - frame: The dimensions of the boundaries that the object is housed within.
     ///   - borders: The set of walls that the object can bounce off.
-    func handleCollisionWithBorders(frame: CGRect, borders: Set<Border>) {
+    override func handleCollisionWithBorders(frame: CGRect, borders: Set<Border>) {
         let bouncedVerti = bounceOffVerticalWall(frame: frame, borders: borders)
         let bouncedHori = bounceOffHorizontalWall(frame: frame, borders: borders)
         if bouncedVerti || bouncedHori {

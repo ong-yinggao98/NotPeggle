@@ -16,9 +16,7 @@ class GamePegView: UIView {
     var color: Color
     var image: UIImageView!
 
-    var radius: CGFloat {
-        frame.width / 2
-    }
+    var radius: CGFloat
 
     static var orangeImage: UIImageView {
         let orange = #imageLiteral(resourceName: "orange-bubble")
@@ -34,6 +32,7 @@ class GamePegView: UIView {
 
     init(radius: CGFloat, center: CGPoint, color: Color) {
         let frame = CGFrameFactory.createFrame(center: center, radius: radius)
+        self.radius = radius
         self.color = color
         super.init(frame: frame)
         setUpImage()
@@ -71,7 +70,7 @@ class GamePegView: UIView {
         guard let other = object as? GamePegView else {
             return false
         }
-        return color == other.color && frame == other.frame
+        return color == other.color && frame == other.frame && radius == other.radius
     }
 
 }

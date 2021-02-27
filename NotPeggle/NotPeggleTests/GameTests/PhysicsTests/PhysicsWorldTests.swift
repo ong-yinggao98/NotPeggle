@@ -125,10 +125,9 @@ class PhysicsWorldTests: XCTestCase {
 
     private func compareWorlds(expected: PhysicsWorld, actual: PhysicsWorld) {
         XCTAssertEqual(expected.dimensions, actual.dimensions)
-        let expectedBodies = Array(expected.bodies)
-        let actualBodies = Array(actual.bodies)
-        XCTAssertEqual(expectedBodies.count, actualBodies.count)
-        actualBodies.forEach { XCTAssertTrue(expectedBodies.contains($0)) }
+        let expectedBodies = expected.bodies
+        let actualBodies = actual.bodies
+        XCTAssertEqual(expectedBodies, actualBodies)
     }
 
 }

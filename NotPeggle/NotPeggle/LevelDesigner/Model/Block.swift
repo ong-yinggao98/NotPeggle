@@ -20,28 +20,35 @@ struct Block: LevelObject {
 
     var center: Point
     var height: Double
+    var width: Double
     var angle: Double
 
-    var width: Double {
-        height * 2
+    init(center: Point) {
+        self.center = center
+        self.height = Constants.blockHeight
+        self.width = 2 * height
+        self.angle = 0
     }
 
     init(center: Point, height: Double) {
         self.center = center
         self.height = height
+        self.width = 2 * height
         self.angle = 0
     }
 
     init(center: Point, height: Double, angle: Double) {
         self.center = center
         self.height = height
+        self.width = 2 * height
         self.angle = angle
     }
 
-    init(center: Point) {
+    init(center: Point, height: Double, width: Double, angle: Double) {
         self.center = center
-        self.height = Constants.blockHeight
-        self.angle = 0
+        self.height = height
+        self.width = width
+        self.angle = angle
     }
 
     /// Read-only property containing all points on a rotated block in anticlockwise order.
@@ -178,6 +185,10 @@ struct Block: LevelObject {
 
     func tooCloseToEdges(width: Double, height: Double) -> Bool {
         !points.allSatisfy { $0.x >= 0 && $0.x <= width && $0.y >= 0 && $0.y <= height }
+    }
+
+    func recenterTo(_ center: Point) -> Block {
+        Block(center: center, height: height, width: width, angle: angle)
     }
 
 }

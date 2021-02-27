@@ -20,6 +20,7 @@ class GameEngine: PhysicsWorldDelegate {
 
     private(set) var cannon: CannonBall?
     private(set) var gamePegs: [GamePeg] = []
+    private(set) var gameBlocks: [GameBlock] = []
 
     weak var observer: GameEngineDelegate?
 
@@ -33,8 +34,10 @@ class GameEngine: PhysicsWorldDelegate {
     }
 
     /// Adds the `GamePeg` objects into the engine if they do not already exist.
-    func loadPegsIntoWorld(pegs: [GamePeg]) {
+    func loadIntoWorld(pegs: [GamePeg], blocks: [GameBlock]) {
         pegs.filter { !gamePegs.contains($0) }
+            .forEach { world.insert(body: $0) }
+        blocks.filter { !gameBlocks.contains($0) }
             .forEach { world.insert(body: $0) }
     }
 
@@ -128,6 +131,10 @@ class GameEngine: PhysicsWorldDelegate {
             .compactMap { $0 as? GamePeg }
             .filter { !gamePegs.contains($0) }
             .forEach { gamePegs.append($0) }
+        world.bodies
+            .compactMap { $0 as? GameBlock }
+            .filter { !gameBlocks.contains($0) }
+            .forEach { gameBlocks.append($0) }
     }
 
     func updateRemovedPegs() {

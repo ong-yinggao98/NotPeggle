@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegate {
+class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegate, BlockViewDelegate {
 
     typealias Converter = ModelViewConverter
 
@@ -23,8 +23,9 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     @IBOutlet private var buttonBluePeg: UIButton!
     @IBOutlet private var buttonOrangePeg: UIButton!
     @IBOutlet private var buttonDeletePeg: UIButton!
+    @IBOutlet private var buttonBlock: UIButton!
     private var buttons: [UIButton] {
-        [buttonBluePeg, buttonOrangePeg, buttonDeletePeg]
+        [buttonBluePeg, buttonOrangePeg, buttonDeletePeg, buttonBlock]
     }
 
     @IBOutlet private var pegBoard: UIView!
@@ -79,7 +80,8 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     /// Reloads all data from the model. Any excess pegs are deleted and missing pegs are created.
     func loadModelData() {
         deleteExtraPegViews()
-        createMissingPegViews()
+        deleteExtraBlockViews()
+        createMissingViews()
     }
 
     /// Sets the text field's delegate to the controller and fills it with the model's name it present.
@@ -122,21 +124,36 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
                 continue
             }
             let modelPeg = Converter.pegFromView(pegView)
-            if !model.pegs.contains(modelPeg) {
+            if !model.contains(modelPeg) {
                 view.removeFromSuperview()
             }
         }
     }
 
-    /// Creates `PegView` objects for `Peg` instances that are not represented in the UI.
-    /// Pegs that cross the borders of the game area are excluded.
-    private func createMissingPegViews() {
+    /// Delete all `BlockView` objects that are not in the model.
+    private func deleteExtraBlockViews() {
+        for view in pegBoard.subviews {
+            guard let blockView = view as? BlockView else {
+                continue
+            }
+            let modelBlock = Converter.blockFromView(blockView)
+            if !model.contains(modelBlock) {
+                view.removeFromSuperview()
+            }
+        }
+    }
+
+    /// Creates `UIView` objects for `LevelObject` instances that are not represented in the UI.
+    /// `LevelObject`s  that cross the borders of the game area are excluded.
+    private func createMissingViews() {
         let pegViews = pegBoard.subviews
             .compactMap { $0 as? PegView }
             .map { Converter.pegFromView($0) }
-        for peg in model.pegs where !pegViews.contains(peg) {
-            addNewPegView(peg: peg)
-        }
+        model.pegs.filter { !pegViews.contains($0) }.forEach { addNewPegView(peg: $0) }
+        let blockViews = pegBoard.subviews
+            .compactMap { $0 as? BlockView }
+            .map { Converter.blockFromView($0) }
+        model.blocks.filter { !blockViews.contains($0) }.forEach { addNewBlockView(block: $0) }
     }
 
     /// Creates a `PegView` for a given `Peg` if it fits within the board area.
@@ -147,6 +164,16 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         let newPeg = Converter.viewFromPeg(peg)
         newPeg.delegate = self
         pegBoard.addSubview(newPeg)
+    }
+
+    /// Creates a `BlockView` for a given `Block` if it fits within the board area.
+    private func addNewBlockView(block: Block) {
+        guard model.fitsOnBoard(object: block) else {
+            return
+        }
+        let blockView = Converter.viewFromBlock(block)
+        blockView.delegate = self
+        pegBoard.addSubview(blockView)
     }
 
     // MARK: Button Actions
@@ -163,6 +190,11 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     @IBAction private func setDeleteMode(_ sender: UIButton) {
         mode = .delete
+        deselectAllButtonsExcept(sender)
+    }
+
+    @IBAction private func setBlockMode(_ sender: UIButton) {
+        mode = .addBlock
         deselectAllButtonsExcept(sender)
     }
 
@@ -183,6 +215,8 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
             addNewPeg(color: .orange, at: location)
         case .delete:
             deletePeg(at: location)
+        case .addBlock:
+            addBlock(at: location)
         case .none:
             fatalError("View Controller should always load with a mode")
         }
@@ -195,14 +229,21 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     func deletePeg(at location: CGPoint) {
         let coordinates = Converter.pointFromCGPoint(point: location)
-        let toRemove = model.firstPeg(where: { $0.contains(point: coordinates) })
-        guard let deletedPeg = toRemove else {
-            return
+        let pegtoRemove = model.firstPeg(where: { $0.contains(point: coordinates) })
+        let blocktoRemove = model.firstBlock(where: { $0.contains(point: coordinates) })
+        if let deletedPeg = pegtoRemove {
+            model.delete(peg: deletedPeg)
+        } else if let deletedBlock = blocktoRemove {
+            model.delete(block: deletedBlock)
         }
-        model.delete(peg: deletedPeg)
     }
 
-    // MARK: PegView Handlers
+    func addBlock(at location: CGPoint) {
+        let block = Block(center: Converter.pointFromCGPoint(point: location))
+        model.insert(block: block)
+    }
+
+    // MARK: Level Object View Handlers
 
     /// Deletes a peg from data after a long press has been applied to and refreshes UI to show the deletion.
     func holdToDeletePeg(_ gesture: UILongPressGestureRecognizer) {
@@ -226,6 +267,31 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         if model.canAccommodate(newPeg, excluding: peg) {
             view.center = location
             model.replace(peg, with: newPeg)
+        }
+    }
+
+    /// Deletes a peg from data after a long press has been applied to and refreshes UI to show the deletion.
+    func holdToDeleteBlock(_ gesture: UILongPressGestureRecognizer) {
+        guard let view = gesture.view as? BlockView else {
+            fatalError("Gesture should target a PegView")
+        }
+        let block = Converter.blockFromView(view)
+        model.delete(block: block)
+    }
+
+    /// Drags a peg to a position that does not clash with pegs and saves its position.
+    func dragBlock(_ gesture: UIPanGestureRecognizer) {
+        guard let view = gesture.view as? BlockView else {
+            fatalError("Gesture should be attached to a PegView")
+        }
+        let block = Converter.blockFromView(view)
+        let location = gesture.location(in: pegBoard)
+        let newCenter = Converter.pointFromCGPoint(point: location)
+        let newBlock = block.recenterTo(newCenter)
+
+        if model.canAccommodate(newBlock, excluding: block) {
+            view.center = location
+            model.replace(block, with: newBlock)
         }
     }
 
@@ -269,71 +335,8 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         guard let nav = navigationController else {
             fatalError("VC should have a navigation controller")
         }
-        game.initializeWithData(
-            board: pegBoard,
-            navController: nav,
-            pegs: model
-        )
+        game.initializeWithData(board: pegBoard, navController: nav, pegs: model)
         navigationController?.pushViewController(game, animated: false)
-    }
-
-    // MARK: Text Field Methods
-
-    /// Sets the text field to hide the keyboard after hitting return.
-    /// Taken from Apple's Storyboard tutorial (Connect the UI to Code)
-    /// https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-
-    /// Sets the model's name after the user has finished typing.
-    /// Taken from Apple's Storyboard tutorial (Connect the UI to Code)
-    /// https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.resignFirstResponder()
-        guard
-            let newName = textField.text,
-            model.levelName != newName
-        else {
-            return
-        }
-
-        if !newName.contains("/") {
-            model.levelName = newName
-        } else {
-            alertOnInvalidName()
-            textField.text = model.levelName
-        }
-    }
-
-    private func alertOnInvalidName() {
-        let alert = UIAlertController(
-            title: "Invalid name!",
-            message: "Level titles should not have \"/\" characters.\nPlease try again",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-
-    /// Moves the display up to show the user what they have added into the text field.
-    /// Credit: https://fluffy.es/move-view-when-keyboard-is-shown/
-    @objc func keyboardWillShow(notification: NSNotification) {
-        guard
-            let userInfo = notification.userInfo,
-            let keyBoardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        else {
-           return
-        }
-        let keyboardSize = keyBoardFrame.cgRectValue
-        view.frame.origin.y = 0 - keyboardSize.height
-    }
-
-    /// Moves the display back down when no longer needed.
-    /// Credit: https://fluffy.es/move-view-when-keyboard-is-shown/
-    @objc func keyboardWillHide(notification: NSNotification) {
-        view.frame.origin.y = 0
     }
 
     /// Allows users to stop editing by tapping anywhere outside the level name text field.
@@ -344,5 +347,5 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 }
 
 enum Mode {
-    case addBlue, addOrange, delete
+    case addBlue, addOrange, delete, addBlock
 }

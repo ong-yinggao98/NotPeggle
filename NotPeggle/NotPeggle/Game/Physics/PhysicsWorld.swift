@@ -14,7 +14,7 @@ import UIKit
  */
 class PhysicsWorld: NSObject {
 
-    private(set) var bodies: Set<PhysicsBall> = []
+    private(set) var bodies: Set<PhysicsBody> = []
     let dimensions: CGRect
     private(set) var borders: Set<Border> = [.top, .bottom, .left, .right]
 
@@ -34,12 +34,12 @@ class PhysicsWorld: NSObject {
         }
     }
 
-    internal init(frame: CGRect, bodies: [PhysicsBall]) {
+    internal init(frame: CGRect, bodies: [PhysicsBody]) {
         dimensions = frame
         self.bodies = Set(bodies)
     }
 
-    func insert(body: PhysicsBall) {
+    func insert(body: PhysicsBody) {
         guard !bodies.contains(body) else {
             return
         }
@@ -47,15 +47,12 @@ class PhysicsWorld: NSObject {
         delegate?.updateAddedPegs()
     }
 
-    func remove(body: PhysicsBall) {
-        guard let first = bodies.firstIndex(of: body) else {
-            return
-        }
-        bodies.remove(at: first)
+    func remove(body: PhysicsBody) {
+        bodies.remove(body)
         delegate?.updateRemovedPegs()
     }
 
-    func contains(body: PhysicsBall) -> Bool {
+    func contains(body: PhysicsBody) -> Bool {
         bodies.contains(body)
     }
 

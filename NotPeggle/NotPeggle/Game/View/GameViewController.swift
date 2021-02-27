@@ -139,6 +139,7 @@ class GameViewController: UIViewController, GameEngineDelegate {
     func updatePegSprites() {
         deleteExtraPegs()
         addMissingPegs()
+        addMissingBlocks()
         highlightPegs()
     }
 
@@ -161,6 +162,12 @@ class GameViewController: UIViewController, GameEngineDelegate {
     func addMissingPegs() {
         engine.gamePegs
             .map { GamePegView(radius: $0.radius, center: $0.center, color: $0.color) }
+            .filter { !gameArea.subviews.contains($0) }
+            .forEach { gameArea.addSubview($0) }
+    }
+
+    func addMissingBlocks() {
+        engine.gameBlocks.map { BlockView(center: $0.center, width: $0.width, height: $0.height, angle: $0.angle) }
             .filter { !gameArea.subviews.contains($0) }
             .forEach { gameArea.addSubview($0) }
     }

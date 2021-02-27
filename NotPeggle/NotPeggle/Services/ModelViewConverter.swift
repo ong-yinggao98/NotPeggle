@@ -35,6 +35,22 @@ struct ModelViewConverter {
         return Peg(center: center, color: view.color, radius: radius)
     }
 
+    static func blockFromView(_ view: BlockView) -> Block {
+        let center = pointFromCGPoint(point: view.center)
+        let height = view.height.native
+        let width = view.width.native
+        let angle = view.angle.native
+        return Block(center: center, height: height, width: width, angle: angle)
+    }
+
+    static func viewFromBlock(_ block: Block) -> BlockView {
+        let center = CGPoint(x: block.center.x, y: block.center.y)
+        let width = CGFloat(block.width)
+        let height = CGFloat(block.height)
+        let angle = CGFloat(block.angle)
+        return BlockView(center: center, width: width, height: height, angle: angle)
+    }
+
     /// Converts a `CGPoint` to `Point`.
     static func pointFromCGPoint(point: CGPoint) -> Point {
         Point(x: point.x.native, y: point.y.native)

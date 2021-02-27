@@ -17,7 +17,7 @@ class GameEngineTests: XCTestCase {
 
     func testLoadPegs_emptyArray_noChange() {
         let engine = testCase
-        engine.loadPegsIntoWorld(pegs: [])
+        engine.loadIntoWorld(pegs: [], blocks: [])
         XCTAssertTrue(engine.gamePegs.isEmpty)
     }
 
@@ -39,15 +39,15 @@ class GameEngineTests: XCTestCase {
 
     func testLoadPegs_pegsAdded() {
         let engine = testCase
-        engine.loadPegsIntoWorld(pegs: [pegA, pegB])
+        engine.loadIntoWorld(pegs: [pegA, pegB], blocks: [])
         XCTAssertTrue(engine.gamePegs.contains(pegA))
         XCTAssertTrue(engine.gamePegs.contains(pegB))
     }
 
     func testLoadPegs_duplicatePegs_extrasNotAdded() {
         let engine = testCase
-        engine.loadPegsIntoWorld(pegs: [pegA, pegB])
-        engine.loadPegsIntoWorld(pegs: [pegA])
+        engine.loadIntoWorld(pegs: [pegA, pegB], blocks: [])
+        engine.loadIntoWorld(pegs: [pegA], blocks: [])
         XCTAssertEqual(engine.gamePegs.count, 2)
     }
 
@@ -155,7 +155,7 @@ class GameEngineTests: XCTestCase {
             return
         }
         hitPegB.hit = true
-        engine.loadPegsIntoWorld(pegs: [pegA, hitPegB])
+        engine.loadIntoWorld(pegs: [pegA, hitPegB], blocks: [])
         engine.removeAllHitPegs()
         XCTAssertEqual(engine.gamePegs, [pegA])
     }

@@ -7,20 +7,31 @@
 
 import UIKit
 
-protocol PhysicsBody {
+class PhysicsBody: NSObject {
 
-    var shape: Shape { get }
-    var restitution: CGFloat { get }
-    var velocity: CGVector { get }
-    var acceleration: CGVector { get }
+    let shape: Shape
+    var restitution: CGFloat
+    var velocity: CGVector
+    var acceleration: CGVector
 
-    func updateProperties(time: TimeInterval)
+    init(shape: Shape, restitution: CGFloat, velocity: CGVector, acceleration: CGVector) {
+        self.shape = shape
+        self.restitution = restitution
+        self.velocity = velocity
+        self.acceleration = acceleration
+    }
 
-    func collides(with other: PhysicsBody) -> Bool
+    func updateProperties(time: TimeInterval) {}
 
-    func handleCollision(object: PhysicsBody)
+    func collides(with other: PhysicsBody) -> Bool {
+        false
+    }
 
-    func handleCollisionWithBorders(frame: CGRect, borders: Set<Border>)
+    func handleCollision(object: PhysicsBody) {
+    }
+
+    func handleCollisionWithBorders(frame: CGRect, borders: Set<Border>) {
+    }
 
 }
 

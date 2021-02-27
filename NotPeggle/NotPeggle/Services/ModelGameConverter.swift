@@ -17,8 +17,9 @@ struct ModelGameConverter {
     /// The engine has the same boundaries as the `model` as well as its converted pegs.
     static func gameRepresentation(model: Model) -> GameEngine {
         let engine = initializeEngine(model: model)
-        let output = getGamePegs(from: model)
-        engine.loadPegsIntoWorld(pegs: output)
+        let gamePegs = getGamePegs(from: model)
+        let gameBlocks = getGameBlocks(from: model)
+        engine.loadIntoWorld(pegs: gamePegs, blocks: gameBlocks)
         return engine
     }
 
@@ -28,15 +29,11 @@ struct ModelGameConverter {
     }
 
     private static func getGamePegs(from model: Model) -> [GamePeg] {
-        let pegs = model.pegs
-        var output: [GamePeg] = []
-        for peg in pegs {
-            guard let gamePeg = gameRepresentation(peg: peg) else {
-                continue
-            }
-            output.append(gamePeg)
-        }
-        return output
+        model.pegs.compactMap { gameRepresentation(peg: $0) }
+    }
+
+    private static func getGameBlocks(from model: Model) -> [GameBlock] {
+        model.blocks.map { gameRepresentation(block: $0) }
     }
 
     /// Converts a given `Peg` into a `GamePeg` with the same colour and coordinates.
@@ -46,6 +43,14 @@ struct ModelGameConverter {
         let gamePos = CGPoint(x: pos.x, y: pos.y)
         let radius = CGFloat(peg.radius)
         return GamePeg(pegColor: color, pos: gamePos, radius: radius)
+    }
+
+    static func gameRepresentation(block: Block) -> GameBlock {
+        let cgCenter = CGPoint(x: block.center.x, y: block.center.y)
+        let cgWidth = CGFloat(block.width)
+        let cgHeight = CGFloat(block.height)
+        let cgAngle = CGFloat(block.angle)
+        return GameBlock(center: cgCenter, width: cgWidth, height: cgHeight, angle: cgAngle)
     }
 
 }
