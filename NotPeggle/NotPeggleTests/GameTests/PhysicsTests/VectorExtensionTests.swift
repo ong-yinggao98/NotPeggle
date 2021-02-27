@@ -54,26 +54,6 @@ class VectorExtensionTests: XCTestCase {
         XCTAssertEqual(vector.angleInRads, 0)
     }
 
-    func testAngleSetter_zeroVector_noChange() {
-        var vector = CGVector.zero
-        vector.angleInRads = CGFloat.pi
-        XCTAssertEqual(vector.angleInRads, 0)
-    }
-
-    func testAngleSetter() {
-        var vector = CGVector(dx: 3, dy: 4)
-        vector.angleInRads = CGFloat.pi
-        var expected = CGVector(dx: -5, dy: 0)
-        TestUtils.compareVectors(expected: expected, actual: vector)
-        XCTAssertEqual(vector.angleInRads, 0, accuracy: marginOfError)
-
-        let newAngle = 5 * CGFloat.pi / 6
-        vector.angleInRads = newAngle
-        expected = CGVector(dx: -5 / 2 * sqrt(3), dy: 5 / 2)
-        TestUtils.compareVectors(expected: expected, actual: vector)
-        XCTAssertEqual(vector.angleInRads, -CGFloat.pi / 6, accuracy: marginOfError)
-    }
-
     func testRotateBy_positiveDxNegativeDy() {
         var vector = CGVector(dx: 1, dy: -1)
         vector.rotate(by: CGFloat.pi / 4)

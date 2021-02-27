@@ -16,17 +16,10 @@ extension CGVector {
     /// Note that the angle is calculated by arctan() and has limited range [pi/2, -pi/2].
     /// In other words, two parallel vectors in opposite directions will share the same angle.
     var angleInRads: CGFloat {
-        get {
-            guard magnitude != 0 else {
-                return 0
-            }
-            return atan(dy / dx)
+        guard magnitude != 0 else {
+            return 0
         }
-        set {
-            let magnitude = self.magnitude // it seems that not having this line really kills the precision
-            dx = magnitude * cos(newValue)
-            dy = magnitude * sin(newValue)
-        }
+        return atan(dy / dx)
     }
 
     var magnitudeSquared: CGFloat {
@@ -39,11 +32,10 @@ extension CGVector {
 
     /// Rotates the vector **anticlockwise** by the given `angle`.
     mutating func rotate(by angle: CGFloat) {
-        var angleToRotateBy = angle
-        if dx < 0 {
-            angleToRotateBy += CGFloat.pi
-        }
-        angleInRads += angleToRotateBy
+        let newDx = dx * cos(angle) - dy * sin(angle)
+        let newDy = dx * sin(angle) + dy * cos(angle)
+        dx = newDx
+        dy = newDy
     }
 
     /// Returns the dot product between the two vectors
