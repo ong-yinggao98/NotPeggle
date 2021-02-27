@@ -12,6 +12,9 @@
 		84096E9725E952CB001411BB /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84096E9625E952CB001411BB /* BlockView.swift */; };
 		84096E9F25E953BF001411BB /* LevelViewController+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84096E9E25E953BF001411BB /* LevelViewController+Controls.swift */; };
 		8428091B25EA4F4D00D2B666 /* GameBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428091A25EA4F4D00D2B666 /* GameBlockView.swift */; };
+		8428093625EAA83500D2B666 /* BlueGamePeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428093525EAA83500D2B666 /* BlueGamePeg.swift */; };
+		8428093B25EAAAFF00D2B666 /* OrangeGamePeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428093A25EAAAFF00D2B666 /* OrangeGamePeg.swift */; };
+		8428094325EAAB7300D2B666 /* GreenGamePeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428094225EAAB7300D2B666 /* GreenGamePeg.swift */; };
 		842E814A25D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E814925D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift */; };
 		842E815225D9012F0028DE3D /* GameEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E815125D9012F0028DE3D /* GameEngineTests.swift */; };
 		842E815D25D90A6E0028DE3D /* PhysicsWorldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */; };
@@ -93,6 +96,9 @@
 		84096E9625E952CB001411BB /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		84096E9E25E953BF001411BB /* LevelViewController+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LevelViewController+Controls.swift"; sourceTree = "<group>"; };
 		8428091A25EA4F4D00D2B666 /* GameBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBlockView.swift; sourceTree = "<group>"; };
+		8428093525EAA83500D2B666 /* BlueGamePeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueGamePeg.swift; sourceTree = "<group>"; };
+		8428093A25EAAAFF00D2B666 /* OrangeGamePeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeGamePeg.swift; sourceTree = "<group>"; };
+		8428094225EAAB7300D2B666 /* GreenGamePeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenGamePeg.swift; sourceTree = "<group>"; };
 		842E814925D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhysicsBallTests+Walls.swift"; sourceTree = "<group>"; };
 		842E815125D9012F0028DE3D /* GameEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngineTests.swift; sourceTree = "<group>"; };
 		842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsWorldDelegate.swift; sourceTree = "<group>"; };
@@ -282,6 +288,9 @@
 				8484528325D783EC004157B7 /* GameEngineDelegate.swift */,
 				8484524625D641D8004157B7 /* CannonBall.swift */,
 				8484525025D683E5004157B7 /* GamePeg.swift */,
+				8428093525EAA83500D2B666 /* BlueGamePeg.swift */,
+				8428093A25EAAAFF00D2B666 /* OrangeGamePeg.swift */,
+				8428094225EAAB7300D2B666 /* GreenGamePeg.swift */,
 				8464C2EA25EA34B40048AC07 /* GameBlock.swift */,
 			);
 			path = Engine;
@@ -564,6 +573,7 @@
 				8484524725D641D8004157B7 /* CannonBall.swift in Sources */,
 				84BD0C4D25D1055E0090B0E8 /* PhysicsBall.swift in Sources */,
 				8484528425D783EC004157B7 /* GameEngineDelegate.swift in Sources */,
+				8428093B25EAAAFF00D2B666 /* OrangeGamePeg.swift in Sources */,
 				8481A39725C049F900728B0A /* PegView.swift in Sources */,
 				847BD83525BEDA3F00C3782E /* Model.swift in Sources */,
 				84421DED25E636C500CF6F63 /* PhysicsBlock.swift in Sources */,
@@ -584,10 +594,12 @@
 				84B4C02425E3AFCD00AD097D /* CannonView.swift in Sources */,
 				847B418825D50D9E004790B0 /* StationaryBall.swift in Sources */,
 				84096E8725E9045F001411BB /* Point.swift in Sources */,
+				8428094325EAAB7300D2B666 /* GreenGamePeg.swift in Sources */,
 				8472D0A025D3BAA60092E3B8 /* CGVector+Angles.swift in Sources */,
 				8484529C25D78F88004157B7 /* CannonBallView.swift in Sources */,
 				84BD0C5525D2C6D40090B0E8 /* CGPoint+Vectors.swift in Sources */,
 				8481A3AA25C0782C00728B0A /* Constants.swift in Sources */,
+				8428093625EAA83500D2B666 /* BlueGamePeg.swift in Sources */,
 				8428091B25EA4F4D00D2B666 /* GameBlockView.swift in Sources */,
 				842E815D25D90A6E0028DE3D /* PhysicsWorldDelegate.swift in Sources */,
 				8484529425D788A3004157B7 /* GamePegView.swift in Sources */,

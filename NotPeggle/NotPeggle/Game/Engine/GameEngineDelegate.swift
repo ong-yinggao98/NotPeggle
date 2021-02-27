@@ -15,4 +15,8 @@ protocol GameEngineDelegate: AnyObject {
 
     func removeView(of peg: GamePeg)
 
+    func displayScore()
+
+    func endGame(condition: GameOverState)
+
 }

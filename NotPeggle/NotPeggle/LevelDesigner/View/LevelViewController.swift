@@ -257,7 +257,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         guard let nav = navigationController else {
             fatalError("VC should have a navigation controller")
         }
-        game.initializeWithData(board: pegBoard, navController: nav, pegs: model)
+        game.initializeWithData(navController: nav, model: model)
         navigationController?.pushViewController(game, animated: false)
     }
 

@@ -224,24 +224,39 @@
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="lja-cF-FiT"/>
                                 </constraints>
-                                <state key="normal" title="LAUNCH"/>
                                 <connections>
                                     <action selector="didLaunchCannon:" destination="LcY-Ai-F1Q" eventType="touchUpInside" id="Dgu-yZ-cPG"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zam-ei-0qv">
+                                <rect key="frame" x="367" y="1094" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="S6m-mf-OsS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="nAq-xX-wra"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Zam-ei-0qv" firstAttribute="centerX" secondItem="Rb5-DB-Vdg" secondAttribute="centerX" id="1dp-v1-V4a"/>
+                            <constraint firstItem="nAq-xX-wra" firstAttribute="bottom" secondItem="Zam-ei-0qv" secondAttribute="bottom" constant="50" id="Spp-xa-sqR"/>
                             <constraint firstItem="nAq-xX-wra" firstAttribute="bottom" secondItem="mzC-oM-sLK" secondAttribute="bottom" constant="50" id="aZF-Y2-GOY"/>
                             <constraint firstItem="mzC-oM-sLK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="L55-qV-zal" secondAttribute="trailing" constant="8" symbolic="YES" id="efR-Lc-QkV"/>
                             <constraint firstItem="L55-qV-zal" firstAttribute="leading" secondItem="nAq-xX-wra" secondAttribute="leading" constant="40" id="hbc-dK-YXc"/>
                             <constraint firstItem="mzC-oM-sLK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nAq-xX-wra" secondAttribute="leading" symbolic="YES" id="kFL-1S-ESU"/>
+                            <constraint firstItem="Zam-ei-0qv" firstAttribute="height" secondItem="L55-qV-zal" secondAttribute="height" id="mJF-bD-mYg"/>
                             <constraint firstItem="nAq-xX-wra" firstAttribute="trailing" secondItem="mzC-oM-sLK" secondAttribute="trailing" constant="40" id="qiD-4W-voB"/>
                             <constraint firstItem="nAq-xX-wra" firstAttribute="bottom" secondItem="L55-qV-zal" secondAttribute="bottom" constant="50" id="sUT-oD-zI4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="h86-GR-Sh9"/>
+                    <connections>
+                        <outlet property="launchButton" destination="L55-qV-zal" id="zZz-jj-gEl"/>
+                        <outlet property="score" destination="Zam-ei-0qv" id="Apz-xW-iei"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jhb-4U-2iS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

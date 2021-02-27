@@ -10,7 +10,11 @@ import UIKit
 /**
  Game-specific engine.
  */
-class GameEngine: PhysicsWorldDelegate {
+class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
+
+    // ================ //
+    // MARK: Properties
+    // ================ //
 
     private(set) var ballLaunched = false
     private(set) var world: PhysicsWorld
@@ -21,6 +25,10 @@ class GameEngine: PhysicsWorldDelegate {
     private(set) var cannon: CannonBall?
     private(set) var gamePegs: [GamePeg] = []
     private(set) var gameBlocks: [GameBlock] = []
+
+    private(set) var shotsLeft = 0
+    private(set) var score = 0
+    private(set) var requiredScore = 0
 
     weak var delegate: GameEngineDelegate?
 
@@ -51,7 +59,9 @@ class GameEngine: PhysicsWorldDelegate {
         handleCannonExit()
     }
 
+    // ======================= //
     // MARK: Turn End Handlers
+    // ======================= //
 
     /// Checks if the cannon is within the playing area. If it has left, it is removed and all hit pegs are removed.
     func handleCannonExit() {
@@ -73,6 +83,7 @@ class GameEngine: PhysicsWorldDelegate {
         world.remove(body: currentCannon)
         cannon = nil
         ballLaunched = false
+        endGameIfPossible()
     }
 
     func removeAllHitPegs() {
@@ -80,7 +91,23 @@ class GameEngine: PhysicsWorldDelegate {
         hitPegs.forEach { world.remove(body: $0) }
     }
 
+    func endGameIfPossible() {
+        // TODO: Implement this
+        // delegate?.endGame(won)
+        if requiredScore <= 0 {
+            delegate?.endGame(condition: .noStart)
+        }
+        if shotsLeft >= 0 && score >= requiredScore {
+            delegate?.endGame(condition: .won)
+        }
+        if shotsLeft < 1 && score < requiredScore {
+            delegate?.endGame(condition: .lost)
+        }
+    }
+
+    // ===================== //
     // MARK: Cannon Handling
+    // ===================== //
 
     func aim(at coordinates: CGPoint) {
         launchAngle = calculateAngleOfFire(coordinates: coordinates)
@@ -88,7 +115,7 @@ class GameEngine: PhysicsWorldDelegate {
 
     /// Fires a cannon ball towards the given `coordinates` if there is no cannon active in the engine.
     func launch() {
-        guard !ballLaunched else {
+        guard !ballLaunched, shotsLeft > 0 else {
             return
         }
         startCannonSimulation()
@@ -101,6 +128,7 @@ class GameEngine: PhysicsWorldDelegate {
         }
         world.insert(body: cannon)
         ballLaunched = true
+        shotsLeft -= 1
     }
 
     func calculateAngleOfFire(coordinates: CGPoint) -> CGFloat {
@@ -114,7 +142,9 @@ class GameEngine: PhysicsWorldDelegate {
         return angle
     }
 
+    // ============= //
     // MARK: Cleanup
+    // ============= //
 
     /// Removes unneeded resources.
     func cleanUp() {
@@ -122,17 +152,20 @@ class GameEngine: PhysicsWorldDelegate {
         gamePegs.removeAll()
     }
 
-    // MARK: Delegate Methods
+    // ==================================== //
+    // MARK: Physics World Delegate Methods
+    // ==================================== //
 
     func updateAddedPegs() {
-        let pegsToAdd = world.bodies
-            .compactMap { $0 as? GamePeg }
-            .filter { !gamePegs.contains($0) }
-        pegsToAdd.forEach { gamePegs.append($0) }
+        let pegsToAdd = world.bodies.compactMap { $0 as? GamePeg }.filter { !gamePegs.contains($0) }
+        for peg in pegsToAdd {
+            gamePegs.append(peg)
+            peg.delegate = self
+        }
+        shotsLeft += pegsToAdd.count * 1
+        requiredScore += pegsToAdd.count * BlueGamePeg.score
 
-        let blocksToAdd = world.bodies
-            .compactMap { $0 as? GameBlock }
-            .filter { !gameBlocks.contains($0) }
+        let blocksToAdd = world.bodies.compactMap { $0 as? GameBlock }.filter { !gameBlocks.contains($0) }
         blocksToAdd.forEach { gameBlocks.append($0) }
 
         delegate?.addMissingObjects(pegs: pegsToAdd, blocks: blocksToAdd)
@@ -151,4 +184,21 @@ class GameEngine: PhysicsWorldDelegate {
         delegate?.removeView(of: peg)
     }
 
+    // =============================== //
+    // MARK: Game Peg Delegate Methods
+    // =============================== //
+
+    func updateScore(_ score: Int) {
+        self.score += score
+        delegate?.displayScore()
+    }
+
+    func pegsInVicinity(searchRadius: CGFloat, around center: CGPoint) -> [GamePeg] {
+        gamePegs.filter { $0.center.distanceTo(point: center) <= searchRadius }
+    }
+
+}
+
+enum GameOverState {
+    case won, lost, noStart
 }

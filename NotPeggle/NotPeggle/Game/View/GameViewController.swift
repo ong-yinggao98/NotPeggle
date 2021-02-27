@@ -16,7 +16,10 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     private var cannonBallSprite: CannonBallView?
 
-    weak var navController: UINavigationController?
+    @IBOutlet private var score: UILabel!
+    @IBOutlet private var launchButton: UIButton!
+
+    private weak var navController: UINavigationController?
 
     // ==================== //
     // MARK: Set-up Actions
@@ -24,25 +27,26 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     /// Initialises the game area and engine from the data given.
     /// This method **must** be called by the previous view controller before pushing this to the stack.
-    func initializeWithData(board: UIView, navController: UINavigationController, pegs: Model) {
+    func initializeWithData(navController: UINavigationController, model: Model) {
         modalPresentationStyle = .fullScreen
-        setGameArea(board: board)
+        setGameArea(model: model)
         setUpGestureRecognizer()
         self.navController = navController
-        initializeEngineAndLoadView(model: pegs)
+        initializeEngineAndLoadView(model: model)
         createDisplayLink()
     }
 
-    func setGameArea(board: UIView) {
-        setBackgroundFrom(board)
+    func setGameArea(model: Model) {
+        let frame = CGRect(x: 0, y: 0, width: model.width, height: model.height)
+        setBackgroundFrom(frame)
         gameArea.isUserInteractionEnabled = true
         gameArea.clipsToBounds = true
         view.addSubview(gameArea!)
     }
 
-    private func setBackgroundFrom(_ view: UIView) {
+    private func setBackgroundFrom(_ frame: CGRect) {
         let background = UIImageView(image: #imageLiteral(resourceName: "background"))
-        background.frame = view.frame
+        background.frame = frame
         background.contentMode = .scaleAspectFill
         gameArea = background
     }
@@ -57,8 +61,14 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     func initializeEngineAndLoadView(model: Model) {
         engine = ModelGameConverter.gameRepresentation(model: model, delegate: self)
+        displayScore()
+        updateLaunchCannonText()
         showCannon()
-        viewDidAppear(false)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        engine.endGameIfPossible()
     }
 
     func createDisplayLink() {
@@ -71,7 +81,13 @@ class GameViewController: UIViewController, GameEngineDelegate {
         engine?.refresh(elapsed: elapsed)
     }
 
+    func updateLaunchCannonText() {
+        launchButton.setTitle("LAUNCH: \(engine.shotsLeft) left!", for: .normal)
+    }
+
+    // ========================== //
     // MARK: Cannon Functionality
+    // ========================== //
 
     @objc func willLaunchCannon(_ gestureRecognizer: UIPanGestureRecognizer) {
         let location = gestureRecognizer.location(in: gameArea)
@@ -90,6 +106,7 @@ class GameViewController: UIViewController, GameEngineDelegate {
 
     @IBAction private func didLaunchCannon(_ sender: UIButton) {
         engine.launch()
+        updateLaunchCannonText()
     }
 
     // ========== //
@@ -173,6 +190,32 @@ class GameViewController: UIViewController, GameEngineDelegate {
         for peg in engine.gamePegs where peg.hit {
             let highlighted = pegViews.first(where: { $0.center == peg.center && $0.color == peg.color })
             highlighted?.highlight()
+        }
+    }
+
+    func displayScore() {
+        score.text = "Score: \(engine.score)/\(engine.requiredScore)"
+    }
+
+    func endGame(condition: GameOverState) {
+        let message = gameOverMessage(condition)
+        let alert = UIAlertController(
+            title: Constants.gameEndMessage,
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func gameOverMessage(_ condition: GameOverState) -> String {
+        switch condition {
+        case .won:
+            return Constants.winMessage
+        case .lost:
+            return Constants.loseMessage
+        case .noStart:
+            return Constants.noPegMessage
         }
     }
 

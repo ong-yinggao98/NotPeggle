@@ -11,8 +11,11 @@ import UIKit
  Representation of an immovable `GamePeg`. It lights up when hit by a cannon ball.
  */
 class GamePeg: StationaryBall {
+
     var hit = false
     let color: Color
+
+    weak var delegate: GamePegDelegate?
 
     init?(pegColor: Color, pos: CGPoint, radius: CGFloat) {
         color = pegColor
@@ -20,9 +23,17 @@ class GamePeg: StationaryBall {
     }
 
     override func handleCollision(object: PhysicsBody) {
-        guard collides(with: object), object is CannonBall else {
+        guard collides(with: object), object is CannonBall, !hit else {
             return
         }
         hit = true
     }
+}
+
+protocol GamePegDelegate: AnyObject {
+
+    func updateScore(_ score: Int)
+
+    func pegsInVicinity(searchRadius: CGFloat, around center: CGPoint) -> [GamePeg]
+
 }
