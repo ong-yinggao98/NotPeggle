@@ -23,4 +23,8 @@ class StationaryBall: PhysicsBall {
         return super.isEqual(other)
     }
 
+    override func handleCollision(object: PhysicsBody) {
+        // A static object does not need to handle collisions
+    }
+
 }

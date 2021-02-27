@@ -38,10 +38,6 @@ class GravBouncingBall: PhysicsBall {
             return
         }
         super.handleCollision(object: object)
-        guard let ball = object as? PhysicsBall else {
-            return
-        }
-        moveTillNotColliding(with: ball)
     }
 
     private func moveTillNotColliding(with object: PhysicsBall) {

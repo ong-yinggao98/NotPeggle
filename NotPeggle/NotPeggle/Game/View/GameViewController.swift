@@ -167,7 +167,7 @@ class GameViewController: UIViewController, GameEngineDelegate {
     }
 
     func addMissingBlocks() {
-        engine.gameBlocks.map { BlockView(center: $0.center, width: $0.width, height: $0.height, angle: $0.angle) }
+        engine.gameBlocks.map { GameBlockView(center: $0.center, width: $0.width, height: $0.height, angle: $0.angle) }
             .filter { !gameArea.subviews.contains($0) }
             .forEach { gameArea.addSubview($0) }
     }

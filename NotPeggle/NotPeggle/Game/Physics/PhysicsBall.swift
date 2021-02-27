@@ -100,12 +100,24 @@ class PhysicsBall: PhysicsBody {
             }
             handleCollision(ball: ball)
         case .block:
-            return
+            guard let block = object as? PhysicsBlock else {
+                fatalError("Only PhysicsBlock and subclasses should have the block shape")
+            }
+            handleCollision(block: block)
         }
     }
 
     private func handleCollision(ball: PhysicsBall) {
         reflectOffNormal(to: ball.center)
+        moveTillNotColliding(with: ball)
+    }
+
+    private func moveTillNotColliding(with object: PhysicsBall) {
+        var normal = center.unitNormalTo(point: object.center)
+        let idealDist = radius + object.radius
+        let distNeeded = idealDist - center.distanceTo(point: object.center)
+        normal.scale(factor: distNeeded * 0.95)
+        recenterBy(xDist: normal.dx, yDist: normal.dy)
     }
 
     private func handleCollision(block: PhysicsBlock) {
@@ -116,11 +128,22 @@ class PhysicsBall: PhysicsBody {
         let nearestY = max(blockOrigin.y, min(localCenter.y, blockOrigin.y + block.height))
         let nearestPoint = CGPoint(x: nearestX, y: nearestY)
 
-        reflectOffNormal(to: nearestPoint)
+        reflectOffNormal(to: nearestPoint, normalOffsetAngle: block.angle)
+
+        var normal = localCenter.unitNormalTo(point: nearestPoint)
+        normal.rotate(by: block.angle)
+        let dx = localCenter.x - nearestX
+        let dy = localCenter.y - nearestY
+        let minSafeDist = radius - sqrt(dx * dx + dy * dy)
+        normal.scale(factor: minSafeDist * 0.95)
+        recenterBy(xDist: normal.dx, yDist: normal.dy)
     }
 
-    private func reflectOffNormal(to point: CGPoint) {
+    private func reflectOffNormal(to point: CGPoint, normalOffsetAngle: CGFloat = 0) {
         var normal = center.unitNormalTo(point: point)
+        if normalOffsetAngle != 0 {
+            normal.rotate(by: normalOffsetAngle)
+        }
         let velocityComp = velocity.dot(other: normal)
         normal.scale(factor: 2 * velocityComp)
         velocity.dy -= normal.dy
