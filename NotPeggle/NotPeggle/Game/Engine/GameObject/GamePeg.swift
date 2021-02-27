@@ -29,12 +29,16 @@ class GamePeg: StationaryBall {
         }
         hit = true
     }
+
+    func distanceBetweenCenters(peg: GamePeg) -> CGFloat {
+        center.distanceTo(point: peg.center)
+    }
 }
 
 protocol GamePegDelegate: AnyObject {
 
     func updateScore(_ score: Int)
 
-    func pegsInVicinity(searchRadius: CGFloat, around center: CGPoint) -> [GamePeg]
+    func activatePowerUp(_ peg: GamePeg)
 
 }
