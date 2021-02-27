@@ -191,6 +191,10 @@ struct Block: LevelObject {
         Block(center: center, height: height, width: width, angle: angle)
     }
 
+    func rotate(angle: Double) -> Block {
+        Block(center: center, height: height, width: width, angle: angle)
+    }
+
 }
 
 extension Block: Hashable, Codable {

@@ -71,6 +71,15 @@ class BlockView: UIView {
         delegate.holdToDeleteBlock(gesture)
     }
 
+    @objc func rotateView(gesture: UIRotationGestureRecognizer) {
+        delegate.rotateBlock(gesture)
+    }
+
+    func rotate(to angle: CGFloat) {
+        transform = CGAffineTransform(rotationAngle: angle)
+        self.angle = angle
+    }
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -87,5 +96,7 @@ protocol BlockViewDelegate: AnyObject {
     func holdToDeleteBlock(_ gesture: UILongPressGestureRecognizer)
 
     func dragBlock(_ gesture: UIPanGestureRecognizer)
+
+    func rotateBlock(_ gesture: UIRotationGestureRecognizer)
 
 }

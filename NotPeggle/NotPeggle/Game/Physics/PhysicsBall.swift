@@ -120,6 +120,8 @@ class PhysicsBall: PhysicsBody {
         recenterBy(xDist: normal.dx, yDist: normal.dy)
     }
 
+    /// Recomputes velocity after colliding with the given `PhysicsBlock`.
+    /// Algorithm adapted from https://stackoverflow.com/a/45373126
     private func handleCollision(block: PhysicsBlock) {
         let localCenter = block.convertToLocalCoordinates(ball: self)
         let blockOrigin = CGPoint(x: block.center.x - block.width / 2, y: block.center.y - block.height / 2)

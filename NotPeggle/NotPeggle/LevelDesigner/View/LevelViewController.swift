@@ -33,7 +33,9 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     @IBOutlet private var levelNameField: UITextField!
     @IBOutlet private var saveButton: UIButton!
 
+    // ============================== //
     // MARK: Methods for Loading View
+    // ============================== //
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,8 +111,6 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     /// Sets the text within the text field to the model's name if present.
     private func displayLevelName() {
-        let placeholderName = "Enter level name here"
-        levelNameField.placeholder = placeholderName
         guard !model.levelName.isEmpty else {
             return
         }
@@ -176,7 +176,9 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         pegBoard.addSubview(blockView)
     }
 
+    // ==================== //
     // MARK: Button Actions
+    // ==================== //
 
     @IBAction private func setAddBlueMode(_ sender: UIButton) {
         mode = .addBlue
@@ -203,7 +205,9 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         buttons.filter { $0 !== sender }.forEach { $0.isSelected = false }
     }
 
+    // ============== //
     // MARK: Gestures
+    // ============== //
 
     /// Detects a tap on the peg board and either creates or deletes a peg centered on the location of the tap.
     @IBAction private func managePegsOnBoard(_ sender: UITapGestureRecognizer) {
@@ -243,7 +247,9 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         model.insert(block: block)
     }
 
+    // ================================ //
     // MARK: Level Object View Handlers
+    // ================================ //
 
     /// Deletes a peg from data after a long press has been applied to and refreshes UI to show the deletion.
     func holdToDeletePeg(_ gesture: UILongPressGestureRecognizer) {
@@ -295,7 +301,24 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         }
     }
 
+    func rotateBlock(_ gesture: UIRotationGestureRecognizer) {
+        guard let view = gesture.view as? BlockView else {
+            fatalError("Gesture should be attached to a BlockView")
+        }
+        let block = Converter.blockFromView(view)
+        let angle = gesture.rotation
+        let newBlock = block.rotate(angle: angle.native)
+
+        if model.canAccommodate(newBlock, excluding: block) {
+            print(angle)
+            view.rotate(to: angle)
+            model.replace(block, with: newBlock)
+        }
+    }
+
+    // =================== //
     // MARK: Load and Save
+    // =================== //
 
     @IBAction private func resetBoard(_ sender: UIButton) {
         model.removeAll()
