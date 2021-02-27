@@ -16,7 +16,7 @@ class CannonBall: GravBouncingBall {
     static let radius = CGFloat(Constants.pegRadius)
 
     private(set) var framesStuck = 0
-    private let minimumDisplacement: CGFloat = 0.4 // Minimum displacement of 0.4 to account for micro-bounces
+    private let minimumDisplacement: CGFloat = 0.5 // Minimum displacement of 0.4 to account for micro-bounces
     private let limit = 600 // Roughly 10 seconds is allowed before a ball is considered effectively stuck
 
     /// Constructs a cannon at the given `coord` ready to move at the given `angle`.
@@ -41,6 +41,7 @@ class CannonBall: GravBouncingBall {
         let minDistSquared = minimumDisplacement * minimumDisplacement
         if displacement.magnitudeSquared < minDistSquared {
             framesStuck += 1
+            print(framesStuck)
         } else {
             framesStuck = 0
         }

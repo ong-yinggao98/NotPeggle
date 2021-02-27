@@ -116,6 +116,8 @@ class PhysicsBall: PhysicsBody {
         var normal = center.unitNormalTo(point: object.center)
         let idealDist = radius + object.radius
         let distNeeded = idealDist - center.distanceTo(point: object.center)
+
+        // Due to floating point precision, 0.95 is my best balance.
         normal.scale(factor: distNeeded * 0.95)
         recenterBy(xDist: normal.dx, yDist: normal.dy)
     }
@@ -137,6 +139,9 @@ class PhysicsBall: PhysicsBody {
         let dx = localCenter.x - nearestX
         let dy = localCenter.y - nearestY
         let minSafeDist = radius - sqrt(dx * dx + dy * dy)
+
+        // Due to floating point accuracy, moving the ball by minSafeDist would move it too far away
+        // from the block. 0.8 is the best balance I've found.
         normal.scale(factor: minSafeDist * 0.8)
         recenterBy(xDist: normal.dx, yDist: normal.dy)
     }
