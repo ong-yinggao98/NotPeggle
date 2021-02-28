@@ -158,7 +158,7 @@ be stored in the physics engine and updated by it.
 To illustrate the relationship between `Game` components in action, we shall examine how the game
 updates the position of the cannon ball in its flight in the below sequence diagramme.
 
-![sequence](docs/BallMovementSequenceDiagram.png)
+![sequence](docs/SequenceUpdateCannonBall.png)
 
 As we can see, at each step, the display calls `GameViewController.refresh()`. This cues
 the view controller to call `GameEngine` to reload its data. The engine then calls on
