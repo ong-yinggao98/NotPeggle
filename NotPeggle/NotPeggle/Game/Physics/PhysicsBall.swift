@@ -108,7 +108,8 @@ class PhysicsBall: PhysicsBody {
     }
 
     private func handleCollision(ball: PhysicsBall) {
-        reflectOffNormal(to: ball.center)
+        let normal = center.unitNormalTo(point: ball.center)
+        reflectOff(normal: normal)
         moveTillNotColliding(with: ball)
     }
 
@@ -117,7 +118,7 @@ class PhysicsBall: PhysicsBody {
         let idealDist = radius + object.radius
         let distNeeded = idealDist - center.distanceTo(point: object.center)
 
-        // Due to floating point precision, 0.95 is my best balance.
+        // Due to floating point precision
         normal.scale(factor: distNeeded * 0.95)
         recenterBy(xDist: normal.dx, yDist: normal.dy)
     }
@@ -132,29 +133,26 @@ class PhysicsBall: PhysicsBody {
         let nearestY = max(blockOrigin.y, min(localCenter.y, blockOrigin.y + block.height))
         let nearestPoint = CGPoint(x: nearestX, y: nearestY)
 
-        reflectOffNormal(to: nearestPoint, normalOffsetAngle: block.angle)
-
         var normal = localCenter.unitNormalTo(point: nearestPoint)
         normal.rotate(by: block.angle)
+
+        reflectOff(normal: normal)
+
         let dx = localCenter.x - nearestX
         let dy = localCenter.y - nearestY
         let minSafeDist = radius - sqrt(dx * dx + dy * dy)
 
-        // Due to floating point accuracy, moving the ball by minSafeDist would move it too far away
-        // from the block. 0.8 is the best balance I've found.
-        normal.scale(factor: minSafeDist * 0.8)
+        // Due to floating point precision
+        normal.scale(factor: minSafeDist * 0.95)
         recenterBy(xDist: normal.dx, yDist: normal.dy)
     }
 
-    private func reflectOffNormal(to point: CGPoint, normalOffsetAngle: CGFloat = 0) {
-        var normal = center.unitNormalTo(point: point)
-        if normalOffsetAngle != 0 {
-            normal.rotate(by: normalOffsetAngle)
-        }
-        let velocityComp = velocity.dot(other: normal)
-        normal.scale(factor: 2 * velocityComp)
-        velocity.dy -= normal.dy
-        velocity.dx -= normal.dx
+    private func reflectOff(normal: CGVector) {
+        var reflection = normal
+        let velocityComp = velocity.dot(other: reflection)
+        reflection.scale(factor: 2 * velocityComp)
+        velocity.dy -= reflection.dy
+        velocity.dx -= reflection.dx
         velocity.scale(factor: restitution)
     }
 
