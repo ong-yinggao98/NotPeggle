@@ -284,6 +284,28 @@
 			path = PowerUp;
 			sourceTree = "<group>";
 		};
+		8428098925EB326900D2B666 /* PhysicsBody */ = {
+			isa = PBXGroup;
+			children = (
+				84421DE425E612B900CF6F63 /* PhysicsBody.swift */,
+				84BD0C4C25D1055E0090B0E8 /* PhysicsBall.swift */,
+				847B418725D50D9E004790B0 /* StationaryBall.swift */,
+				847B419725D52317004790B0 /* GravBouncingBall.swift */,
+				84421DEC25E636C500CF6F63 /* PhysicsBlock.swift */,
+				8464C2E225EA232B0048AC07 /* OrientedBoundingBox.swift */,
+			);
+			path = PhysicsBody;
+			sourceTree = "<group>";
+		};
+		8428098A25EB327B00D2B666 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				84BD0C5425D2C6D40090B0E8 /* CGPoint+Vectors.swift */,
+				8472D09F25D3BAA60092E3B8 /* CGVector+Angles.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		8438485225CBB42A00B14E47 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,11 +334,11 @@
 		8438485725CBB44F00B14E47 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8494650625EB403B00025D3F /* Storage */,
 				8481A3A925C0782C00728B0A /* Constants.swift */,
 				848452A325D79171004157B7 /* CGFrameFactory.swift */,
 				84D09AC025BFF4640042FB19 /* ModelViewConverter.swift */,
 				8484525825D685BB004157B7 /* ModelGameConverter.swift */,
-				84A2333625C1AE60000FF729 /* Storage.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -343,16 +365,10 @@
 		8482D8C925CD80B600286869 /* Physics */ = {
 			isa = PBXGroup;
 			children = (
+				8428098A25EB327B00D2B666 /* Extension */,
+				8428098925EB326900D2B666 /* PhysicsBody */,
 				8472D09A25D39EC30092E3B8 /* PhysicsWorld.swift */,
 				842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */,
-				84421DE425E612B900CF6F63 /* PhysicsBody.swift */,
-				84BD0C4C25D1055E0090B0E8 /* PhysicsBall.swift */,
-				847B418725D50D9E004790B0 /* StationaryBall.swift */,
-				847B419725D52317004790B0 /* GravBouncingBall.swift */,
-				84421DEC25E636C500CF6F63 /* PhysicsBlock.swift */,
-				8464C2E225EA232B0048AC07 /* OrientedBoundingBox.swift */,
-				84BD0C5425D2C6D40090B0E8 /* CGPoint+Vectors.swift */,
-				8472D09F25D3BAA60092E3B8 /* CGVector+Angles.swift */,
 			);
 			path = Physics;
 			sourceTree = "<group>";

@@ -173,7 +173,9 @@ class GameEngine: PhysicsWorldDelegate, GamePegDelegate {
     /// Removes unneeded resources.
     func cleanUp() {
         cannonBall = nil
-        gamePegs.removeAll()
+        gameBlocks = []
+        gamePegs = []
+        world.removeAll()
     }
 
     // ==================================== //
