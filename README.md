@@ -29,16 +29,12 @@ Overall, NotPeggle can be split into three components, `LevelDesigner`, `Game` a
 and its subcomponents, `Game` is responsible for the actual game and its engines
 and `Services` is responsible for utility static methods that the other two depend on.
 
-The following diagram sums it up:
-
-![ArchitectureTopLevel](docs/ArchitectureTopLevel.png)
-
 #### Level Designer
 
 `LevelDesigner` follows the MVC pattern, comprising mainly a model
 component and a view(-controller) component.
 
-![architecture](docs/ArchitectureDiagram.png)
+![architecture](docs/ArchitectureLevel.png)
 
 ##### View
 The view component comprises of controllers and view objects. 
