@@ -18,9 +18,170 @@
 3. Do not burn out. Have fun!
 
 ## Dev Guide
-You may put your dev guide either in this section, or in a new file entirely.
-You are encouraged to include diagrams where appropriate in order to enhance
-your guide.
+> You may put your dev guide either in this section, or in a new file entirely.
+> You are encouraged to include diagrams where appropriate in order to enhance
+> your guide.
+
+### Architecture
+
+Overall, NotPeggle can be split into three components, `LevelDesigner`, `Game` and
+`Services`. As the name suggests, `LevelDesigner` is responsible for the level editor
+and its subcomponents, `Game` is responsible for the actual game and its engines
+and `Services` is responsible for utility static methods that the other two depend on.
+
+The following diagram sums it up:
+
+![ArchitectureTopLevel](docs/ArchitectureTopLevel.png)
+
+#### Level Designer
+
+`LevelDesigner` follows the MVC pattern, comprising mainly a model
+component and a view(-controller) component.
+
+![architecture](docs/ArchitectureDiagram.png)
+
+##### View
+The view component comprises of controllers and view objects. 
+
+The `LevelViewController` is responsible for: 
+* initialising the controls on the screen such as the buttons and text field,
+* updating the `Model` based on input from other view and
+* creating, changing or removing `PegView`, `BlockView` UI objects based on those updates.
+
+The `SaveTableViewController` is responsible for:
+* displaying all saved levels from the application document directory
+* removing unneeded saves (done through `Storage`) based on user input
+* relaying a chosen save file back to the `LevelViewController` to be loaded.
+
+`PegView` is the view representation of a `Peg`. and  `BlockView` is the counterpart
+for `Block`.
+
+##### Model
+The model component comprises (from top-level to bottom) the `Model` struct,
+the `Peg` and `Block` struct, and the `Point` struct. `Model` is composed of all `Peg`
+and `Block` instances in the board at any point in time, and has operations for querying
+and inserting/deleting objects.
+
+`LevelObject` is a protocol that defines collision detection for objects in the `Model`,
+and `Peg` and `Block` serves as its conforming structs.
+
+A `Peg` is represented simply as a circle with a `Point` indicating its center
+radius, and color.
+
+A `Block` is represented as a rectangle with a `Point` as its center, its width and height
+and its angle offset.
+
+A `Point` represents a pair of x, y-coordinates
+in a 2D plane.
+
+##### Logic Flow in `LevelDesigner`
+To examine the relationship between components in `LevelDesigner`, we will examine
+what happens when a user selects the blue peg button and taps on the board to add a new blue
+peg to the level.
+
+The following sequence diagram shows the processes involved in adding a new blue peg.
+
+![sequence](docs/SequenceAddPeg.png)
+
+1. Upon receiving a tap event on the blue `PegModeButton`, the view controller is set to
+    add blue pegs to the board.
+1. Upon receiving another tap event on the board, it creates a new blue `Peg` at the location
+    of the tap
+1. It adds the new peg to the model.
+1. It then loads data from the model to the view, which includes displaying a new blue peg
+    on the screen.
+
+The following object diagrams show the state of the programme during the execution
+of said processes.
+
+![objects](docs/ObjectAddPeg.png)
+
+1. In the initial state, let's have a board that already has 2 pegs present, both of which are
+    displayed (represented by the `PegView` objects).
+1. The events of the sequence event takes place and `newPeg` is created and added to the
+    model.
+1. The view controller detects that the change and creates the `newView` object to represent
+    the extra peg and display it.
+
+#### Game
+`Game` is structured in an MVC fashion, with `GameEngine` serving as the model controlling
+the state of objects within the game, and the `GameViewController` updating the model
+and then updating the view based on observed changes to the model.
+
+![ArchitectureGame](docs/ArchitectureGame.png)
+
+##### View
+The `View` component comprises both the view objects and the `GameViewController`.
+`GameViewController` is responsible for:
+* Initialising the engine from existing level data
+* Running the game loop
+* Conveying user input to the engine
+* Rendering view objects in each loop to match the data in the engine
+* Popping itself off the view stack when the user leaves the game
+
+The view objects comprise the `GamePegView`, `GameBlockView` and `CannonBallView`, 
+which are, as their names suggests, the game representation of the pegs, blocks and cannon ball
+as displayed in the UI.
+
+##### Physics
+Before we introduce the engine, one must understand the physics engine it is built upon.
+The `Physics` component comprises the `PhysicsWorld` and `PhysicsObject`. The
+`PhysicsWorld` represents the physics engine housing all `PhysicsObject`
+instances. It primarily updates the positions of every object, after which it resolves any
+collisions between them.
+
+`PhysicsObject` represents an abstract 2D object that is affected by physics and has
+operations for updating position and velocity and declarations for collision handling.
+
+It is concretely subclassed by `PhysicsBlock` and `PhysicsBall`, which represents
+an oriented-bounding box and circle in 2D space.
+
+The physics component also includes several convenient blueprints for generic objects
+such as an immovable circle (`StationaryObject` or a bouncy ball affected by gravity
+(`GravBouncingBall`).
+
+##### Engine
+The `Engine` component comprises `GameEngine`, `PowerUpManager` and their
+respective game objects and power-ups.
+
+`GameEngine` handles game logic, it houses the pegs and cannon ball and updates their
+position through the physics engine. It is also responsible for controlling the launch of
+the cannon.
+
+`PowerUpManager` is a component under `GameEngine` that handles the selection and
+activation of power-ups when triggered by a green peg being hit.
+
+`GamePeg`, `GameBlock` and `CannonBall` both subclass the `PhysicsObject` so they may
+be stored in the physics engine and updated by it.
+
+##### Logic Flow in `Game`
+To illustrate the relationship between `Game` components in action, we shall examine how the game
+updates the position of the cannon ball in its flight in the below sequence diagramme.
+
+![sequence](docs/BallMovementSequenceDiagram.png)
+
+As we can see, at each step, the display calls `GameViewController.refresh()`. This cues
+the view controller to call `GameEngine` to reload its data. The engine then calls on
+`PhysicsWorld` to update the states of all objects within it, which includes the cannon ball location.
+After the cannon ball's location has been updated, the engine then tells the observing view
+controller to update its sprites, during which the latter updates the cannon ball position and other
+sprites on the screen for the user to see.
+
+#### Services
+`Services` houses utility structs such as:
+* `Storage` - handles persistence
+* `ModelViewConverter` - provides functions for translating UI elements into model
+  counterparts and vice versa
+* `ModelGameConverter` - provides functions for translating level designer structs into 
+  its game engine counterparts and vice versa
+* `Constants` - information shared by both model and UI.
+
+#### Patterns used
+NotPeggle makes heavy use of the MVC pattern and observer/delegate patterns for relaying
+information between objects.
+
+There is also heavy use of the adapter pattern to minimise dependency between components
+such as the converter structs found in `Services`.
 
 ## Rules of the Game
 Please write the rules of your game here. This section should include the
@@ -236,4 +397,28 @@ Items to manually test:
 > - if you were to redo the entire application, is there anything you would
 >   have done differently?
 
+I think I had designed my code well enough in theory, at least for the scope of PS1-4, even though
+there were other things I could have done better. Namely, I was stuck using type checking and switch
+statements instead of polymorphing by inheritance and protocol conformance. Type checking as we
+all know is not extensible, to change something would likely mean to change a lot of methods, breaking
+the open-closed principle.
 
+However, to my chagrin I quickly realised that even using protocol conformance could not improve
+my code quality. For example, if I were to have my pegs and blocks in a level designer conform to
+a `LevelObject` protocol, it would be fine and dandy until you realise that you want to store them
+in a set. In that case you now need `LevelObject` to inherit `Hashable` only to realise that now
+you need to type erase and can no longer form heterogeneous sets of just `LevelObject`s. Because
+of that I still wound up having to forgo the benefits of polymorphism that I would have had in Java
+(if you look at my code for the `Model` you'll see two sets for both `Peg` and `Block`).
+
+Similarly for handling collisions, because the same thing reacts differently when the colliding object
+is different, it is on the collidee to check the type and decide its next course of action. As such, it seems
+that there were much that I could not help with.
+
+While I did have to add new fields and change up the internals of some components (e.g. adding a radius
+component to `Peg` where previously it was all fixed), I was surprised that the damage (amount of code rework)
+was well contained within the component and rarely crossed over into other parts, even between
+sister groups within the same supergroup. This is probably because I had used the adapter pattern with
+utility structs to disrupt the dependencies between packages (e.g. `LevelDesigner.View` is completely
+separate from `LevelDesigner.Model` due to the `ModelViewConverter` bridging the gap). As such,
+I only really needed to change the adapter structs after changing the rest of the affected sub-component.
