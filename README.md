@@ -63,6 +63,9 @@ If you run out of shots before you hit the minimum score, you lose!
 
 And don't try to start a game without any pegs, if none are found the game will leave you a nasty message.
 
+If your ball is stuck, don't worry, after around 10 seconds the game should remove the ball and any pegs
+the ball had hit up to the point of removal, and will be taken as if the ball had fallen out of the area.
+
 ### Power-Ups
 Green pegs are worth as much as blue pegs in points, but they activate power-ups when hit.
 The two power-ups are Space Blast and Spooky Ball (or rather their clones). Hitting green pegs cause
@@ -78,22 +81,149 @@ Spooky Ball gives the ball an extra life, respawning it back at the top when aft
 Its effect does not stack, i.e. activating Spooky Ball multiple times will not grant the cannon ball anymore
 respawns while until it has fallen out of the game area and has respawned.
 
+That said, be careful not to get stuck! Since it would be meaningless to drop the ball vertically back down to where
+it was stuck originally, the ball will be removed, regardless of whether you had the perk active.
+
 ## Level Designer Additional Features
 
 ### Peg Rotation
-Please explain how the player rotates the pegs.
+> Please explain how the player rotates the pegs.
+
+There is a grey button labelled "ROTATE OR RESIZE" next to the erase button. When you tap on it, it will be
+highlighted. That is your cue that you can now freely rotate pegs and blocks as you wish.
+
+Simply tap on the object you have in mind and a pop up will appear. The labels above the sliders are
+self-explanatory (I hope). Simply drag the slider labelled "Rotation" until you are satisfied. The slider supports
+full 360 degrees **clockwise** movement. While rotation is supported for pegs, you obviously won't see a
+problem since pegs are completely round and uniform.
+
+Do note that for blocks, if the rotating block starts to clash with the borders or another object, the slider will not
+allow you to continue. Move the block out of the way if you want to continue.
+
+When you are done, simply tap anywhere that is not a peg or a button to close the menu.
+
+If you tap on another button (e.g. to add blue pegs) while the rotation menu is still open, do not fret, you can still
+make last minute adjustments to the current object before tapping out.
 
 ### Peg Resizing
-Please explain how the player resizes the pegs.
+> Please explain how the player resizes the pegs.
+
+Similar to rotations, tapping on a peg with the "ROTATE OR RESIZE" button active will bring up the menu with
+labelled sliders. For pegs, you can adjust their diameter, and for blocks you can adjust their width and height.
+
+Resizing is done about the center, i.e. the object grows outwards along its local axis.
+
+Similarly to rotating objects, the slider will not progress if there is an obstacle in the way of your growing object.
+Move it to a place clear of obstacles to continue.
+
+Likewise, you can still make last minute adjustments when you tap on a button while the resizing menu is open.
 
 ## Bells and Whistles
-Please write all of the additional features that you have implemented so that
-your grader can award you credit.
+> Please write all of the additional features that you have implemented so that
+> your grader can award you credit.
+
+None lol
 
 ## Tests
-If you decide to write how you are going to do your tests instead of writing
-actual tests, please write in this section. If you decide to write all of your
-tests in code, please delete this section.
+> If you decide to write how you are going to do your tests instead of writing
+> actual tests, please write in this section. If you decide to write all of your
+> tests in code, please delete this section.
+
+Refer to the testing plan in [PS2](https://github.com/cs3217-2021/problem-set-2-StopTakingAllTheNames)
+and [PS3](https://github.com/cs3217-2021/problem-set-3-StopTakingAllTheNames) for rough overview of past
+tests.
+
+As for new additions, we will focus mainly on collision detection between rotated rectangles, and between
+circles and rotated rectangles. While needed in both the level designer and physics engine, only the level designer
+`Model` implementation has unit tests due to the minimal differences and time constraints.
+
+Due to trigonometry and floating point precision, it is not easy to come up with extensive unit tests, hence
+this is backed up with manual testing.
+
+For collision resolution, due to it being a lot more complicated to predict than detection for rectangles for the
+reasons above, this is done entirely manually.
+
+Items to manually test:
+1. [Level Designer] Placing blocks
+    1. Adapt [PS2](https://github.com/cs3217-2021/problem-set-2-StopTakingAllTheNames) test cases for
+        testing placement validity, delete and drag functionality for blocks
+1. [Level Designer] Collision detection for blocks
+    1. Requirements: blocks in assorted orientation (e.g. axis-aligned, pointing up or down), pegs
+    1. For any block, a peg should not be able to intersect any point
+    1. For any block, it should not be able to be dragged into intersection with another block
+    1. For any block, it should not be able to be dragged into intersection with another peg
+    1. For any block, it should not be able to be dragged into crossing the boundaries of the game area
+1. [Level Designer] Rotation and resizing of pegs and blocks
+    1. Adapt [PS2](https://github.com/cs3217-2021/problem-set-2-StopTakingAllTheNames) test cases for
+        testing UIButton selection state for the rotation/resize button
+    1. Resizing pegs:
+        1. Tapping a peg with the button enabled should create a popup with only a "Size"and "Rotation" slider.
+        1. Sliding the size slider for a peg should expand it or contract it until it reaches the end.
+        1. If there are other objects or boundaries in the way of the peg, the slider should stop moving and the peg
+            stop growing.
+        1. Resized peg should have collision detection that reflects the changed shape (i.e. objects should not be
+            able to clip with an enlarged peg or be blocked by a shrunk unobstructive peg)
+    1. Rotating pegs:
+        1. Slider should move as expected with no visible change to the peg view.
+    1. Resizing block:
+        1. Tapping a block with the button enabled should create a popup with a "Height", "Width"and "Rotation"
+            slider. If the block was directly created, the width slider should be away from the minimum position.
+        1. Similar behavior in 3.2.2 and 3.2.4 should be observed when tinkering with block sizes.
+    1. Rotating block:
+        1. Resizing a block after rotating should preserve its shape (i.e. its should not be distorted or grow towards
+            the wrong axes)
+        1. Rotated block should meet the collision requirements in part 2.
+    1. Testing popup closure:
+        1. Requirements: rotate/resize button selected, popup open after tapping an object
+        1. Tapping anywhere that is not a button (text field included) and object should close the popup
+        1. Tapping on another object should close the popup and reopen one that reflects the new object's state
+        1. Popup should remain open when selecting a button such as the blue button
+            1. Even with another mode selected the object can still be manipulated in the popup
+            1. Tapping outside closes the popup and reverts to expected behavior for said mode in 3.6.4.1
+        1. Resetting, saving or selecting a load save should close the popup.
+1. [Level Designer] Preloaded saves
+    1. Clicking load button should show at least 3 saves, the top being prefixed with "[DEFAULT]"
+    1. Selecting, adding objects and re-saving one should create a new entry instead of overwriting.
+    1. Adding the "[DEFAULT]" prefix to the save created in 4.2. should create a new save with the same name
+        instead of overwriting.
+    1. The first three saves in the list should not be able to be deleted.
+1. [Game] Transfer of objects from Level Designer to Game
+    1. Adapt [PS3](https://github.com/cs3217-2021/problem-set-3-StopTakingAllTheNames) test cases to ensure
+        blocks and pegs created (and manipulated like in part 3) are correctly shown on the screen
+1. [Game] Win/Lose
+    1. Starting a game with no pegs on the screen gives you a popup with a hostile message
+        1. Launch button should be greyed out
+    1. Scoring:
+        1. The denominator of the score should be equal to number of pegs times 100.
+        1. Hitting a peg multiple times should not cause the score to increase after it had already done so
+    1. Winning:
+        1. When you hit the score limit the game should congratulate you with a popup
+        1. Launch button is greyed out so you can only go back to the level designer
+        1. Outstanding pegs are untouched until you leave the game
+    1. Losing:
+        1. When the ball disappears and there are no more shots left (launch button indicator) game should show
+            you a hostile message if the score limit is not reached.
+1. [Game] Collision resolution between cannon ball and blocks
+    1. Requirements: all sorts of blocks of different orientation, at least one peg to allow the game to start
+    1. Ball should bounce in a believable fashion.
+1. [Game] Removal of stuck cannon balls
+    1. Requirement: Several saves with pits to trap the ball. These include:
+        * Trapping between border and peg
+        * Trapping between border and block
+        * Trapping between blocks
+        * Trapping between pegs
+    1. When a ball has been stuck (or micro-bounces off blocks) for around 10 seconds it will be deleted and
+        all highlighted pegs removed
+    1. If the game condition is reached in part 6 the game ends
+1. [Game] Power-up activation
+    1. Requirement: Several green pegs surrounded lightly by nearby pegs, at least 3-4
+    1. Hitting the first green peg should cause nearby pegs to light up
+        1. Score of nearby pegs should be added to the score counter at the bottom
+    1. Hitting the second one (or by effect of 9.2) should not cause nearby pegs to light up
+        1. If the ball falls through it should respawn at the top moving in the same direction as it was when it fell
+    1. Hitting the third should show similar reaction to 9.2, and so on so forth.
+    1. If 4 green pegs are hit in a single run, the ball only respawns once when it falls out of the game area
+    1. If the ball is stuck after hitting the second green peg, the ball is removed as in part 8 without respawn.
 
 ## Written Answers
 
@@ -106,4 +236,4 @@ tests in code, please delete this section.
 > - if you were to redo the entire application, is there anything you would
 >   have done differently?
 
-Your answer here
+

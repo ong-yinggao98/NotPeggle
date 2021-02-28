@@ -59,10 +59,10 @@ class StorageTests: XCTestCase {
         let fileToDelete = "delete this"
         let url = Storage.getFileURL(from: fileToDelete, with: Storage.fileExtension)
         try? invalidJSON.write(to: url)
-        XCTAssertTrue(Storage.saves.contains(fileToDelete))
+        XCTAssertTrue(Storage.saves.contains(where: { $0.name == fileToDelete }))
 
         XCTAssertNoThrow(try Storage.deleteSave(name: fileToDelete))
-        XCTAssertFalse(Storage.saves.contains(fileToDelete))
+        XCTAssertFalse(Storage.saves.contains(where: { $0.name == fileToDelete }))
     }
 
     func testDelete_fileNotFound_error() {
@@ -71,11 +71,11 @@ class StorageTests: XCTestCase {
     }
 
     func testSaveToDisk_namedModels_success() {
-        XCTAssertNoThrow(try Storage.saveToDisk(model: emptyModel))
-        XCTAssertTrue(Storage.saves.contains(levelNameEmpty))
+        XCTAssertNoThrow(try Storage.saveToDisk(model: emptyModel, fileName: levelNameEmpty))
+        XCTAssertTrue(Storage.saves.contains(where: { $0.name == levelNameEmpty }))
 
-        XCTAssertNoThrow(try Storage.saveToDisk(model: modelWithValues))
-        XCTAssertTrue(Storage.saves.contains(levelNameWithValues))
+        XCTAssertNoThrow(try Storage.saveToDisk(model: modelWithValues, fileName: levelNameWithValues))
+        XCTAssertTrue(Storage.saves.contains(where: { $0.name == levelNameWithValues }))
     }
 
     func testSaveToDisk_unnamedModel_error() {
@@ -83,11 +83,11 @@ class StorageTests: XCTestCase {
             XCTFail("Init should not fail")
             return
         }
-        XCTAssertThrowsError(try Storage.saveToDisk(model: test))
+        XCTAssertThrowsError(try Storage.saveToDisk(model: test, fileName: test.levelName))
     }
 
     func testLoadModel_validFile_success() {
-        XCTAssertNoThrow(try Storage.saveToDisk(model: emptyModel))
+        XCTAssertNoThrow(try Storage.saveToDisk(model: emptyModel, fileName: levelNameEmpty))
         XCTAssertNoThrow(try Storage.loadModel(name: levelNameEmpty))
         let modelLoaded = try? Storage.loadModel(name: levelNameEmpty)
         XCTAssertEqual(modelLoaded, emptyModel)
@@ -116,7 +116,7 @@ class StorageTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         for save in Storage.saves {
-            try? Storage.deleteSave(name: save)
+            try? Storage.deleteSave(name: save.name)
         }
     }
 

@@ -235,6 +235,11 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         blockControl
     }
 
+    func deactivateControls() {
+        blockControl.deactivate()
+        pegControl.deactivate()
+    }
+
     // ==================== //
     // MARK: Button Actions
     // ==================== //
@@ -280,12 +285,14 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     @IBAction private func resetBoard(_ sender: UIButton) {
         model.removeAll()
+        deactivateControls()
     }
 
     @IBAction private func saveLevelLayout(_ sender: UIButton) {
         do {
             try Storage.saveToDisk(model: model, fileName: model.levelName)
             saveButton.isEnabled = false
+            deactivateControls()
         } catch StorageError.unnamedFileError {
             fatalError("Save button should be disabled")
         } catch {
@@ -305,6 +312,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         model = newModel
         // Since the new model hasn't been altered, users do not need to save.
         saveButton.isEnabled = false
+        deactivateControls()
     }
 
     @IBAction private func startGame(_ sender: UIButton) {
@@ -322,8 +330,8 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     /// Allows users to stop editing by tapping anywhere outside the level name text field.
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        pegControl.deactivate()
-        blockControl.deactivate()
+        super.touchesBegan(touches, with: event)
+        deactivateControls()
         view.endEditing(true)
     }
 

@@ -14,6 +14,7 @@ import Foundation
  */
 struct Storage {
 
+    static let preloadedFolder = "Preloaded"
     static var fileExtension = "json"
 
     static var encoder: JSONEncoder {
@@ -122,7 +123,7 @@ struct Storage {
     static var preloadedLevels: [PreloadedSave] {
         let directory = FileManager.default
             .urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent(LevelFactory.folder)
+            .appendingPathComponent(preloadedFolder)
         let fileURLs = getFileURLs(in: directory)
         return fileURLs
             .filter { $0.pathExtension == fileExtension }

@@ -22,7 +22,7 @@ class ModelViewConverterTests: XCTestCase {
     func testCreatePegFromView() {
         let origin = CGPoint.zero
         let viewRadius = CGFloat(Constants.pegRadius)
-        let pegView = PegView(center: origin, color: .blue, radius: viewRadius)
+        let pegView = PegView(center: origin, color: .blue, radius: viewRadius, angle: 0)
         let expected = Peg(centerX: 0, centerY: 0, color: .blue)
         let actual = MVC.pegFromView(pegView)
         XCTAssertEqual(expected, actual)
@@ -31,7 +31,7 @@ class ModelViewConverterTests: XCTestCase {
     func testCreateViewFromPeg() {
         let origin = CGPoint.zero
         let viewRadius = CGFloat(Constants.pegRadius)
-        let expected = PegView(center: origin, color: .orange, radius: viewRadius)
+        let expected = PegView(center: origin, color: .orange, radius: viewRadius, angle: 0)
         let peg = Peg(centerX: 0, centerY: 0, color: .orange)
         let actual = MVC.viewFromPeg(peg)
         XCTAssertEqual(expected, actual)

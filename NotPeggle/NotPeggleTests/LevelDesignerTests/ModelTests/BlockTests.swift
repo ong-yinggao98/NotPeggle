@@ -133,4 +133,86 @@ class BlockTests: XCTestCase {
         XCTAssertTrue(edgeRect.tooCloseToEdges(width: width, height: height))
     }
 
+    func testResizeWidth() {
+        let width = Constants.blockHeight
+        let maxWidth = 4 * width
+
+        let block = Block(center: Point(x: 2, y: 4), height: 30, angle: Double.pi / 4)
+        var actual = block.resizeTo(width: width - 0.1)
+        var expected = Block(center: Point(x: 2, y: 4), height: 30, width: width, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.resizeTo(width: width)
+        expected = Block(center: Point(x: 2, y: 4), height: 30, width: width, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.resizeTo(width: width + 0.1)
+        expected = Block(center: Point(x: 2, y: 4), height: 30, width: width + 0.1, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.resizeTo(width: maxWidth)
+        expected = Block(center: Point(x: 2, y: 4), height: 30, width: maxWidth, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.resizeTo(width: maxWidth + 0.1)
+        expected = Block(center: Point(x: 2, y: 4), height: 30, width: maxWidth, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testResizeHeight() {
+        let height = Constants.blockHeight
+        let maxHeight = 2 * height
+
+        let block = Block(center: Point(x: 2, y: 4), height: 30, angle: Double.pi / 4)
+        let width = block.width
+        var actual = block.resizeTo(height: height - 0.1)
+        var expected = Block(center: Point(x: 2, y: 4), height: height, width: width, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.resizeTo(height: height)
+        expected = Block(center: Point(x: 2, y: 4), height: height, width: width, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.resizeTo(height: height + 0.1)
+        expected = Block(center: Point(x: 2, y: 4), height: height + 0.1, width: width, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.resizeTo(height: maxHeight)
+        expected = Block(center: Point(x: 2, y: 4), height: maxHeight, width: width, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.resizeTo(height: maxHeight + 0.1)
+        expected = Block(center: Point(x: 2, y: 4), height: maxHeight, width: width, angle: Double.pi / 4)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testRotate() {
+        let minAngle = 0.0
+        let maxAngle = 2 * Double.pi
+
+        let block = Block(center: Point(x: 2, y: 4), height: 30, angle: Double.pi / 4)
+        let width = block.width
+        let height = block.height
+
+        var actual = block.rotateTo(minAngle - 0.1)
+        var expected = Block(center: Point(x: 2, y: 4), height: height, width: width, angle: minAngle)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.rotateTo(minAngle)
+        expected = Block(center: Point(x: 2, y: 4), height: height, width: width, angle: minAngle)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.rotateTo(minAngle + 0.1)
+        expected = Block(center: Point(x: 2, y: 4), height: height, width: width, angle: minAngle + 0.1)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.rotateTo(maxAngle)
+        expected = Block(center: Point(x: 2, y: 4), height: height, width: width, angle: maxAngle)
+        XCTAssertEqual(expected, actual)
+
+        actual = block.rotateTo(maxAngle + 0.1)
+        expected = Block(center: Point(x: 2, y: 4), height: height, width: width, angle: maxAngle)
+        XCTAssertEqual(expected, actual)
+    }
+
 }

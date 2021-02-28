@@ -100,4 +100,58 @@ class PegTests: XCTestCase {
         let actual = peg.recenterTo(newCenter)
         XCTAssertEqual(expected, actual)
     }
+
+    func testResize() {
+        let minSize = Constants.pegRadius
+        let maxSize = 2 * minSize
+        let peg = Peg(center: Point(x: 0, y: 0), color: .blue)
+        let angle = peg.angle
+
+        var actual = peg.resizeTo(minSize - 0.1)
+        var expected = Peg(center: Point(x: 0, y: 0), color: .blue, radius: minSize, angle: angle)
+        XCTAssertEqual(expected, actual)
+
+        actual = peg.resizeTo(minSize)
+        expected = Peg(center: Point(x: 0, y: 0), color: .blue, radius: minSize, angle: angle)
+        XCTAssertEqual(expected, actual)
+
+        actual = peg.resizeTo(minSize + 0.1)
+        expected = Peg(center: Point(x: 0, y: 0), color: .blue, radius: minSize + 0.1, angle: angle)
+        XCTAssertEqual(expected, actual)
+
+        actual = peg.resizeTo(maxSize)
+        expected = Peg(center: Point(x: 0, y: 0), color: .blue, radius: maxSize, angle: angle)
+        XCTAssertEqual(expected, actual)
+
+        actual = peg.resizeTo(maxSize + 0.1)
+        expected = Peg(center: Point(x: 0, y: 0), color: .blue, radius: maxSize, angle: angle)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testRotate() {
+        let minAngle = 0.0
+        let maxAngle = 2 * Double.pi
+        let peg = Peg(center: Point(x: 0, y: 0), color: .orange)
+        let radius = peg.radius
+
+        var actual = peg.rotateTo(minAngle - 0.1)
+        var expected = Peg(center: Point(x: 0, y: 0), color: .orange, radius: radius, angle: minAngle)
+        XCTAssertEqual(expected, actual)
+
+        actual = peg.rotateTo(minAngle)
+        expected = Peg(center: Point(x: 0, y: 0), color: .orange, radius: radius, angle: minAngle)
+        XCTAssertEqual(expected, actual)
+
+        actual = peg.rotateTo(minAngle + 0.1)
+        expected = Peg(center: Point(x: 0, y: 0), color: .orange, radius: radius, angle: minAngle + 0.1)
+        XCTAssertEqual(expected, actual)
+
+        actual = peg.rotateTo(maxAngle)
+        expected = Peg(center: Point(x: 0, y: 0), color: .orange, radius: radius, angle: maxAngle)
+        XCTAssertEqual(expected, actual)
+
+        actual = peg.rotateTo(maxAngle + 0.1)
+        expected = Peg(center: Point(x: 0, y: 0), color: .orange, radius: radius, angle: maxAngle)
+        XCTAssertEqual(expected, actual)
+    }
 }

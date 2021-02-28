@@ -7,9 +7,14 @@
 
 import Foundation
 
+/**
+ A utility struct built above `Storage` to generate simple preloaded levels.
+ These levels cannot be deleted nor overwritten even if you name the level by the same name.
+ They are identifable by the "[DEFAULT]" prefix.
+ Levels are only created if they cannot be found (i.e. first time start up of the app).
+ */
 struct LevelFactory {
 
-    static let folder = "Preloaded"
     static let savePrefix = "[DEFAULT] "
 
     static func generatePreloadedLevels(width: Double, height: Double) {
@@ -29,7 +34,7 @@ struct LevelFactory {
         guard let modelUnwrapped = model else {
             fatalError("Model init should not fail.")
         }
-        try? Storage.saveToDisk(model: modelUnwrapped, fileName: saveName, folder: folder)
+        try? Storage.saveToDisk(model: modelUnwrapped, fileName: saveName, folder: Storage.preloadedFolder)
     }
 
     private static func generateTwoPegLevel(width: Double, height: Double) {
@@ -42,7 +47,7 @@ struct LevelFactory {
         guard let modelUnwrapped = model else {
             fatalError("Model init should not fail")
         }
-        try? Storage.saveToDisk(model: modelUnwrapped, fileName: saveName, folder: folder)
+        try? Storage.saveToDisk(model: modelUnwrapped, fileName: saveName, folder: Storage.preloadedFolder)
     }
 
     private static func generatePegAndBlockLevel(width: Double, height: Double) {
@@ -54,7 +59,7 @@ struct LevelFactory {
         guard let modelUnwrapped = model else {
             fatalError("Model init should not fail")
         }
-        try? Storage.saveToDisk(model: modelUnwrapped, fileName: saveName, folder: folder)
+        try? Storage.saveToDisk(model: modelUnwrapped, fileName: saveName, folder: Storage.preloadedFolder)
     }
 
 }
