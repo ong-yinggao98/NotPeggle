@@ -9,13 +9,14 @@ import UIKit
 
 class SaveTableViewController: UITableViewController {
 
-    var savedLevels: [String] = []
+    var savedLevels: [Save] = []
 
     private(set) var selectedSave: Model?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        savedLevels = Storage.saves
+        savedLevels.append(contentsOf: Storage.preloadedLevels)
+        savedLevels.append(contentsOf: Storage.userSaves)
     }
 
     // MARK: - Table view data source
@@ -31,7 +32,7 @@ class SaveTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "SaveTableViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
-        cell.textLabel?.text = savedLevels[indexPath.row]
+        cell.textLabel?.text = savedLevels[indexPath.row].name
         return cell
     }
 
@@ -39,6 +40,12 @@ class SaveTableViewController: UITableViewController {
         _ tableView: UITableView,
         commit editingStyle: UITableViewCell.EditingStyle,
         forRowAt indexPath: IndexPath) {
+
+        let preloadedSaveIndices = 0..<Storage.preloadedLevels.count
+        guard !preloadedSaveIndices.contains(indexPath.row) else {
+            return
+        }
+
         switch editingStyle {
         case .delete:
             deleteSaveFile(at: indexPath)
@@ -49,7 +56,7 @@ class SaveTableViewController: UITableViewController {
 
     private func deleteSaveFile(at indexPath: IndexPath) {
         let removedSave = savedLevels[indexPath.row]
-        try? Storage.deleteSave(name: removedSave)
+        try? removedSave.delete()
         savedLevels.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
@@ -57,21 +64,19 @@ class SaveTableViewController: UITableViewController {
     /// On selection of a cell, loads the save and then returns the user to the refreshed main screen.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        guard
-            let cell = tableView.cellForRow(at: indexPath),
-            let saveName = cell.textLabel?.text
-        else {
+        guard let cell = tableView.cellForRow(at: indexPath) else {
             return
         }
 
-        selectSaveWith(name: saveName)
+        selectSaveWith(index: indexPath.row)
         unwindSegue(sender: cell)
     }
 
     /// Sets the selected save `Model` to be the one loaded from the file with the same name.
-    private func selectSaveWith(name: String) {
+    private func selectSaveWith(index: Int) {
         do {
-            selectedSave = try Storage.loadModel(name: name)
+            let saveModel = savedLevels[index]
+            selectedSave = try saveModel.toModel()
         } catch StorageError.unnamedFileError {
             fatalError("There should not be unnamed cells or saves created.")
         } catch {

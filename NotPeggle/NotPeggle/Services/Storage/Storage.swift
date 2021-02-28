@@ -24,14 +24,23 @@ struct Storage {
 
     /// Saves a model to a JSON file named after it.
     /// If the model is unnamed, the method throws an error.
-    static func saveToDisk(model: Model) throws {
-        let saveName = model.levelName
-        guard !saveName.isEmpty else {
+    static func saveToDisk(model: Model, fileName: String) throws {
+        guard !fileName.isEmpty else {
             throw StorageError.unnamedFileError
         }
 
-        let url = getFileURL(from: saveName, with: Storage.fileExtension)
-        let data = try? Storage.encoder.encode(model)
+        let url = getFileURL(from: fileName, with: fileExtension)
+        let data = try? encoder.encode(model)
+        try data?.write(to: url)
+    }
+
+    static func saveToDisk(model: Model, fileName: String, folder: String) throws {
+        guard !fileName.isEmpty else {
+            throw StorageError.unnamedFileError
+        }
+
+        let url = getFileURL(from: fileName, in: folder, with: fileExtension)
+        let data = try? encoder.encode(model)
         try data?.write(to: url)
     }
 
@@ -49,6 +58,21 @@ struct Storage {
         }
         return model
 
+    }
+
+    /// Loads a model from a JSON file with the given `name`.
+    /// If the file URL is invalid, the method throws an error.
+    /// If the saved data cannot be converted to a `Model`, or the model is unnamed, returns nil.
+    static func loadModel(name: String, folder: String) throws -> Model? {
+        let url = getFileURL(from: name, in: folder, with: fileExtension)
+        let savedModel = try Data(contentsOf: url)
+        guard let model = decode(data: savedModel) else {
+            return nil
+        }
+        guard !model.levelName.isEmpty else {
+            throw StorageError.unnamedFileError
+        }
+        return model
     }
 
     /// Decodes the contents of a JSON file into the corresponding `Model` instance.
@@ -71,17 +95,43 @@ struct Storage {
         try FileManager.default.removeItem(at: deletedURL)
     }
 
+    /// Deletes an unneeded save file.
+    /// If the file does not exist, the method throws an error.
+    static func deleteSave(name: String, folder: String) throws {
+        let deletedURL = getFileURL(from: name, in: folder, with: Storage.fileExtension)
+        try FileManager.default.removeItem(at: deletedURL)
+    }
+
     /// A list of names of all saved models in the application directory.
-    static var saves: [String] {
-        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    static var saves: [Save] {
+        var saves: [Save] = []
+        saves.append(contentsOf: preloadedLevels)
+        saves.append(contentsOf: userSaves)
+        return saves
+    }
+
+    static var userSaves: [UserSave] {
+        let directory = FileManager.default
+            .urls(for: .documentDirectory, in: .userDomainMask)[0]
         let fileURLs = getFileURLs(in: directory)
         return fileURLs
-            .filter { $0.pathExtension == Storage.fileExtension }
-            .map { $0.deletingPathExtension().lastPathComponent }
+            .filter { $0.pathExtension == fileExtension }
+            .map { UserSave(url: $0) }
+    }
+
+    static var preloadedLevels: [PreloadedSave] {
+        let directory = FileManager.default
+            .urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent(LevelFactory.folder)
+        let fileURLs = getFileURLs(in: directory)
+        return fileURLs
+            .filter { $0.pathExtension == fileExtension }
+            .map { PreloadedSave(url: $0) }
     }
 
     /// Retrieves all file URLs in the application directory.
-    private static func getFileURLs(in directory: URL) -> [URL] {
+    static func getFileURLs(in directory: URL) -> [URL] {
+        try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false)
         let filesFound = try? FileManager.default.contentsOfDirectory(
             at: directory,
             includingPropertiesForKeys: nil,
@@ -94,6 +144,12 @@ struct Storage {
     static func getFileURL(from name: String, with extensionType: String) -> URL {
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return directory.appendingPathComponent(name).appendingPathExtension(extensionType)
+    }
+
+    static func getFileURL(from name: String, in folderName: String, with extensionType: String) -> URL {
+        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let withFolder = directory.appendingPathComponent(folderName)
+        return withFolder.appendingPathComponent(name).appendingPathExtension(extensionType)
     }
 }
 

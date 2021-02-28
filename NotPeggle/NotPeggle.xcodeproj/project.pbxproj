@@ -19,6 +19,7 @@
 		8428097025EAEBCA00D2B666 /* SpaceBlast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428096F25EAEBCA00D2B666 /* SpaceBlast.swift */; };
 		8428097525EAEDE900D2B666 /* PowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428097425EAEDE900D2B666 /* PowerUp.swift */; };
 		8428097D25EAEF2400D2B666 /* SpookyBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428097C25EAEF2400D2B666 /* SpookyBall.swift */; };
+		8428098225EB1B5D00D2B666 /* LevelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428098125EB1B5D00D2B666 /* LevelFactory.swift */; };
 		842E814A25D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E814925D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift */; };
 		842E815225D9012F0028DE3D /* GameEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E815125D9012F0028DE3D /* GameEngineTests.swift */; };
 		842E815D25D90A6E0028DE3D /* PhysicsWorldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */; };
@@ -65,6 +66,9 @@
 		8486161625B712C900BB6178 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8486161525B712C900BB6178 /* Assets.xcassets */; };
 		8486161925B712C900BB6178 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8486161725B712C900BB6178 /* LaunchScreen.storyboard */; };
 		8486162425B712C900BB6178 /* NotPeggleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8486162325B712C900BB6178 /* NotPeggleTests.swift */; };
+		8494650825EB405200025D3F /* Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494650725EB405200025D3F /* Save.swift */; };
+		8494651025EB40A000025D3F /* UserSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494650F25EB40A000025D3F /* UserSave.swift */; };
+		8494651525EB418200025D3F /* PreloadedSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494651425EB418200025D3F /* PreloadedSave.swift */; };
 		84A2331F25C1814B000FF729 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2331E25C1814B000FF729 /* ModelTests.swift */; };
 		84A2332725C19C8A000FF729 /* PegModeButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2332625C19C8A000FF729 /* PegModeButtonTests.swift */; };
 		84A2332F25C19EED000FF729 /* ModelViewConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2332E25C19EED000FF729 /* ModelViewConverterTests.swift */; };
@@ -107,6 +111,7 @@
 		8428096F25EAEBCA00D2B666 /* SpaceBlast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceBlast.swift; sourceTree = "<group>"; };
 		8428097425EAEDE900D2B666 /* PowerUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUp.swift; sourceTree = "<group>"; };
 		8428097C25EAEF2400D2B666 /* SpookyBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpookyBall.swift; sourceTree = "<group>"; };
+		8428098125EB1B5D00D2B666 /* LevelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelFactory.swift; sourceTree = "<group>"; };
 		842E814925D8FAFE0028DE3D /* PhysicsBallTests+Walls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhysicsBallTests+Walls.swift"; sourceTree = "<group>"; };
 		842E815125D9012F0028DE3D /* GameEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngineTests.swift; sourceTree = "<group>"; };
 		842E815C25D90A6E0028DE3D /* PhysicsWorldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsWorldDelegate.swift; sourceTree = "<group>"; };
@@ -158,6 +163,9 @@
 		8486162325B712C900BB6178 /* NotPeggleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotPeggleTests.swift; sourceTree = "<group>"; };
 		8486162525B712C900BB6178 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8486162A25B712C900BB6178 /* NotPeggleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotPeggleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8494650725EB405200025D3F /* Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Save.swift; sourceTree = "<group>"; };
+		8494650F25EB40A000025D3F /* UserSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSave.swift; sourceTree = "<group>"; };
+		8494651425EB418200025D3F /* PreloadedSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedSave.swift; sourceTree = "<group>"; };
 		84A2331E25C1814B000FF729 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		84A2332625C19C8A000FF729 /* PegModeButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegModeButtonTests.swift; sourceTree = "<group>"; };
 		84A2332E25C19EED000FF729 /* ModelViewConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelViewConverterTests.swift; sourceTree = "<group>"; };
@@ -407,6 +415,18 @@
 			path = NotPeggleTests;
 			sourceTree = "<group>";
 		};
+		8494650625EB403B00025D3F /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				84A2333625C1AE60000FF729 /* Storage.swift */,
+				8428098125EB1B5D00D2B666 /* LevelFactory.swift */,
+				8494650725EB405200025D3F /* Save.swift */,
+				8494650F25EB40A000025D3F /* UserSave.swift */,
+				8494651425EB418200025D3F /* PreloadedSave.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		84BD0C5A25D2C8180090B0E8 /* ModelTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -608,19 +628,23 @@
 				8428096025EAEA8700D2B666 /* PowerUpManager.swift in Sources */,
 				847BD83525BEDA3F00C3782E /* Model.swift in Sources */,
 				84421DED25E636C500CF6F63 /* PhysicsBlock.swift in Sources */,
+				8494650825EB405200025D3F /* Save.swift in Sources */,
 				8484524C25D64750004157B7 /* GameViewController.swift in Sources */,
 				84096E9725E952CB001411BB /* BlockView.swift in Sources */,
 				84421E0325E79B1000CF6F63 /* Block.swift in Sources */,
+				8494651525EB418200025D3F /* PreloadedSave.swift in Sources */,
 				8486161125B712C800BB6178 /* LevelViewController.swift in Sources */,
 				84421DE525E612B900CF6F63 /* PhysicsBody.swift in Sources */,
 				84096E9F25E953BF001411BB /* LevelViewController+Controls.swift in Sources */,
 				84D09AB925BF069D0042FB19 /* PegModeButton.swift in Sources */,
+				8494651025EB40A000025D3F /* UserSave.swift in Sources */,
 				847B419825D52317004790B0 /* GravBouncingBall.swift in Sources */,
 				8472D09B25D39EC30092E3B8 /* PhysicsWorld.swift in Sources */,
 				84421E1025E8010B00CF6F63 /* LevelObject.swift in Sources */,
 				8486160D25B712C800BB6178 /* AppDelegate.swift in Sources */,
 				8486160F25B712C800BB6178 /* SceneDelegate.swift in Sources */,
 				848452A425D79171004157B7 /* CGFrameFactory.swift in Sources */,
+				8428098225EB1B5D00D2B666 /* LevelFactory.swift in Sources */,
 				8472D09625D39E9A0092E3B8 /* GameEngine.swift in Sources */,
 				84B4C02425E3AFCD00AD097D /* CannonView.swift in Sources */,
 				847B418825D50D9E004790B0 /* StationaryBall.swift in Sources */,

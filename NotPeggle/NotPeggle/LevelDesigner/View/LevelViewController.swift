@@ -52,6 +52,10 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setUpModelIfAbsent()
+        LevelFactory.generatePreloadedLevels(
+            width: pegBoard.frame.width.native,
+            height: pegBoard.frame.height.native
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -225,7 +229,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     @IBAction private func saveLevelLayout(_ sender: UIButton) {
         do {
-            try Storage.saveToDisk(model: model)
+            try Storage.saveToDisk(model: model, fileName: model.levelName)
             saveButton.isEnabled = false
         } catch StorageError.unnamedFileError {
             fatalError("Save button should be disabled")
