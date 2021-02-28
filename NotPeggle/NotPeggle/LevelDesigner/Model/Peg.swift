@@ -23,12 +23,14 @@ struct Peg: LevelObject {
     let center: Point
     let color: Color
     let radius: Double
+    let angle: Double
 
     /// Constructs a `Peg` with a given center and color.
     init(center: Point, color: Color) {
         self.center = center
         self.color = color
         self.radius = Constants.pegRadius
+        self.angle = 0
     }
 
     /// Constructs a `Peg` with a given center and color.
@@ -36,6 +38,15 @@ struct Peg: LevelObject {
         self.center = center
         self.color = color
         self.radius = radius
+        self.angle = 0
+    }
+
+    /// Constructs a `Peg` with a given center and color.
+    init(center: Point, color: Color, radius: Double, angle: Double) {
+        self.center = center
+        self.color = color
+        self.radius = radius
+        self.angle = angle
     }
 
     /// Constructs a `Peg` from raw coordinates.
@@ -50,6 +61,7 @@ struct Peg: LevelObject {
         self.center = center
         self.color = color
         self.radius = radius
+        self.angle = 0
     }
 
     func overlapsWith(other: LevelObject) -> Bool {
@@ -103,7 +115,21 @@ struct Peg: LevelObject {
 
     /// Returns a new `Peg` with the same colour but centered around the given `Point`.
     func recenterTo(_ center: Point) -> Peg {
-        Peg(center: center, color: color)
+        Peg(center: center, color: color, radius: radius, angle: angle)
+    }
+
+    func resizeTo(_ radius: Double) -> Peg {
+        let minSize = Constants.pegRadius
+        let maxSize = 2 * minSize
+        let newSize = min(maxSize, max(minSize, radius))
+        return Peg(center: center, color: color, radius: newSize, angle: angle)
+    }
+
+    func rotateTo(_ angle: Double) -> Peg {
+        let minAngle = 0.0
+        let maxAngle = 2 * Double.pi
+        let newAngle = min(maxAngle, max(minAngle, angle))
+        return Peg(center: center, color: color, radius: radius, angle: newAngle)
     }
 }
 

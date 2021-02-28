@@ -25,8 +25,9 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
     @IBOutlet private var buttonGreenPeg: UIButton!
     @IBOutlet private var buttonBlock: UIButton!
     @IBOutlet private var buttonDeletePeg: UIButton!
+    @IBOutlet private var buttonResize: UIButton!
     private var buttons: [UIButton] {
-        [buttonBluePeg, buttonOrangePeg, buttonDeletePeg, buttonGreenPeg, buttonBlock]
+        [buttonBluePeg, buttonOrangePeg, buttonDeletePeg, buttonGreenPeg, buttonBlock, buttonResize]
     }
 
     @IBOutlet private var pegBoard: UIView!
@@ -172,7 +173,7 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         }
         let newPeg = Converter.viewFromPeg(peg)
         newPeg.delegate = self
-        pegBoard.addSubview(newPeg)
+        pegBoard.insertSubview(newPeg, belowSubview: pegControl)
     }
 
     /// Creates a `BlockView` for a given `Block` if it fits within the board area.
@@ -183,6 +184,55 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
         let blockView = Converter.viewFromBlock(block)
         blockView.delegate = self
         pegBoard.addSubview(blockView)
+    }
+
+    // =========================== //
+    // MARK: Resizing and Rotation
+    // =========================== //
+
+    @IBOutlet private var pegControl: PegViewControl!
+    @IBOutlet private var pegSizeSlider: UISlider!
+    @IBOutlet private var pegRotationSlider: UISlider!
+
+    func beginPegResizeRotation(_ view: PegView) {
+        pegControl.activate(target: view)
+
+        pegSizeSlider.minimumValue = Float(Constants.pegRadius)
+        pegSizeSlider.maximumValue = 2 * pegSizeSlider.minimumValue
+        pegSizeSlider.value = Float(view.radius)
+
+        pegRotationSlider.minimumValue = 0
+        pegRotationSlider.maximumValue = 2 * Float.pi
+        pegRotationSlider.value = Float(view.angle)
+    }
+
+    var pegControlReadOnly: PegViewControl {
+        pegControl
+    }
+
+    @IBOutlet private var blockControl: BlockViewControl!
+    @IBOutlet private var blockWidthSlider: UISlider!
+    @IBOutlet private var blockHeightSlider: UISlider!
+    @IBOutlet private var blockRotationSlider: UISlider!
+
+    func beginBlockResizeRotation(_ view: BlockView) {
+        blockControl.activate(target: view)
+
+        blockWidthSlider.minimumValue = Float(Constants.blockHeight)
+        blockWidthSlider.maximumValue = 4 * blockWidthSlider.minimumValue
+        blockWidthSlider.value = Float(view.width)
+
+        blockHeightSlider.minimumValue = Float(Constants.blockHeight)
+        blockHeightSlider.maximumValue = 2 * blockHeightSlider.minimumValue
+        blockHeightSlider.value = Float(view.height)
+
+        blockRotationSlider.minimumValue = 0
+        blockRotationSlider.maximumValue = 2 * Float.pi
+        blockRotationSlider.value = Float(view.angle)
+    }
+
+    var blockControlReadOnly: BlockViewControl {
+        blockControl
     }
 
     // ==================== //
@@ -211,6 +261,11 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     @IBAction private func setBlockMode(_ sender: UIButton) {
         mode = .addBlock
+        deselectAllButtonsExcept(sender)
+    }
+
+    @IBAction private func setResizeMode(_ sender: UIButton) {
+        mode = .resize
         deselectAllButtonsExcept(sender)
     }
 
@@ -267,11 +322,13 @@ class LevelViewController: UIViewController, UITextFieldDelegate, PegViewDelegat
 
     /// Allows users to stop editing by tapping anywhere outside the level name text field.
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        pegControl.deactivate()
+        blockControl.deactivate()
         view.endEditing(true)
     }
 
 }
 
 enum Mode {
-    case addBlue, addOrange, delete, addBlock, addGreen
+    case addBlue, addOrange, delete, addBlock, addGreen, resize
 }

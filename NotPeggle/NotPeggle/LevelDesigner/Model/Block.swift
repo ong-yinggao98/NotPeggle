@@ -18,10 +18,10 @@ struct Block: LevelObject {
         .block
     }
 
-    var center: Point
-    var height: Double
-    var width: Double
-    var angle: Double
+    let center: Point
+    let height: Double
+    let width: Double
+    let angle: Double
 
     init(center: Point) {
         self.center = center
@@ -191,8 +191,25 @@ struct Block: LevelObject {
         Block(center: center, height: height, width: width, angle: angle)
     }
 
-    func rotate(angle: Double) -> Block {
-        Block(center: center, height: height, width: width, angle: angle)
+    func resizeTo(width: Double) -> Block {
+        let minWidth = Constants.blockHeight
+        let maxWidth = 4 * minWidth
+        let newWidth = min(maxWidth, max(minWidth, width))
+        return Block(center: center, height: height, width: newWidth, angle: angle)
+    }
+
+    func resizeTo(height: Double) -> Block {
+        let minHeight = Constants.blockHeight
+        let maxHeight = 2 * minHeight
+        let newHeight = min(maxHeight, max(minHeight, height))
+        return Block(center: center, height: newHeight, width: width, angle: angle)
+    }
+
+    func rotateTo(_ angle: Double) -> Block {
+        let minAngle = 0.0
+        let maxAngle = 2 * Double.pi
+        let newAngle = min(maxAngle, max(minAngle, angle))
+        return Block(center: center, height: height, width: width, angle: newAngle)
     }
 
 }

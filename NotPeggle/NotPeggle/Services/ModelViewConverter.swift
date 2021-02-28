@@ -25,7 +25,8 @@ struct ModelViewConverter {
         let pegCenter = peg.center
         let viewCenter = CGPoint(x: pegCenter.x, y: pegCenter.y)
         let radius = CGFloat(peg.radius)
-        return PegView(center: viewCenter, color: peg.color, radius: radius)
+        let angle = CGFloat(peg.angle)
+        return PegView(center: viewCenter, color: peg.color, radius: radius, angle: angle)
     }
 
     /// Creates a model representation `Peg` from its corresponding `PegView`.

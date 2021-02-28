@@ -69,6 +69,7 @@
 		8494650825EB405200025D3F /* Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494650725EB405200025D3F /* Save.swift */; };
 		8494651025EB40A000025D3F /* UserSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494650F25EB40A000025D3F /* UserSave.swift */; };
 		8494651525EB418200025D3F /* PreloadedSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494651425EB418200025D3F /* PreloadedSave.swift */; };
+		849731EF25EB92C9001F8D75 /* PegViewControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849731EE25EB92C9001F8D75 /* PegViewControl.swift */; };
 		84A2331F25C1814B000FF729 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2331E25C1814B000FF729 /* ModelTests.swift */; };
 		84A2332725C19C8A000FF729 /* PegModeButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2332625C19C8A000FF729 /* PegModeButtonTests.swift */; };
 		84A2332F25C19EED000FF729 /* ModelViewConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2332E25C19EED000FF729 /* ModelViewConverterTests.swift */; };
@@ -166,6 +167,7 @@
 		8494650725EB405200025D3F /* Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Save.swift; sourceTree = "<group>"; };
 		8494650F25EB40A000025D3F /* UserSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSave.swift; sourceTree = "<group>"; };
 		8494651425EB418200025D3F /* PreloadedSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedSave.swift; sourceTree = "<group>"; };
+		849731EE25EB92C9001F8D75 /* PegViewControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegViewControl.swift; sourceTree = "<group>"; };
 		84A2331E25C1814B000FF729 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		84A2332625C19C8A000FF729 /* PegModeButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegModeButtonTests.swift; sourceTree = "<group>"; };
 		84A2332E25C19EED000FF729 /* ModelViewConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelViewConverterTests.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				8481A39625C049F900728B0A /* PegView.swift */,
 				84096E9625E952CB001411BB /* BlockView.swift */,
 				8442CB6525C4423100C078A8 /* SaveTableViewController.swift */,
+				849731EE25EB92C9001F8D75 /* PegViewControl.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -631,6 +634,7 @@
 			files = (
 				8484525125D683E5004157B7 /* GamePeg.swift in Sources */,
 				8464C2EB25EA34B40048AC07 /* GameBlock.swift in Sources */,
+				849731EF25EB92C9001F8D75 /* PegViewControl.swift in Sources */,
 				8428097525EAEDE900D2B666 /* PowerUp.swift in Sources */,
 				8428097D25EAEF2400D2B666 /* SpookyBall.swift in Sources */,
 				8442CB6625C4423100C078A8 /* SaveTableViewController.swift in Sources */,

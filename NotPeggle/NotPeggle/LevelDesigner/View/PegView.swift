@@ -26,19 +26,20 @@ class PegView: UIView {
 
     // MARK: Instance variables
     let color: Color
+    var radius: CGFloat
+    var angle: CGFloat
     weak var delegate: PegViewDelegate!
 
-    var radius: CGFloat {
-        frame.height / 2
-    }
-
     // MARK: Initialisers
-    init(center: CGPoint, color: Color, radius: CGFloat) {
+    init(center: CGPoint, color: Color, radius: CGFloat, angle: CGFloat) {
         let frame = PegView.createFrameFrom(center, radius: radius)
         self.color = color
+        self.radius = radius
+        self.angle = angle
         super.init(frame: frame)
 
         setImageBasedOnColor()
+        transform = CGAffineTransform(rotationAngle: angle)
 
         isUserInteractionEnabled = true
         setUpGestureRecognition()
@@ -61,6 +62,20 @@ class PegView: UIView {
         let xOrigin = center.x - radius
         let yOrigin = center.y - radius
         return CGPoint(x: xOrigin, y: yOrigin)
+    }
+
+    func resize(newRadius: CGFloat) {
+        let newFrame = PegView.createFrameFrom(center, radius: newRadius)
+        radius = newRadius
+        frame = newFrame
+        subviews.forEach { $0.removeFromSuperview() }
+        setImageBasedOnColor()
+        transform = CGAffineTransform(rotationAngle: angle)
+    }
+
+    func rotate(newAngle: CGFloat) {
+        angle = newAngle
+        transform = CGAffineTransform(rotationAngle: angle)
     }
 
     // MARK: Image setting

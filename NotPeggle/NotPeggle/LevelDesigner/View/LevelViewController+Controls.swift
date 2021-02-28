@@ -92,6 +92,8 @@ extension LevelViewController {
             addBlock(at: location)
         case .delete:
             deletePeg(at: location)
+        case .resize:
+            resizeObject(at: location)
         case .none:
             fatalError("View Controller should always load with a mode")
         }
@@ -116,6 +118,40 @@ extension LevelViewController {
     func addBlock(at location: CGPoint) {
         let block = Block(center: Converter.pointFromCGPoint(point: location))
         model.insert(block: block)
+    }
+
+    func resizeObject(at location: CGPoint) {
+        let coordinates = Converter.pointFromCGPoint(point: location)
+        let pegToAdjust = model.firstPeg(where: { $0.contains(point: coordinates) })
+        let blockToAdjust = model.firstBlock(where: { $0.contains(point: coordinates) })
+        if let peg = pegToAdjust {
+            let view = getPegViewRepresenting(peg: peg)
+            beginPegResizeRotation(view)
+        } else if let block = blockToAdjust {
+            let view = getBlockViewRepresenting(block: block)
+            beginBlockResizeRotation(view)
+        }
+
+    }
+
+    private func getPegViewRepresenting(peg: Peg) -> PegView {
+        let view = gameArea.subviews
+            .compactMap { $0 as? PegView }
+            .first(where: { Converter.pegFromView($0).center == peg.center })
+        guard let pegView = view else {
+            fatalError("There should be a view present at the same center")
+        }
+        return pegView
+    }
+
+    private func getBlockViewRepresenting(block: Block) -> BlockView {
+        let view = gameArea.subviews
+            .compactMap { $0 as? BlockView }
+            .first(where: { Converter.blockFromView($0).center == block.center })
+        guard let blockView = view else {
+            fatalError("There should be a view present at the same center")
+        }
+        return blockView
     }
 
 }
@@ -176,18 +212,86 @@ extension LevelViewController {
         }
     }
 
-    func rotateBlock(_ gesture: UIRotationGestureRecognizer) {
-        guard let view = gesture.view as? BlockView else {
-            fatalError("Gesture should be attached to a BlockView")
-        }
-        let block = Converter.blockFromView(view)
-        let angle = gesture.rotation
-        let newBlock = block.rotate(angle: angle.native)
+}
 
+extension LevelViewController {
+
+    // =========================== //
+    // MARK: Resizing and Rotation
+    // =========================== //
+
+    @IBAction private func changePegSize(_ sender: UISlider) {
+        let radius = sender.value
+        guard let target = pegControlReadOnly.target else {
+            return
+        }
+        let peg = Converter.pegFromView(target)
+        let newPeg = peg.resizeTo(Double(radius))
+        if model.canAccommodate(newPeg, excluding: peg) {
+            target.resize(newRadius: CGFloat(radius))
+            model.replace(peg, with: newPeg)
+        } else {
+            sender.value = Float(target.radius)
+        }
+    }
+
+    @IBAction private func changePegRotation(_ sender: UISlider) {
+        let angle = sender.value
+        guard let target = pegControlReadOnly.target else {
+            return
+        }
+        let peg = Converter.pegFromView(target)
+        let newPeg = peg.rotateTo(Double(angle))
+        if model.canAccommodate(newPeg, excluding: peg) {
+            target.rotate(newAngle: CGFloat(angle))
+            model.replace(peg, with: newPeg)
+        } else {
+            sender.value = Float(target.angle)
+        }
+    }
+
+    @IBAction private func changeBlockWidth(_ sender: UISlider) {
+        let width = sender.value
+        guard let target = blockControlReadOnly.target else {
+            return
+        }
+        let block = Converter.blockFromView(target)
+        let newBlock = block.resizeTo(width: Double(width))
         if model.canAccommodate(newBlock, excluding: block) {
-            print(angle)
-            view.rotate(to: angle)
+            target.resize(newWidth: CGFloat(width))
             model.replace(block, with: newBlock)
+        } else {
+            sender.value = Float(target.width)
+        }
+    }
+
+    @IBAction private func changeBlockHeight(_ sender: UISlider) {
+        let height = sender.value
+        guard let target = blockControlReadOnly.target else {
+            return
+        }
+        let block = Converter.blockFromView(target)
+        let newBlock = block.resizeTo(height: Double(height))
+        if model.canAccommodate(newBlock, excluding: block) {
+            target.resize(newHeight: CGFloat(height))
+            model.replace(block, with: newBlock)
+        } else {
+            sender.value = Float(target.height)
+        }
+    }
+
+    @IBAction private func changeBlockRotation(_ sender: UISlider) {
+        let angle = sender.value
+        guard let target = blockControlReadOnly.target else {
+            return
+        }
+        let block = Converter.blockFromView(target)
+        let newBlock = block.rotateTo(Double(angle))
+        if model.canAccommodate(newBlock, excluding: block) {
+            target.rotate(to: CGFloat(angle))
+            model.replace(block, with: newBlock)
+        } else {
+            sender.value = Float(target.angle)
         }
     }
 

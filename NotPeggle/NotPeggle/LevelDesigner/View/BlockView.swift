@@ -27,13 +27,18 @@ class BlockView: UIView {
         self.width = width
         self.height = height
         self.angle = angle
-        let origin = CGPoint(x: center.x - (width / 2), y: center.y - (height / 2))
-        super.init(frame: CGRect(x: origin.x, y: origin.y, width: width, height: height))
+        let frame = BlockView.createFrame(center: center, width: width, height: height)
+        super.init(frame: frame)
 
         isUserInteractionEnabled = true
         initialiseImage()
         setUpGestureRecognition()
         transform = CGAffineTransform(rotationAngle: angle)
+    }
+
+    private static func createFrame(center: CGPoint, width: CGFloat, height: CGFloat) -> CGRect {
+        let origin = CGPoint(x: center.x - (width / 2), y: center.y - (height / 2))
+        return CGRect(origin: origin, size: CGSize(width: width, height: height))
     }
 
     private func initialiseImage() {
@@ -71,8 +76,22 @@ class BlockView: UIView {
         delegate.holdToDeleteBlock(gesture)
     }
 
-    @objc func rotateView(gesture: UIRotationGestureRecognizer) {
-        delegate.rotateBlock(gesture)
+    func resize(newWidth: CGFloat) {
+        transform = .identity
+        width = newWidth
+        frame = BlockView.createFrame(center: center, width: width, height: height)
+        subviews.forEach { $0.removeFromSuperview() }
+        initialiseImage()
+        transform = CGAffineTransform(rotationAngle: angle)
+    }
+
+    func resize(newHeight: CGFloat) {
+        transform = .identity
+        height = newHeight
+        frame = BlockView.createFrame(center: center, width: width, height: height)
+        subviews.forEach { $0.removeFromSuperview() }
+        initialiseImage()
+        transform = CGAffineTransform(rotationAngle: angle)
     }
 
     func rotate(to angle: CGFloat) {
@@ -96,7 +115,5 @@ protocol BlockViewDelegate: AnyObject {
     func holdToDeleteBlock(_ gesture: UILongPressGestureRecognizer)
 
     func dragBlock(_ gesture: UIPanGestureRecognizer)
-
-    func rotateBlock(_ gesture: UIRotationGestureRecognizer)
 
 }
