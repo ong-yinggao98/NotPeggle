@@ -3,9 +3,6 @@
 A simple Peggle clone done as a school project.
 
 ## Dev Guide
-> You may put your dev guide either in this section, or in a new file entirely.
-> You are encouraged to include diagrams where appropriate in order to enhance
-> your guide.
 
 ### Architecture
 
@@ -367,16 +364,7 @@ Items to manually test:
     1. If 4 green pegs are hit in a single run, the ball only respawns once when it falls out of the game area
     1. If the ball is stuck after hitting the second green peg, the ball is removed as in part 8 without respawn.
 
-## Written Answers
-
-### Reflecting on your Design
-> Now that you have integrated the previous parts, comment on your architecture
-> in problem sets 2 and 3. Here are some guiding questions:
-> - do you think you have designed your code in the previous problem sets well
->   enough?
-> - is there any technical debt that you need to clean in this problem set?
-> - if you were to redo the entire application, is there anything you would
->   have done differently?
+### Reflection
 
 I think I had designed my code well enough in theory, at least for the scope of PS1-4, even though
 there were other things I could have done better. Namely, I was stuck using type checking and switch
