@@ -1,21 +1,6 @@
-# CS3217 Problem Set 4
+# NotPeggle
 
-**Name:** Ong Ying Gao
-
-**Matric No:** A0201924N
-
-## Tips
-1. CS3217's docs is at https://cs3217.netlify.com. Do visit the docs often, as
-   it contains all things relevant to CS3217.
-2. A Swiftlint configuration file is provided for you. It is recommended for you
-   to use Swiftlint and follow this configuration. We opted in all rules and
-   then slowly removed some rules we found unwieldy; as such, if you discover
-   any rule that you think should be added/removed, do notify the teaching staff
-   and we will consider changing it!
-
-   In addition, keep in mind that, ultimately, this tool is only a guideline;
-   some exceptions may be made as long as code quality is not compromised.
-3. Do not burn out. Have fun!
+A simple Peggle clone done as a school project.
 
 ## Dev Guide
 > You may put your dev guide either in this section, or in a new file entirely.
